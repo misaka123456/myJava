@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/get-offer/get-offer.iml" filepath="$PROJECT_DIR$/get-offer/get-offer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/small-tools/small-tools.iml" filepath="$PROJECT_DIR$/small-tools/small-tools.iml" />
+    </modules>
+  </component>
+</project>
