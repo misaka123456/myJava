@@ -1,15 +1,50 @@
+package myTools;
 
 public class MyArrayTools {
+
 
     public static void print(int[] arr) {
         if (arr == null || arr.length == 0) {
             System.out.println("arr is null");
             return;
         }
+        String[] strArr = new String[arr.length];
+        for (int i = 0; i < strArr.length; i++) {
+            strArr[i] = String.valueOf(arr[i]);
+        }
+        print(strArr);
+    }
+
+    public static void print(char[] arr) {
+        if (arr == null || arr.length == 0) {
+            System.out.println("arr is null");
+            return;
+        }
+        String[] strArr = new String[arr.length];
+        for (int i = 0; i < strArr.length; i++) {
+            strArr[i] = String.valueOf(arr[i]);
+        }
+        print(strArr);
+    }
+
+    public static void print(Object[] arr) {
+        if (arr == null || arr.length == 0) {
+            System.out.println("arr is null");
+            return;
+        }
+        String[] strArr = new String[arr.length];
+        for (int i = 0; i < strArr.length; i++) {
+            strArr[i] = String.valueOf(arr[i]);
+        }
+        print(strArr);
+    }
+
+    public static void print(String[] arr) {
+
         int maxLen = getMaxLenOfElem(arr);
         int[] blankArr = getBlankCount(arr, maxLen);
         int[] lenArr = getLenArr(arr);
-        int d = deep(arr);
+        int d = deep(arr.length);
         printBlank(blankArr[0]);
         System.out.println(arr[0]);
         for (int i = 2; i <= d; i++) {
@@ -22,7 +57,6 @@ public class MyArrayTools {
                         printBlank(blankArr[index] + (c >> 1));
                         System.out.print('\\');
                         printBlank((c >> 1) + c % 2);
-
                     } else {
                         printBlank(blankArr[index] + (c >> 1) + c % 2);
                         System.out.print('/');
@@ -34,18 +68,19 @@ public class MyArrayTools {
             for (int j = 0; j < floorStart + 1; j++) {
                 int index = floorStart + j;
                 if (index >= arr.length) {
+                    System.out.println();
                     return;
                 }
                 printBlank(blankArr[index]);
                 int c = maxLen - lenArr[index];
-                if (index % 2 == 0) {
-                    printBlank((c >> 1) + c % 2);
-                    System.out.print(arr[index]);
+                if (index % 2 == 1) {
                     printBlank(c >> 1);
+                    System.out.print(arr[index]);
+                    printBlank((c >> 1) + c % 2);
                 } else {
-                    printBlank(c >> 1);
-                    System.out.print(arr[index]);
                     printBlank((c >> 1) + c % 2);
+                    System.out.print(arr[index]);
+                    printBlank(c >> 1);
                 }
             }
             System.out.println();
@@ -59,26 +94,26 @@ public class MyArrayTools {
         return (child - 1) >> 1;
     }
 
-    private static int deep(int[] arr) {
+    private static int deep(int length) {
         int d = 0;
-        for (int i = arr.length - 1; i >= 0; i = father(i)) {
+        for (int i = length - 1; i >= 0; i = father(i)) {
             d++;
         }
         return d;
     }
 
-    private static int[] getLenArr(int[] arr) {
+    private static int[] getLenArr(String[] arr) {
         int[] lenArr = new int[arr.length];
         for (int i = 0; i < lenArr.length; i++) {
-            lenArr[i] = Integer.toString(arr[i]).length();
+            lenArr[i] = arr[i].length();
         }
         return lenArr;
     }
 
-    private static int getMaxLenOfElem(int[] arr) {
+    private static int getMaxLenOfElem(String[] arr) {
         int maxLen = 1;
-        for (int a : arr) {
-            int curLen = Integer.toString(a).length();
+        for (String s : arr) {
+            int curLen = s.length();
             if (curLen > maxLen) {
                 maxLen = curLen;
             }
@@ -86,9 +121,9 @@ public class MyArrayTools {
         return maxLen;
     }
 
-    private static int[] getBlankCount(int[] arr, int maxLen) {
+    private static int[] getBlankCount(String[] arr, int maxLen) {
         int[] blankArr = new int[arr.length];
-        int d = deep(arr);
+        int d = deep(arr.length);
         for (int i = 1; i <= d; i++) {
             int floorStart = (1 << (i - 1)) - 1;
             if (i == d) {
@@ -103,13 +138,13 @@ public class MyArrayTools {
                 if (index >= arr.length) {
                     break;
                 } else {
-                    if (j == 0) {
+                    if (j != 0) {
+                        blankArr[index] = (1 << (d - i)) + ((1 << (d - i)) - 1) * maxLen;
+                    } else {
                         blankArr[index] = (1 << (d - i)) - 1 + ((maxLen - 1) >> 1) * ((1 << (d - i)) - 1);
                         if (maxLen % 2 == 0) {
                             blankArr[index] += ((1 << (d - i - 1)) - 1);
                         }
-                    } else {
-                        blankArr[index] = (1 << (d - i)) + ((1 << (d - i)) - 1) * maxLen;
                     }
                 }
             }

@@ -144,18 +144,19 @@ public class MyMaxHeap {
             for (int j = 0; j < floorStart + 1; j++) {
                 int index = floorStart + j;
                 if (index >= size()) {
+                    System.out.println();
                     return;
                 }
                 printBlank(blankArr[index]);
                 int c = maxLen - lenArr[index];
-                if (index % 2 == 0) {
-                    printBlank((c >> 1) + c % 2);
-                    System.out.print(heap.get(index));
+                if (index % 2 == 1) {
                     printBlank(c >> 1);
+                    System.out.print(heap.get(index));
+                    printBlank((c >> 1) + c % 2);
                 } else {
-                    printBlank(c >> 1);
-                    System.out.print(heap.get(index));
                     printBlank((c >> 1) + c % 2);
+                    System.out.print(heap.get(index));
+                    printBlank(c >> 1);
                 }
             }
             System.out.println();
