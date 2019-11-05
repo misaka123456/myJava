@@ -73,7 +73,6 @@ public class NowCoder {
         int curSum = 0;
         int start = 0;
         int end = 0;
-
         while (end < arr.length) {
             if (curSum == sum) {
                 if (end - start + 1 >= maxL) {
@@ -81,9 +80,15 @@ public class NowCoder {
                 }
                 start++;
                 end++;
+                curSum = arr[end];
             } else if (curSum < sum) {
                 end++;
+                if (end >= arr.length) {
+                    break;
+                }
+                curSum = curSum + arr[end];
             } else {
+                curSum = curSum - arr[start];
                 start++;
             }
         }
