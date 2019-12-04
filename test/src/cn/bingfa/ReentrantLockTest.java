@@ -4,7 +4,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Test02 {
+public class ReentrantLockTest {
 
     private String[] strArr = new String[10];
 
@@ -50,7 +50,7 @@ public class Test02 {
 
     public static void main(String[] args) {
 
-        Test02 t = new Test02();
+        ReentrantLockTest t = new ReentrantLockTest();
 
         t.enq("dszf");
         t.print();
