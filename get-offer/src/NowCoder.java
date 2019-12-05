@@ -312,34 +312,37 @@ public class NowCoder {
         if (root == null) {
             return Integer.MIN_VALUE;
         }
-        return getMaxInfoInTree(root)[0];
+        return getSumInfoInTree(root)[0];
     }
     /**
      * 获取树根节点往下的最大路径和以及含根节点最大路径和
      * @param node 根节点
      * @return [最大路径和, 含根节点最大路径和]
      */
-    private static int[] getMaxInfoInTree(TreeNode node) {
+    private static int[] getSumInfoInTree(TreeNode node) {
         if (node == null) {
             return null;
         }
 
-        int[] left = getMaxInfoInTree(node.getLeft());
-        int[] right = getMaxInfoInTree(node.getRight());
+        int[] left = getSumInfoInTree(node.getLeft());
+        int[] right = getSumInfoInTree(node.getRight());
 
         int maxSumHead = node.getValue();
         int maxSum = node.getValue();
         if (left != null) {
             if (right != null) {
+                // 左右子节点都存在
                 maxSumHead = Math.max(left[1], right[1]);
                 maxSumHead = maxSumHead > 0 ? maxSumHead + node.getValue() : node.getValue();
                 maxSum = Math.max(left[0], right[0]);
                 maxSum = Math.max(maxSum, maxSumHead);
             } else {
+                // 只存在左节点
                 maxSumHead = Math.max(left[1] + node.getValue(), node.getValue());
                 maxSum = Math.max(maxSumHead, left[0]);
             }
         } else if (right != null) {
+            // 只存在右节点
             maxSumHead = Math.max(right[1] + node.getValue(), node.getValue());
             maxSum = Math.max(maxSumHead, right[0]);
         }
@@ -347,6 +350,150 @@ public class NowCoder {
     }
 
 
+    /**
+     * 树中所有路径最长长度
+     * @param root 根节点
+     * @return 最长长度
+     */
+    public static int getRouteMaxLengthIntree(TreeNode root) {
+
+        if (root == null) {
+            return 0;
+        }
+        return getRouteLengthInfoInTree(root)[0];
+    }
+    /**
+     * 树中最大长度信息
+     * @param node 根节点
+     * @return [最长长度, 深度]
+     */
+    private static int[] getRouteLengthInfoInTree(TreeNode node) {
+
+        if (node == null) {
+            return null;
+        }
+        int[] left = getRouteLengthInfoInTree(node.getLeft());
+        int[] right = getRouteLengthInfoInTree(node.getRight());
+
+        int maxLength = 1;
+        int deep = 1;
+
+        if (left != null) {
+            if (right != null) {
+                // 左右子节点都存在
+                maxLength = Math.max(left[0], right[0]);
+                maxLength = Math.max(maxLength, 1 + left[1] + right[1]);
+                deep = Math.max(left[1], right[1]) + 1;
+            } else {
+                // 只存在左节点
+                deep = left[1] + 1;
+                maxLength = Math.max(left[0], deep);
+            }
+        } else if (right != null) {
+            // 只存在右节点
+            deep = right[1] + 1;
+            maxLength = Math.max(right[0], deep);
+        }
+        return new int[]{maxLength, deep};
+
+    }
+
+
+    /**
+     * 获取二位数组从左到右路径做大和，每次只能往右、右上、右下走一格
+     * @param map 二维数组
+     * @return 最大和
+     */
+    public static int getMaxRouteLengthOfMap(int[][] map) {
+        if (map == null || map.length == 0 || map[0] == null || map[0].length == 0) {
+            return -1;
+        }
+        // 动态规划
+        int[][][] valueMap = new int[map.length][map[0].length][2];
+        for (int i = 0; i < map.length; i++) {
+            valueMap[i][map[0].length - 1][0] = map[i][map[0].length - 1];
+            valueMap[i][map[0].length - 1][1] = -map[i][map[0].length - 1];
+        }
+
+        for (int j = map[0].length - 2; j >= 0; j--) {
+            for (int i = 0; i < map.length; i++) {
+                int valueWithUsed = valueMap[i][j + 1][1];
+                int valueWithoutUsed = valueMap[i][j + 1][0];
+                if (i >= 1) {
+                    valueWithoutUsed = Math.max(valueWithoutUsed, valueMap[i - 1][j + 1][0]);
+                    valueWithUsed = Math.max(valueWithUsed, valueMap[i - 1][j + 1][1]);
+                }
+                if (i <= map.length - 2) {
+                    valueWithoutUsed = Math.max(valueWithoutUsed, valueMap[i + 1][j + 1][0]);
+                    valueWithUsed = Math.max(valueWithUsed, valueMap[i + 1][j + 1][1]);
+                }
+                valueMap[i][j][0] = valueWithoutUsed + map[i][j];
+                valueMap[i][j][1] = Math.max(valueWithUsed + map[i][j], valueWithoutUsed - map[i][j]);
+            }
+        }
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < valueMap.length; i++) {
+            max = Math.max(max, Math.max(valueMap[i][0][0], valueMap[i][0][1]));
+        }
+        return max;
+    }
+
+
+    /**
+     * 获取二位数组从左到右路径做大和，每次只能往右、右上、右下走一格，如果为负，则停止。
+     * @param map 二维数组
+     * @return 最大和，如果都为负，则输出-1；
+     */
+    public static int getMaxRouteLengthLimitOfMap(int[][] map) {
+
+        if (map == null || map.length == 0) {
+            return -1;
+        }
+
+        int maxL = Integer.MIN_VALUE;
+        for (int i = 0; i < map.length; i++) {
+            // 递归调用
+            maxL = Math.max(maxL, getMaxRouteLengthLimitOfMap(map, i, 0, 0, false));
+        }
+        return maxL;
+    }
+    /**
+     * 获取二位数组从左到右路径做大和，且必须经过(x, y)点。
+     * @param map 二维数组
+     * @return 最大和，如果都为负，则输出-1；
+     */
+    private static int getMaxRouteLengthLimitOfMap(int[][] map, int x, int y, int hSum, boolean isUsed) {
+        if (y >= map[0].length) {
+            return hSum;
+        }
+        if (hSum < 0) {
+            return -1;
+        }
+
+        int value = map[x][y];
+        if (isUsed) {
+            int maxSum = getMaxRouteLengthLimitOfMap(map, x, y + 1, hSum + value, true);
+            if (x >= 1) {
+                maxSum = Math.max(maxSum, getMaxRouteLengthLimitOfMap(map, x - 1, y + 1, hSum + value, true));
+            }
+            if (x <= map.length - 2) {
+                maxSum = Math.max(maxSum, getMaxRouteLengthLimitOfMap(map, x + 1, y + 1, hSum + value, true));
+            }
+            return maxSum < 0 ? -1 : maxSum;
+        } else {
+            int maxSumUsed = getMaxRouteLengthLimitOfMap(map, x, y + 1, hSum - map[x][y], true);
+            int maxSumNoused = getMaxRouteLengthLimitOfMap(map, x, y + 1, hSum + map[x][y], false);
+            if (x >= 1) {
+                maxSumUsed = Math.max(maxSumUsed, getMaxRouteLengthLimitOfMap(map, x - 1, y + 1, hSum - value, true));
+                maxSumUsed = Math.max(maxSumUsed, getMaxRouteLengthLimitOfMap(map, x - 1, y + 1, hSum + value, false));
+            }
+            if (x <= map.length - 2) {
+                maxSumUsed = Math.max(maxSumUsed, getMaxRouteLengthLimitOfMap(map, x + 1, y + 1, hSum - value, true));
+                maxSumUsed = Math.max(maxSumUsed, getMaxRouteLengthLimitOfMap(map, x + 1, y + 1, hSum + value, false));
+            }
+            return Math.max(Math.max(maxSumNoused, maxSumUsed), -1);
+        }
+    }
 }
 
 
