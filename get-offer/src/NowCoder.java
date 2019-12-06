@@ -6,7 +6,222 @@ public class NowCoder {
 
 
     /**
-     * 2有序数组求第k位数
+     * 牛客网高级版第一课 获取数字内数字最大间隔
+     * @param arr 数组
+     * @return 最大间隔
+     */
+    public static int getMaxGap(int[] arr) {
+
+        if (arr == null || arr.length <= 1) {
+            return 0;
+        }
+
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+
+        for (int a : arr) {
+            min = Math.min(min, a);
+            max = Math.max(max, a);
+        }
+        if (min == max) {
+            return 0;
+        }
+
+        int div = max - min;
+        int arrL = arr.length + 1;
+        int[][] minAndMaxArr = new int[arrL][];
+        for (int i = 0; i < arr.length; i++) {
+            int index = (arr[i] - min) * arrL / div;
+            // 排除最大值被分到arrL+1组导致超出索引范围的情况
+            index = index == arrL ? index - 1 : index;
+            try {
+                if (minAndMaxArr[index] == null) {
+                    // 桶为空
+                    minAndMaxArr[index] = new int[]{arr[i], arr[i]};
+
+                } else {
+                    minAndMaxArr[index][0] = Math.min(minAndMaxArr[index][0], arr[i]);
+                    minAndMaxArr[index][1] = Math.max(minAndMaxArr[index][0], arr[i]);
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("-------------");
+                System.out.println(index);
+                System.out.println(i);
+                System.out.println(arr[i]);
+                System.out.println("-------------");
+                e.printStackTrace();
+            }
+        }
+        int maxGap = 0;
+        int lastMax = minAndMaxArr[0][1];
+        for (int i = 1; i < minAndMaxArr.length; i++) {
+            if (minAndMaxArr[i] != null) {
+                maxGap = Math.max(maxGap, minAndMaxArr[i][0] - lastMax);
+                lastMax = minAndMaxArr[i][1];
+            }
+        }
+
+        return maxGap;
+    }
+
+
+    /**
+     * 牛客网高级版第一课 根据面值数组获取找零的所有情况总数
+     * @param moneyType 普通面值数组
+     * @param spMoneyType 纪念币面值数组（每种面值只能用一次）
+     * @param money 钱
+     * @return 总次数
+     */
+    public static int getMoneyCombineNum(int[] moneyType, int[] spMoneyType, int money) {
+        if (money < 0) {
+            return 0;
+        }
+        if((moneyType == null || moneyType.length == 0) && (spMoneyType == null || spMoneyType.length == 0)) {
+            return money == 0 ? 1 : 0;
+        }
+
+        int[] numArr = getMoneyCombineNumArr(moneyType, money);
+        int[] numOneArr = getMoneyCombineNumOneArr(spMoneyType, money);
+
+        if (numArr == null) {
+            return numOneArr[money];
+        }
+        if (numOneArr == null) {
+            return numArr[money];
+        }
+
+        System.out.println(Arrays.toString(numArr));
+        System.out.println(Arrays.toString(numOneArr));
+        int numSum = 0;
+        for (int i = 0; i <= money; i++) {
+            numSum += numOneArr[i] * numArr[money - i];
+
+        }
+        return numSum;
+
+    }
+    /**
+     * 根据面值数组获取找零的所有情况总数
+     * @param type 面值数组
+     * @param money 钱数
+     * @return 情况数
+     */
+    public static int[] getMoneyCombineNumArr(int[] type, int money) {
+        if (type == null || type.length == 0) {
+            return null;
+        }
+        // 动态规划，i表示可以使用i号面值之前的所有面值，j表示money
+        // 可以优化成2个数组而不是用二位数组
+        int[][] moneyNum = new int[type.length][money + 1];
+        for (int i = 0; i <= money; i = i + type[0]) {
+            moneyNum[0][i] = 1;
+        }
+        for (int i = 1; i < moneyNum.length; i++) {
+            int j = 0;
+            for (; j < type[i] && j <= money; j++) {
+                moneyNum[i][j] = moneyNum[i - 1][j];
+            }
+            for (; j <= money; j++) {
+                moneyNum[i][j] = moneyNum[i][j - type[i]] + moneyNum[i - 1][j];
+            }
+        }
+        return moneyNum[type.length - 1];
+    }
+    /**
+     * 根据纪念币面值数组（每种面值只能用一张）获取找零的所有情况总数
+     * @param type 面值数组
+     * @param money 钱数
+     * @return 情况数
+     */
+    public static int[] getMoneyCombineNumOneArr(int[] type, int money) {
+        if (type == null || type.length == 0) {
+            return null;
+        }
+        // 动态规划，i表示可以使用i号面值之前的所有面值，j表示money
+        // 可以优化成2个数组而不是用二位数组
+        int[][] moneyNum = new int[type.length][money + 1];
+        for (int i = 0; i <= money; i = i + type[0]) {
+            moneyNum[0][i] = 1;
+        }
+        for (int i = 1; i < moneyNum.length; i++) {
+            int j = 0;
+            for (; j < type[i] && j <= money; j++) {
+                moneyNum[i][j] = moneyNum[i - 1][j];
+            }
+            for (; j <= money; j++) {
+                moneyNum[i][j] = moneyNum[i - 1][j - type[i]] + moneyNum[i - 1][j];
+            }
+        }
+        return moneyNum[type.length - 1];
+    }
+
+
+    /**
+     * 牛客网高级版第一课 根据数组数数依次淘汰应聘者,
+     * 应聘者围成一个圈，每次循环那数组中的数，根据数字数到谁谁淘汰
+     * 然后从下一个人继续数，输出最后剩下
+     * @param pSum 总人数
+     * @param nums 数数的数字
+     * @return 录取号
+     */
+    public static int getOfferNum(int pSum, int[] nums) {
+
+        int[] personNumTable = new int[pSum];
+        for (int i = 0; i < pSum; i++) {
+            personNumTable[i] = i;
+        }
+
+        int curSum = pSum;
+        int curStartNum = 0;
+
+        for (int i = 0; i < pSum - 1; i++) {
+            int outNum = (nums[i % nums.length] - 1 + curStartNum) % curSum;
+//            System.out.println(outNum);
+//            System.out.println(Arrays.toString(personNumTable));
+            curSum--;
+
+            curStartNum = outNum;
+            for (int j = outNum; j < curSum; j++) {
+                personNumTable[j] = personNumTable[j + 1];
+            }
+        }
+        return personNumTable[0];
+    }
+    /**
+     * 牛客网高级版第一课 根据数依次淘汰应聘者,
+     * 应聘者围成一个圈，根据数字数到谁谁淘汰
+     * 然后从下一个人继续数，输出最后剩下
+     * @param pSum 总人数
+     * @param m 数数的数字
+     * @return 录取号
+     */
+    public static int getPerfectOfferNum(int pSum, int m) {
+        if (pSum == 1) {
+            return 0;
+        }
+        return (getPerfectOfferNum(pSum - 1, m) + m) % pSum;
+    }
+    /**
+     * 牛客网高级版第一课 根据数组数数依次淘汰应聘者,
+     * 应聘者围成一个圈，每次循环那数组中的数，根据数字数到谁谁淘汰
+     * 然后从下一个人继续数，输出最后剩下
+     * @param pSum 总人数
+     * @param nums 数数的数字
+     * @return 录取号
+     */
+    public static int getPerfectOfferNum(int pSum, int[] nums) {
+        return getPerfectOfferNum(pSum, nums, 0);
+    }
+    private static int getPerfectOfferNum(int pSum, int[] nums, int i) {
+        if (pSum == 1) {
+            return 0;
+        }
+        return (getPerfectOfferNum(pSum - 1, nums, (i + 1) % nums.length) + nums[i]) % pSum;
+    }
+
+
+    /**
+     * 牛客网高级版第二课 2有序数组求第k位数
      * @param arr1 数组1
      * @param arr2 数组2
      * @param k 第k小数
@@ -25,7 +240,7 @@ public class NowCoder {
         int[] shortArr = arr1.length >= arr2.length ? arr2 : arr1;
 
         if (k <= shortArr.length) {
-            return getMidfromTwoEqualLenghtArr(shortArr, 0, k - 1, longArr, 0, k - 1);
+            return getMidfromTwoEqualLengthArr(shortArr, 0, k - 1, longArr, 0, k - 1);
         } else if (k > longArr.length + shortArr.length) {
             int shortStart = k - longArr.length - 1;
             int longStart = k- shortArr.length - 1;
@@ -35,13 +250,13 @@ public class NowCoder {
             if (shortArr[shortStart] >= longArr[longArr.length - 1]) {
                 return shortArr[shortStart];
             }
-            return getMidfromTwoEqualLenghtArr(shortArr, shortStart + 1, shortArr.length, longArr, longStart + 1, longArr.length);
+            return getMidfromTwoEqualLengthArr(shortArr, shortStart + 1, shortArr.length, longArr, longStart + 1, longArr.length);
         } else {
             int longStart = k - shortArr.length - 1;
             if (longArr[longStart] >= shortArr[shortArr.length - 1]) {
                 return longArr[longStart];
             } else {
-                return getMidfromTwoEqualLenghtArr(shortArr, 0, shortArr.length - 1, longArr, longStart + 1, k - 1);
+                return getMidfromTwoEqualLengthArr(shortArr, 0, shortArr.length - 1, longArr, longStart + 1, k - 1);
             }
         }
     }
@@ -55,7 +270,7 @@ public class NowCoder {
      * @param end2 数组2结束点
      * @return 上中值
      */
-    private static int getMidfromTwoEqualLenghtArr(int[] arr1, int start1, int end1,
+    private static int getMidfromTwoEqualLengthArr(int[] arr1, int start1, int end1,
                                          int[] arr2, int start2, int end2) {
         if (start1 == end1) {
             return arr1[start1];
@@ -66,22 +281,22 @@ public class NowCoder {
             return arr1[mid1];
         } else if (arr1[mid1] > arr2[mid2]) {
             if ((end1 - start1 + 1) % 2 == 0) {
-                return getMidfromTwoEqualLenghtArr(arr1, start1, mid1, arr2, mid2 + 1, end2);
+                return getMidfromTwoEqualLengthArr(arr1, start1, mid1, arr2, mid2 + 1, end2);
             } else {
                 if (arr1[mid1 - 1] <= arr2[mid2]) {
                     return arr2[mid2];
                 } else {
-                    return getMidfromTwoEqualLenghtArr(arr1, start1, mid1 - 1, arr2, mid2, end2);
+                    return getMidfromTwoEqualLengthArr(arr1, start1, mid1 - 1, arr2, mid2, end2);
                 }
             }
         } else {
             if ((end1 - start1 + 1) % 2 == 0) {
-                return getMidfromTwoEqualLenghtArr(arr1, mid1 + 1, end1, arr2, start2, mid2);
+                return getMidfromTwoEqualLengthArr(arr1, mid1 + 1, end1, arr2, start2, mid2);
             } else {
                 if (arr1[mid1] <= arr2[mid2 - 1]) {
                     return arr1[mid1];
                 } else {
-                    return getMidfromTwoEqualLenghtArr(arr1, mid1, end1, arr2, start2, mid2 - 1);
+                    return getMidfromTwoEqualLengthArr(arr1, mid1, end1, arr2, start2, mid2 - 1);
                 }
             }
         }
@@ -411,10 +626,11 @@ public class NowCoder {
         // 动态规划
         int[][][] valueMap = new int[map.length][map[0].length][2];
         for (int i = 0; i < map.length; i++) {
+            // 保存每个已用技能和没用技能情况的值
             valueMap[i][map[0].length - 1][0] = map[i][map[0].length - 1];
             valueMap[i][map[0].length - 1][1] = -map[i][map[0].length - 1];
         }
-
+        // 从右往左倒过来算
         for (int j = map[0].length - 2; j >= 0; j--) {
             for (int i = 0; i < map.length; i++) {
                 int valueWithUsed = valueMap[i][j + 1][1];
@@ -463,6 +679,7 @@ public class NowCoder {
      * @return 最大和，如果都为负，则输出-1；
      */
     private static int getMaxRouteLengthLimitOfMap(int[][] map, int x, int y, int hSum, boolean isUsed) {
+        // 计算经过（x， y）点，并且该点之前的路径和为hSum时的最大路径和
         if (y >= map[0].length) {
             return hSum;
         }
@@ -471,6 +688,7 @@ public class NowCoder {
         }
 
         int value = map[x][y];
+        // isUsed表示之前是否已使用技能
         if (isUsed) {
             int maxSum = getMaxRouteLengthLimitOfMap(map, x, y + 1, hSum + value, true);
             if (x >= 1) {

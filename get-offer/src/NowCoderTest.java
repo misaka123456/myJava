@@ -3,6 +3,7 @@ import model.TreeNode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class NowCoderTest {
 
@@ -67,27 +68,59 @@ public class NowCoderTest {
 //        System.out.println(NowCoder.getRouteMaxLengthIntree(node5));
 
 
-        int[][] mapMatrix = {
-                {1, -4, 10},
-                {3, -2, -1},
-                {2, -1, 0},
-                {0, 5, -2}
-        };
-        System.out.println(NowCoder.getMaxRouteLengthOfMap(mapMatrix));
-        System.out.println(NowCoder.getMaxRouteLengthLimitOfMap(mapMatrix));
+//        int[][] mapMatrix = {
+//                {1, -4, 10},
+//                {3, -2, -1},
+//                {2, -1, 0},
+//                {0, 5, -2}
+//        };
+//        System.out.println(NowCoder.getMaxRouteLengthOfMap(mapMatrix));
+//        System.out.println(NowCoder.getMaxRouteLengthLimitOfMap(mapMatrix));
+//
+//        int[][] mapMatrix1 = {
+//                {-1, -1, -1, 100},
+//                {-1, -1, -1, -1},
+//                {-1, -1, -1, -1},
+//                {-1, -1, -1, -1},
+//                {-1, -1, -1, -1},
+//                {-1, -1, -1, -1},
+//                {1, 1, 1, 1},
+//                {0, 5, -2, 2}
+//        };
+//        System.out.println(NowCoder.getMaxRouteLengthOfMap(mapMatrix1));
+//        System.out.println(NowCoder.getMaxRouteLengthLimitOfMap(mapMatrix1));
 
-        int[][] mapMatrix1 = {
-                {-1, -1, -1, 100},
-                {-1, -1, -1, -1},
-                {-1, -1, -1, -1},
-                {-1, -1, -1, -1},
-                {-1, -1, -1, -1},
-                {-1, -1, -1, -1},
-                {1, 1, 1, 1},
-                {0, 5, -2, 2}
-        };
-        System.out.println(NowCoder.getMaxRouteLengthOfMap(mapMatrix1));
-        System.out.println(NowCoder.getMaxRouteLengthLimitOfMap(mapMatrix1));
+
+
+//        int[] arr = new int[]{2, 4, 6, 3, 7, 2, 9, 4, 5, 10, 11, 15, 23, 23, 25, 16};
+//        System.out.println(NowCoder.getMaxGap(arr));
+
+
+//        int[] moneyType = new int[]{5, 2, 10, 1};
+//        System.out.println(NowCoder.getMoneyConbineNum(moneyType, null, 100));
+//        System.out.println(NowCoder.getMoneyCombineNum(moneyType, new int[]{3, 4, 7, 10}, 5));
+//        System.out.println(NowCoder.getMoneyConbineNum(new int[]{1, 1}, null, 100));
+
+
+        System.out.println(NowCoder.getOfferNum(6, new int[]{23, 8, 7}));
+        System.out.println(NowCoder.getOfferNum(100, new int[]{1}));
+        System.out.println(NowCoder.getPerfectOfferNum(6, new int[]{23, 8, 7}));
+        System.out.println(NowCoder.getPerfectOfferNum(100, new int[]{1}));
+//        Scanner sc = new Scanner(System.in);
+//        int allNum = sc.nextInt();
+//        for (int i = 0; i < allNum; i++) {
+//            int pSum = sc.nextInt();
+//            int[] amArr = new int[sc.nextInt()];
+//            for (int j = 0; j < amArr.length; j++) {
+//                amArr[j] = sc.nextInt();
+//            }
+//            System.out.println(NowCoder.getOfferNum(pSum, amArr));
+//        }
+
+
+
+
+
     }
 
 
