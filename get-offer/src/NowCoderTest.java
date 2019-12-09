@@ -102,10 +102,10 @@ public class NowCoderTest {
 //        System.out.println(NowCoder.getMoneyConbineNum(new int[]{1, 1}, null, 100));
 
 
-        System.out.println(NowCoder.getOfferNum(6, new int[]{23, 8, 7}));
-        System.out.println(NowCoder.getOfferNum(100, new int[]{1}));
-        System.out.println(NowCoder.getPerfectOfferNum(6, new int[]{23, 8, 7}));
-        System.out.println(NowCoder.getPerfectOfferNum(100, new int[]{1}));
+//        System.out.println(NowCoder.getOfferNum(6, new int[]{23, 8, 7}));
+//        System.out.println(NowCoder.getOfferNum(100, new int[]{1}));
+//        System.out.println(NowCoder.getPerfectOfferNum(6, new int[]{23, 8, 7}));
+//        System.out.println(NowCoder.getPerfectOfferNum(100, new int[]{1}));
 //        Scanner sc = new Scanner(System.in);
 //        int allNum = sc.nextInt();
 //        for (int i = 0; i < allNum; i++) {
@@ -118,9 +118,22 @@ public class NowCoderTest {
 //        }
 
 
+//        System.out.println(NowCoder.getValueFromExpression("1 + 2 * 3 * 4 - 5"));
+//        System.out.println(1 + 2 * 3 * 4 - 5);
+//        System.out.println(NowCoder.getValueFromExpression("1 + 2 * 3 * (4 - 5 )+ 8 / 4 * 3 - 23 -23 + 5 * 12 / 2"));
+//        System.out.println(1 + 2 * 3 * (4 - 5 )+ 8 / 4 * 3 - 23 -23 + 5 * 12 / 2);
 
 
+//        int[] arr = {1,1,2,2,3,3,3,5,5,6,6,7,7,8,9,10};
+//        System.out.println(NowCoder.getMinShips(arr, 10));
+//        System.out.println(NowCoder.getMinShips2(arr, 10));
 
+
+//        System.out.println(NowCoder.getMaxLengthOfPalindrome("a1s3d7ggsf8gf8ed7sr3tt1"));
+//        System.out.println(NowCoder.getMaxLengthOfPalindrome("abb"));
+
+
+        System.out.println(NowCoder.getMinNumToBePalindrome("abb"));
     }
 
 

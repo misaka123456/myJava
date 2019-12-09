@@ -712,6 +712,219 @@ public class NowCoder {
             return Math.max(Math.max(maxSumNoused, maxSumUsed), -1);
         }
     }
+
+
+    /**
+     * 根据运算表达式计算结果
+     * @param exp 表达式
+     * @return 结果
+     */
+    public static int getValueFromExpression(String exp) {
+        return getValueFromExpression(exp.toCharArray(), 0)[0];
+
+    }
+
+    /**
+     * 牛客网算法高级班第四课：根据运算表达式计算结果
+     * @param expChar 表达式的char数组形式
+     * @param start 起始位置
+     * @return [计算结果，之后的起始位置]
+     */
+    private static int[] getValueFromExpression(char[] expChar, int start) {
+
+        Stack<Character> exStack = new Stack<>();
+        Stack<Integer> numStack = new Stack<>();
+
+        int cur = 0;
+        int[] result = null;
+        while (start < expChar.length && expChar[start] != ')') {
+            if (expChar[start] == ' ') {
+                start++;
+                continue;
+            }
+            if (expChar[start] >= '0' && expChar[start] <= '9') {
+                // 数字
+                cur = cur * 10 + expChar[start++] - '0';
+            } else if (expChar[start] == '(') {
+                // 递归计算括号内的
+                result = getValueFromExpression(expChar, start + 1);
+                cur = result[0];
+                start = result[1];
+            } else {
+                // 运算符
+                if (exStack.isEmpty() || exStack.peek() == '+' || exStack.peek() == '-') {
+                    // 加减直接压栈
+                    numStack.push(cur);
+                    exStack.push(expChar[start++]);
+                } else {
+                    int pre = numStack.pop();
+                    numStack.push(exStack.pop() == '*' ? pre * cur : pre / cur);
+                    exStack.push(expChar[start++]);
+                }
+                cur = 0;
+            }
+        }
+        int out = 0;
+
+        // 运算符
+        if (exStack.peek() == '*' || exStack.peek() == '/') {
+            int pre = numStack.pop();
+            cur = exStack.pop() == '*' ? pre * cur : pre / cur;
+        }
+
+        while (!exStack.isEmpty()) {
+            out = exStack.pop() == '+' ? out + cur : out - cur;
+            cur = numStack.pop();
+        }
+        return new int[]{out + cur, start + 1};
+
+    }
+
+
+    /**
+     * 牛客网算法高级班第四课：两人一船，限制最大重量，求出最少需要几只船
+     * @param weightArr 所有人的重量数组
+     * @param limit 船的限重
+     * @return 船最小数量
+     */
+    public static int getMinShips(int[] weightArr, int limit) {
+
+        if (weightArr == null || weightArr.length == 0) {
+            return 0;
+        }
+        Arrays.sort(weightArr);
+        if (weightArr[weightArr.length - 1] > limit) {
+            return -1;
+        }
+        int midIndex = -1;
+        int midValue = limit >> 1;
+
+        for (int i = 0; i < weightArr.length; i++) {
+            if (weightArr[i] <= midValue) {
+                midIndex = i;
+            }
+        }
+        if (midIndex == -1) {
+            return weightArr.length;
+        }
+        int left = midIndex;
+        int right = midIndex + 1;
+        int solved = 0;
+        while (left >= 0 && right < weightArr.length) {
+            if (weightArr[left] + weightArr[right] <= limit) {
+                solved++;
+                left--;
+                right++;
+            } else {
+                left--;
+            }
+        }
+//        return solved + (midIndex - solved) / 2 + 1 + weightArr.length - midIndex - 1 - solved;
+        return (midIndex - solved) / 2 + weightArr.length - midIndex;
+    }
+    public static int getMinShips2(int[] weightArr, int limit) {
+
+        if (weightArr == null || weightArr.length == 0) {
+            return 0;
+        }
+        Arrays.sort(weightArr);
+        if (weightArr[weightArr.length - 1] > limit) {
+            return -1;
+        }
+
+        int midValue = limit >> 1;
+
+        int left = 0;
+        int right = weightArr.length - 1;
+        int num = 0;
+        for (; right >= left; right--) {
+            if (weightArr[right] <= midValue) {
+                num = num + (right - left) / 2 + 1;
+                // 保障不会出循环后又n++；
+                right = left + 1;
+                break;
+            }
+            if (weightArr[left] + weightArr[right] <= limit) {
+                left++;
+            }
+            num++;
+        }
+        if (left == right) {
+            num++;
+        }
+        return num;
+    }
+
+
+    /**
+     * 牛客网算法高级班第四课：最长回文子序列
+     * @param str 母字符串
+     * @return 最长长度
+     */
+    public static int getMaxLengthOfPalindrome(String str) {
+
+        if (str == null || str.length() == 0) {
+            return 0;
+        }
+        // 动态规划保存i到j字符串的最大回文字序列长度。
+        int[][] matrix = new int[str.length()][str.length()];
+        for (int i = 0; i < str.length(); i++) {
+            matrix[i][i] = 1;
+        }
+        for (int i = 0; i < str.length() - 1; i++) {
+            if (str.charAt(i) == str.charAt(i + 1)) {
+                matrix[i][i + 1] = 2;
+            } else {
+                matrix[i][i + 1] = 1;
+            }
+        }
+
+        for (int j = 2; j < str.length(); j++) {
+            for (int i = 0; i < str.length() - j; i++) {
+                if (str.charAt(i) == str.charAt(i + j)) {
+                    matrix[i][i + j] = matrix[i + 1][i + j - 1] + 2;
+                } else {
+                    matrix[i][i + j] = Math.max(matrix[i + 1][i + j], matrix[i][i + j - 1]);
+                }
+            }
+        }
+        return matrix[0][str.length() - 1];
+    }
+
+
+    /**
+     * 牛客网算法高级班第四课：变成回文字所需插入的最少数
+     * @param str 字符串
+     * @return 最小数
+     */
+    public static int getMinNumToBePalindrome(String str) {
+        if (str == null || str.length() == 0) {
+            return 0;
+        }
+        // 动态规划保存i到j字符串的变成回文字所需插入的最少数。
+        int[][] matrix = new int[str.length()][str.length()];
+        for (int i = 0; i < str.length(); i++) {
+            matrix[i][i] = 0;
+        }
+        for (int i = 0; i < str.length() - 1; i++) {
+            if (str.charAt(i) == str.charAt(i + 1)) {
+                matrix[i][i + 1] = 0;
+            } else {
+                matrix[i][i + 1] = 1;
+            }
+        }
+        for (int up = 2; up < str.length(); up++) {
+            for (int i = 0; i < str.length() - up; i++) {
+                int j = i + up;
+                if (str.charAt(i) == str.charAt(j)) {
+                    matrix[i][j] = matrix[i + 1][j - 1];
+                } else {
+                    matrix[i][j] = 1 + Math.min(matrix[i + 1][j], matrix[i][j - 1]);
+                }
+            }
+        }
+        return matrix[0][str.length() - 1];
+    }
 }
 
 
