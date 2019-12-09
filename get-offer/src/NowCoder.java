@@ -925,6 +925,9 @@ public class NowCoder {
         }
         return matrix[0][str.length() - 1];
     }
+
+
+
 }
 
 

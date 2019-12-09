@@ -14,7 +14,6 @@ public class AtomicLongTest {
 
     public static void main(String[] args) {
 
-
         AtomicInteger ai = new AtomicInteger(0);
 
         System.out.println(ai.compareAndSet(0, 10));
