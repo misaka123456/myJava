@@ -2,7 +2,7 @@ import model.TreeNode;
 
 import java.util.*;
 
-public class NowCoder {
+public class NowCoderHigh {
 
 
     /**
@@ -112,20 +112,20 @@ public class NowCoder {
         }
         // 动态规划，i表示可以使用i号面值之前的所有面值，j表示money
         // 可以优化成2个数组而不是用二位数组
-        int[][] moneyNum = new int[type.length][money + 1];
+        int[] moneyNum = new int[money + 1];
         for (int i = 0; i <= money; i = i + type[0]) {
-            moneyNum[0][i] = 1;
+            moneyNum[i] = 1;
         }
-        for (int i = 1; i < moneyNum.length; i++) {
-            int j = 0;
-            for (; j < type[i] && j <= money; j++) {
-                moneyNum[i][j] = moneyNum[i - 1][j];
-            }
-            for (; j <= money; j++) {
-                moneyNum[i][j] = moneyNum[i][j - type[i]] + moneyNum[i - 1][j];
+        for (int i = 1; i < type.length; i++) {
+//            int j = 0;
+//            for (; j < type[i] && j <= money; j++) {
+//                moneyNum[j] = moneyNum[j];
+//            }
+            for (int j = type[i]; j <= money; j++) {
+                moneyNum[j] = moneyNum[j - type[i]] + moneyNum[j];
             }
         }
-        return moneyNum[type.length - 1];
+        return moneyNum;
     }
     /**
      * 根据纪念币面值数组（每种面值只能用一张）获取找零的所有情况总数
@@ -907,7 +907,7 @@ public class NowCoder {
             chars1[i] = str.charAt(i);
             chars2[str.length() - i - 1] = str.charAt(i);
         }
-        return 0;
+        return MyCoder.maxLengthOfCommonStr(chars1, chars2);
     }
 
 
