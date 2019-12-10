@@ -946,6 +946,30 @@ public class NowCoderHigh {
     }
 
 
+    public static void a(int[] arr) {
+        if (arr == null || arr.length == 0 || arr.length % 2 != 0) {
+            return;
+        }
+
+        int cur = 0;
+        int next = 1;
+        int curValue = arr[0];
+        int temp = 0;
+        int mid = arr.length >> 1;
+        while (next == 0) {
+
+            if (cur < mid) {
+                next = 2 * cur + 1;
+            } else {
+                next = 2 * (cur - mid);
+            }
+            temp = arr[next];
+            arr[next] = curValue;
+            curValue = temp;
+        }
+
+    }
+
 
 }
 

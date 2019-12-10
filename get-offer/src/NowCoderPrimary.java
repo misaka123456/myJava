@@ -3,7 +3,7 @@ import myTools.MyArrayTools;
 public class NowCoderPrimary {
 
     /**
-     * 数组最小和：每个数左边比它小的数的总数
+     * 第一课：数组最小和：每个数左边比它小的数的总数
      * @param arr 数组
      * @return 总数
      */
@@ -50,7 +50,7 @@ public class NowCoderPrimary {
 
 
     /**
-     * 数组最小和：每个数左边比它小的数的所有和
+     * 第一课：数组最小和：每个数左边比它小的数的所有和
      * @param arr 数组
      * @return 最小和
      */
@@ -97,7 +97,7 @@ public class NowCoderPrimary {
 
 
     /**
-     * 小的放左，大的放右
+     * 第一课：小的放左，大的放右
      * @param arr
      * @param n
      */
@@ -116,7 +116,7 @@ public class NowCoderPrimary {
         }
     }
     /**
-     * 小的放左，大的放右，相等放中间
+     * 第一课：小的放左，大的放右，相等放中间
      * @param arr
      * @param n
      */

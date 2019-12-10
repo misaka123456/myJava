@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class NowCoderHighTest {
 
     public static void main(String[] args) throws Exception {
@@ -126,8 +128,13 @@ public class NowCoderHighTest {
 //        System.out.println(NowCoderHigh.getMaxLengthOfPalindrome("abb"));
 
 
-        System.out.println(NowCoderHigh.getMinNumToBePalindrome("abb"));
+//        System.out.println(NowCoderHigh.getMinNumToBePalindrome("abb"));
+
+
+        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        NowCoderHigh.a(arr);
+        System.out.println(Arrays.toString(arr));
+
+
     }
-
-
 }
