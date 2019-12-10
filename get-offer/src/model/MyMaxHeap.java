@@ -70,6 +70,9 @@ public class MyMaxHeap {
                 if (rc < size() && heap.get(rc) > heap.get(maxChild)) {
                     maxChild = rc;
                 }
+                if (heap.get(maxChild) < heap.get(key)) {
+                    break;
+                }
                 swap(key, maxChild);
                 key = maxChild;
             } else {
