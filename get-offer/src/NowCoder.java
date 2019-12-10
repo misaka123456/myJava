@@ -890,6 +890,25 @@ public class NowCoder {
         }
         return matrix[0][str.length() - 1];
     }
+    /**
+     * 最长回文子序列,使用最长公共子序列长度来求
+     * @param str 母字符串
+     * @return 最长长度
+     */
+    public static int getMaxLengthOfPalindrome2(String str) {
+
+        if (str == null || str.length() == 0) {
+            return 0;
+        }
+        // 字符串与其逆字符串的最长公共子序列为最长呢回文长度
+        char[] chars1 = new char[str.length()];
+        char[] chars2 = new char[str.length()];
+        for (int i = 0; i < str.length(); i++) {
+            chars1[i] = str.charAt(i);
+            chars2[str.length() - i - 1] = str.charAt(i);
+        }
+        return 0;
+    }
 
 
     /**
