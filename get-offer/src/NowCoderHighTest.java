@@ -1,35 +1,28 @@
-import model.ListNode;
-import model.TreeNode;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
-
-public class NowCoderTest {
+public class NowCoderHighTest {
 
     public static void main(String[] args) throws Exception {
 
 //        int[] arr1 = {1, 2, 3, 4, 5, 6, 7, 8};
 //        int[] arr2 = {2 ,3, 5, 6, 8 ,9 ,10, 13, 23, 45};
-//        System.out.println(NowCoder.getKthMinFromTwoArr(arr1, arr2, 3));
-//        System.out.println(NowCoder.getKthMinFromTwoArr(arr1, arr2, 5));
-//        System.out.println(NowCoder.getKthMinFromTwoArr(arr1, arr2, 8));
-//        System.out.println(NowCoder.getKthMinFromTwoArr(arr1, arr2, 10));
-//        System.out.println(NowCoder.getKthMinFromTwoArr(arr1, arr2, 15));
+//        System.out.println(NowCoderHigh.getKthMinFromTwoArr(arr1, arr2, 3));
+//        System.out.println(NowCoderHigh.getKthMinFromTwoArr(arr1, arr2, 5));
+//        System.out.println(NowCoderHigh.getKthMinFromTwoArr(arr1, arr2, 8));
+//        System.out.println(NowCoderHigh.getKthMinFromTwoArr(arr1, arr2, 10));
+//        System.out.println(NowCoderHigh.getKthMinFromTwoArr(arr1, arr2, 15));
 
 
 //        int[] arr = new int[] {1, 2, 1, 1, 1};
-//        System.out.println(NowCoder.getLengthOfPlusArrInSum(arr, 3));
+//        System.out.println(NowCoderHigh.getLengthOfPlusArrInSum(arr, 3));
 
 //        int[] arr = new int[] {1, 3, 4, 5, -3, -5, 3, -5, 4, 3, -6, 4, 3, -7, 3};
-//        System.out.println(NowCoder.sumEqualKMaxLength(arr, 9));
+//        System.out.println(NowCoderHigh.sumEqualKMaxLength(arr, 9));
 
 
 //        int[] arr = new int[] {4, 3, 4, 5, -3, -5, 3, -5, 4, 3, 6, 4, 3, -7, 3};
-//        System.out.println(NowCoder.sumLessKMaxLength(arr, 3));
+//        System.out.println(NowCoderHigh.sumLessKMaxLength(arr, 3));
 
 
-//        System.out.println(NowCoder.intParseToAZStr(35961));
+//        System.out.println(NowCoderHigh.intParseToAZStr(35961));
 
 
 //        int[][] buildings = {
@@ -42,7 +35,7 @@ public class NowCoderTest {
 //                {10, 12, 5},
 //                {12, 14, 4}
 //        };
-//        ArrayList<int[]> arr = NowCoder.getBuilding(buildings);
+//        ArrayList<int[]> arr = NowCoderHigh.getBuilding(buildings);
 //        for (int[] a : arr) {
 //            System.out.println(Arrays.toString(a));
 //        }
@@ -55,7 +48,7 @@ public class NowCoderTest {
 //        TreeNode node8 = new TreeNode(8, null, null);
 //        TreeNode node7 = new TreeNode(7, node6, node8);
 //        TreeNode node5 = new TreeNode(5, node3, node7);
-//        System.out.println(NowCoder.getRouteMaxSumInTree(node5));
+//        System.out.println(NowCoderHigh.getRouteMaxSumInTree(node5));
 
 
 //        TreeNode node2 = new TreeNode(2, null, null);
@@ -65,7 +58,7 @@ public class NowCoderTest {
 //        TreeNode node8 = new TreeNode(8, null, null);
 //        TreeNode node7 = new TreeNode(7, node6, node8);
 //        TreeNode node5 = new TreeNode(5, node3, node7);
-//        System.out.println(NowCoder.getRouteMaxLengthIntree(node5));
+//        System.out.println(NowCoderHigh.getRouteMaxLengthIntree(node5));
 
 
 //        int[][] mapMatrix = {
@@ -74,8 +67,8 @@ public class NowCoderTest {
 //                {2, -1, 0},
 //                {0, 5, -2}
 //        };
-//        System.out.println(NowCoder.getMaxRouteLengthOfMap(mapMatrix));
-//        System.out.println(NowCoder.getMaxRouteLengthLimitOfMap(mapMatrix));
+//        System.out.println(NowCoderHigh.getMaxRouteLengthOfMap(mapMatrix));
+//        System.out.println(NowCoderHigh.getMaxRouteLengthLimitOfMap(mapMatrix));
 //
 //        int[][] mapMatrix1 = {
 //                {-1, -1, -1, 100},
@@ -87,25 +80,25 @@ public class NowCoderTest {
 //                {1, 1, 1, 1},
 //                {0, 5, -2, 2}
 //        };
-//        System.out.println(NowCoder.getMaxRouteLengthOfMap(mapMatrix1));
-//        System.out.println(NowCoder.getMaxRouteLengthLimitOfMap(mapMatrix1));
+//        System.out.println(NowCoderHigh.getMaxRouteLengthOfMap(mapMatrix1));
+//        System.out.println(NowCoderHigh.getMaxRouteLengthLimitOfMap(mapMatrix1));
 
 
 
 //        int[] arr = new int[]{2, 4, 6, 3, 7, 2, 9, 4, 5, 10, 11, 15, 23, 23, 25, 16};
-//        System.out.println(NowCoder.getMaxGap(arr));
+//        System.out.println(NowCoderHigh.getMaxGap(arr));
 
 
 //        int[] moneyType = new int[]{5, 2, 10, 1};
-//        System.out.println(NowCoder.getMoneyConbineNum(moneyType, null, 100));
-//        System.out.println(NowCoder.getMoneyCombineNum(moneyType, new int[]{3, 4, 7, 10}, 5));
-//        System.out.println(NowCoder.getMoneyConbineNum(new int[]{1, 1}, null, 100));
+//        System.out.println(NowCoderHigh.getMoneyConbineNum(moneyType, null, 100));
+//        System.out.println(NowCoderHigh.getMoneyCombineNum(moneyType, new int[]{3, 4, 7, 10}, 5));
+//        System.out.println(NowCoderHigh.getMoneyConbineNum(new int[]{1, 1}, null, 100));
 
 
-//        System.out.println(NowCoder.getOfferNum(6, new int[]{23, 8, 7}));
-//        System.out.println(NowCoder.getOfferNum(100, new int[]{1}));
-//        System.out.println(NowCoder.getPerfectOfferNum(6, new int[]{23, 8, 7}));
-//        System.out.println(NowCoder.getPerfectOfferNum(100, new int[]{1}));
+//        System.out.println(NowCoderHigh.getOfferNum(6, new int[]{23, 8, 7}));
+//        System.out.println(NowCoderHigh.getOfferNum(100, new int[]{1}));
+//        System.out.println(NowCoderHigh.getPerfectOfferNum(6, new int[]{23, 8, 7}));
+//        System.out.println(NowCoderHigh.getPerfectOfferNum(100, new int[]{1}));
 //        Scanner sc = new Scanner(System.in);
 //        int allNum = sc.nextInt();
 //        for (int i = 0; i < allNum; i++) {
@@ -114,26 +107,26 @@ public class NowCoderTest {
 //            for (int j = 0; j < amArr.length; j++) {
 //                amArr[j] = sc.nextInt();
 //            }
-//            System.out.println(NowCoder.getOfferNum(pSum, amArr));
+//            System.out.println(NowCoderHigh.getOfferNum(pSum, amArr));
 //        }
 
 
-//        System.out.println(NowCoder.getValueFromExpression("1 + 2 * 3 * 4 - 5"));
+//        System.out.println(NowCoderHigh.getValueFromExpression("1 + 2 * 3 * 4 - 5"));
 //        System.out.println(1 + 2 * 3 * 4 - 5);
-//        System.out.println(NowCoder.getValueFromExpression("1 + 2 * 3 * (4 - 5 )+ 8 / 4 * 3 - 23 -23 + 5 * 12 / 2"));
+//        System.out.println(NowCoderHigh.getValueFromExpression("1 + 2 * 3 * (4 - 5 )+ 8 / 4 * 3 - 23 -23 + 5 * 12 / 2"));
 //        System.out.println(1 + 2 * 3 * (4 - 5 )+ 8 / 4 * 3 - 23 -23 + 5 * 12 / 2);
 
 
 //        int[] arr = {1,1,2,2,3,3,3,5,5,6,6,7,7,8,9,10};
-//        System.out.println(NowCoder.getMinShips(arr, 10));
-//        System.out.println(NowCoder.getMinShips2(arr, 10));
+//        System.out.println(NowCoderHigh.getMinShips(arr, 10));
+//        System.out.println(NowCoderHigh.getMinShips2(arr, 10));
 
 
-//        System.out.println(NowCoder.getMaxLengthOfPalindrome("a1s3d7ggsf8gf8ed7sr3tt1"));
-//        System.out.println(NowCoder.getMaxLengthOfPalindrome("abb"));
+//        System.out.println(NowCoderHigh.getMaxLengthOfPalindrome("a1s3d7ggsf8gf8ed7sr3tt1"));
+//        System.out.println(NowCoderHigh.getMaxLengthOfPalindrome("abb"));
 
 
-        System.out.println(NowCoder.getMinNumToBePalindrome("abb"));
+        System.out.println(NowCoderHigh.getMinNumToBePalindrome("abb"));
     }
 
 
