@@ -69,6 +69,9 @@ public class Test {
         ts.add(3);
         System.out.println(ts);
 
+        HashMap<Integer, Integer> hm = new HashMap<>();
+
+
 
     }
 

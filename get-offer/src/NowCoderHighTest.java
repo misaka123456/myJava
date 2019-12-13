@@ -157,6 +157,10 @@ public class NowCoderHighTest {
 //        System.out.println(1^2^9^4^4^6^9^8);
 //        System.out.println((1^6^9^4)^(2^4^9^8));
 
-        System.out.println(NowCoderHigh.isRotateString("abcd", "dacb"));
+//        System.out.println(NowCoderHigh.isRotateString("abcd", "dacb"));
+
+
+//        System.out.println(NowCoderHigh.minLengthOfStr1ContainStr2("aaabbbaa", "aaa"));
+        System.out.println(NowCoderHigh.minLengthOfStr1ContainStr2("faslkdgfk", "kfk"));
     }
 }
