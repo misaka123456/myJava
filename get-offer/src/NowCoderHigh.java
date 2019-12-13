@@ -1,6 +1,7 @@
 import model.TreeNode;
 
 import java.util.*;
+import java.util.function.BiConsumer;
 
 public class NowCoderHigh {
 
@@ -1148,22 +1149,73 @@ public class NowCoderHigh {
     }
 
 
-   public static boolean isScramble(String str1, String str2) {
+    /**
+     * 第七课：2个字符串是否互为旋变字符串
+     */
+    static boolean isRotateString(String str1, String str2) {
+
+        if (!isSameTypeNum(str1, str2)) {
+            return false;
+        }
+
+        int len = str1.length();
+        char[] ca1 = str1.toCharArray();
+        char[] ca2 = str2.toCharArray();
+
+        // 动态规划
+        boolean[][][] dp = new boolean[len][len][len + 1];
+
+        for (int i1 = 0; i1 < len; i1++) {
+            for (int i2 = 0; i2 < len; i2++) {
+                dp[i1][i2][1] = ca1[i1] == ca2[i2];
+            }
+        }
+
+        for (int l = 2; l <= len; l++) {
+            for (int i1 = 0; i1 <= len - l; i1++) {
+                for (int i2 = 0; i2 <= len - l; i2++) {
+                    for (int i = 1; i < l; i++) {
+                        if (dp[i1][i2][i] && dp[i1 + i][i2 + i][l - i] ||
+                                (dp[i1 + i][i2][l - i] && dp[i1][i2 + i][i])) {
+                            dp[i1][i2][l] = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        return dp[0][0][len];
+
+    }
+    private static boolean isSameTypeNum(String str1, String str2) {
+
         if (str1 == null) {
             return str2 == null;
         } else if (str2 == null) {
             return false;
         }
+        if (str1.length() == 0) {
+            return str2.length() == 0;
+        } else if (str2.length() == 0) {
+            return false;
+        }
         if (str1.length() != str2.length()) {
             return false;
         }
-        return isScramble(str1.toCharArray(), str2.toCharArray(), 0, 0, str1.length());
-   }
 
-    private static boolean isScramble(char[] ca1, char[] ca2, int i1, int i2, int l) {
-
-
-return false;
+        int[] map = new int[128];
+        for (int i = 0; i < str1.length(); i++) {
+            map[str1.charAt(i)] = map[str1.charAt(i)] + 1;
+            map[str1.charAt(i)] = map[str1.charAt(i)] - 1;
+        }
+        for (int i = 0; i < map.length; i++) {
+            if (map[i] != 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
 

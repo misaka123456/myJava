@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class NowCoderHighTest {
 
@@ -156,7 +157,6 @@ public class NowCoderHighTest {
 //        System.out.println(1^2^9^4^4^6^9^8);
 //        System.out.println((1^6^9^4)^(2^4^9^8));
 
-        System.out.println((char)100);
-
+        System.out.println(NowCoderHigh.isRotateString("abcd", "dacb"));
     }
 }
