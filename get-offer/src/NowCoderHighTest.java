@@ -131,10 +131,32 @@ public class NowCoderHighTest {
 //        System.out.println(NowCoderHigh.getMinNumToBePalindrome("abb"));
 
 
-        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-        NowCoderHigh.a(arr);
-        System.out.println(Arrays.toString(arr));
+//        System.out.println(Arrays.deepToString(NowCoderHigh.getNearestMin(new int[]{3, 2, 0, 6, 1, 5})));
+//        System.out.println(Arrays.deepToString(NowCoderHigh.getNearestMin(new int[]{3, 2})));
+//        System.out.println(Arrays.deepToString(NowCoderHigh.getNearestMin(new int[]{3})));
 
+
+//        System.out.println(NowCoderHigh.countOfAbleSee(new int[]{3, 4, 2, 4, 5, 5, 7, 2, 4}));
+
+
+//        System.out.println(NowCoderHigh.samplePattern("abcde", "*cde"));
+//        System.out.println(NowCoderHigh.dpPattern("abcde", "*cde"));
+//
+//        System.out.println(NowCoderHigh.samplePattern("asdgfasd", "*as?gf*d"));
+//        System.out.println(NowCoderHigh.dpPattern("asdgfasd", "*as?gf*d"));
+//
+//        System.out.println(NowCoderHigh.samplePattern("fasd", "f*ed"));
+//        System.out.println(NowCoderHigh.dpPattern("fasd", "f*ed"));
+
+
+//        System.out.println(NowCoderHigh.newDpPattern("deq", "d*.eq"));
+
+//        System.out.println(1^6^9^4);
+//        System.out.println(2^4^9^8);
+//        System.out.println(1^2^9^4^4^6^9^8);
+//        System.out.println((1^6^9^4)^(2^4^9^8));
+
+        System.out.println((char)100);
 
     }
 }

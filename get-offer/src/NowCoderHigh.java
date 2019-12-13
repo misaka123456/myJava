@@ -6,9 +6,8 @@ public class NowCoderHigh {
 
 
     /**
-     * 牛客网高级版第一课 获取数字内数字最大间隔
+     * 牛客网高级版第一课 获取数组内数字最大间隔
      * @param arr 数组
-     * @return 最大间隔
      */
     public static int getMaxGap(int[] arr) {
 
@@ -38,7 +37,6 @@ public class NowCoderHigh {
                 if (minAndMaxArr[index] == null) {
                     // 桶为空
                     minAndMaxArr[index] = new int[]{arr[i], arr[i]};
-
                 } else {
                     minAndMaxArr[index][0] = Math.min(minAndMaxArr[index][0], arr[i]);
                     minAndMaxArr[index][1] = Math.max(minAndMaxArr[index][0], arr[i]);
@@ -306,8 +304,6 @@ public class NowCoderHigh {
     /**
      * 获取和为k的最长子数组的长度
      * @param arr 值不为负数的数组
-     * @param sum 和
-     * @return 最长长度
      */
     public static int getLengthOfPlusArrInSum(int[] arr, int sum) {
         int maxL = 0;
@@ -340,8 +336,6 @@ public class NowCoderHigh {
     /**
      * 获取和为k的最长子数组的长度
      * @param arr 值可为任意整数的数组
-     * @param k 和
-     * @return 最长长度
      */
     public static int sumEqualKMaxLength(int[] arr, int k) {
         if (arr == null || arr.length == 0) {
@@ -367,9 +361,6 @@ public class NowCoderHigh {
 
     /**
      * 获取和小于等于k的最长子数组的长度
-     * @param arr 数组
-     * @param k 和
-     * @return 最长长度
      */
     public static int sumLessKMaxLength(int[] arr, int k) {
         if (arr == null || arr.length == 0) {
@@ -413,8 +404,6 @@ public class NowCoderHigh {
 
     /**
      * 数组转化为A-Z的伪26进制字符串（没有0）
-     * @param num 数组
-     * @return 字符串
      */
     public static String intParseToAZStr(int num) {
 
@@ -519,8 +508,6 @@ public class NowCoderHigh {
 
     /**
      * 获取树的所有路径的和的最大值
-     * @param root 根节点
-     * @return 最大值
      */
     public static int getRouteMaxSumInTree(TreeNode root) {
 
@@ -617,7 +604,6 @@ public class NowCoderHigh {
     /**
      * 获取二位数组从左到右路径做大和，每次只能往右、右上、右下走一格
      * @param map 二维数组
-     * @return 最大和
      */
     public static int getMaxRouteLengthOfMap(int[][] map) {
         if (map == null || map.length == 0 || map[0] == null || map[0].length == 0) {
@@ -785,7 +771,6 @@ public class NowCoderHigh {
      * 牛客网算法高级班第四课：两人一船，限制最大重量，求出最少需要几只船
      * @param weightArr 所有人的重量数组
      * @param limit 船的限重
-     * @return 船最小数量
      */
     public static int getMinShips(int[] weightArr, int limit) {
 
@@ -858,8 +843,6 @@ public class NowCoderHigh {
 
     /**
      * 牛客网算法高级班第四课：最长回文子序列
-     * @param str 母字符串
-     * @return 最长长度
      */
     public static int getMaxLengthOfPalindrome(String str) {
 
@@ -892,8 +875,6 @@ public class NowCoderHigh {
     }
     /**
      * 最长回文子序列,使用最长公共子序列长度来求
-     * @param str 母字符串
-     * @return 最长长度
      */
     public static int getMaxLengthOfPalindrome2(String str) {
 
@@ -913,8 +894,6 @@ public class NowCoderHigh {
 
     /**
      * 牛客网算法高级班第四课：变成回文字所需插入的最少数
-     * @param str 字符串
-     * @return 最小数
      */
     public static int getMinNumToBePalindrome(String str) {
         if (str == null || str.length() == 0) {
@@ -946,7 +925,11 @@ public class NowCoderHigh {
     }
 
 
-    public static void a(int[] arr) {
+    /**
+     * 第五课：后一半和前一半交叉重排，空间复杂度o(n)
+     * 目前有问题，不完善。存在闭环。
+     */
+    public static void acrossSort(int[] arr) {
         if (arr == null || arr.length == 0 || arr.length % 2 != 0) {
             return;
         }
@@ -956,7 +939,7 @@ public class NowCoderHigh {
         int curValue = arr[0];
         int temp = 0;
         int mid = arr.length >> 1;
-        while (next == 0) {
+        while (next != 0) {
 
             if (cur < mid) {
                 next = 2 * cur + 1;
@@ -966,8 +949,221 @@ public class NowCoderHigh {
             temp = arr[next];
             arr[next] = curValue;
             curValue = temp;
+            cur = next;
         }
 
+    }
+
+
+    /**
+     * 第六课：获取数组中每个数离他最近的比他小的左和右的
+     * @return 数组中每个元素：[左最近, 右最近]
+     */
+    public static int[][] getNearestMin(int[] arr) {
+
+        if (arr == null) {
+            return null;
+        }
+
+        int[][] mins = new int[arr.length][];
+        if (arr.length == 0) {
+            return mins;
+        }
+        Stack<Integer> stack = new Stack<>();
+        stack.push(0);
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] > arr[stack.peek()]) {
+                stack.push(i);
+            } else {
+                mins[stack.pop()] = new int[]{stack.isEmpty() ? -1 : arr[stack.peek()], arr[i]};
+                stack.push(i);
+            }
+        }
+        while (!stack.isEmpty()) {
+            mins[stack.pop()] = new int[]{-1, stack.isEmpty() ? -1 : stack.peek()};
+        }
+        return mins;
+    }
+
+
+    /**
+     * 第六课：环形山，相互之间能看见的山峰为一对，一共多少对
+     * @param arr 山峰高度数组
+     * @return 总对数
+     */
+    public static int countOfAbleSee(int[] arr) {
+        if (arr == null || arr.length <= 1) {
+            return 0;
+        }
+        int count = 0;
+        Stack<int[]> stack = new Stack<>();
+
+        int maxIndex = 0;
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] > arr[maxIndex]) {
+                maxIndex = i;
+            }
+        }
+
+        stack.push(new int[]{maxIndex, 1});
+        for (int i = maxIndex + 1; ; i++) {
+            if (i == arr.length) {
+                i = 0;
+            }
+            if (i == maxIndex) {
+                break;
+            }
+            if (arr[i] > arr[stack.peek()[0]]) {
+                int[] popElem = stack.pop();
+                count = count + 2 * popElem[1] + popElem[1] * (popElem[1] - 1) / 2;
+                if (arr[i] == arr[stack.peek()[0]]) {
+                    stack.peek()[1] = stack.peek()[1] + 1;
+                } else {
+                    stack.push(new int[]{i, 1});
+                }
+            } else if (arr[i] == arr[stack.peek()[0]]) {
+                stack.peek()[1] = stack.peek()[1] + 1;
+            } else {
+                stack.push(new int[]{i, 1});
+            }
+        }
+        while (stack.size() >= 3) {
+            int[] popElem = stack.pop();
+            count = count + 2 * popElem[1] + popElem[1] * (popElem[1] - 1) / 2;
+        }
+
+        int[] popElem = stack.pop();
+        if (stack.isEmpty()) {
+            count = count + popElem[1] * (popElem[1] - 1) / 2;
+        } else {
+            if (stack.peek()[1] >= 2) {
+                count = count + 2 * popElem[1] + stack.peek()[1] * (stack.peek()[1] - 1) / 2;
+            } else {
+                count = count + popElem[1];
+            }
+        }
+
+
+
+
+        return count;
+
+
+    }
+
+
+    /**
+     * 第六课：字符串匹配，？匹配单个，*匹配0或多个(自己占位，例如*匹配空、a、ab等)
+     */
+    public static boolean samplePattern(String str, String pattern) {
+        if (str == null || str.length() == 0 || pattern == null || pattern.length() == 0) {
+            return false;
+        }
+        return samplePattern(str.toCharArray(), pattern.toCharArray(), 0, 0);
+    }
+    private static boolean samplePattern(char[] str, char[] pattern, int sStart, int pStart) {
+
+        if (sStart == str.length) {
+            return pStart == pattern.length;
+        } else if (pStart == pattern.length) {
+            return false;
+        }
+
+        if (pattern[pStart] == '?' || str[sStart] == pattern[pStart]) {
+            return samplePattern(str, pattern, sStart + 1, pStart + 1);
+        }
+        if (pattern[pStart] == '*') {
+            boolean flag = false;
+            for (int i = sStart; i <= str.length; i++) {
+                flag = samplePattern(str, pattern, i, pStart + 1);
+                if (flag) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    /**
+     * 第六课：字符串匹配动态规划版，？匹配单个，*匹配0或多个(自己占位，例如*匹配空、a、ab等)
+     */
+    public static boolean dpPattern(String str, String pattern) {
+
+        if (str == null || pattern == null) {
+            return false;
+        }
+        if (str.length() == 0 && pattern.length() == 0) {
+            return true;
+        }
+
+        boolean[][] dp = new boolean[pattern.length() + 1][str.length() + 1];
+        dp[0][0] = true;
+
+        int j = 0;
+        for (int i = 0; i < pattern.length(); i++) {
+            if (pattern.charAt(i) == '*') {
+                for (int k = j; k <= str.length(); k++) {
+                    dp[i + 1][k] = dp[i][j];
+                }
+            } else {
+                for (int k = j; k < str.length(); k++) {
+                    dp[i + 1][k + 1] = dp[i][k] && (pattern.charAt(i) == str.charAt(k) || pattern.charAt(i) == '?');
+                }
+                j++;
+            }
+        }
+//        for (boolean[] a : dp) {
+//            System.out.println(Arrays.toString(a));
+//        }
+        return dp[pattern.length()][str.length()];
+    }
+    /**
+     * 第六课：字符串匹配动态规划版，？匹配单个，*匹配0或多个(自己不占位，例如a*匹配空、a、aa等)
+     */
+    public static boolean newDpPattern(String str, String pattern) {
+        if (str == null || pattern == null) {
+            return false;
+        }
+        if (str.length() == 0 && pattern.length() == 0) {
+            return true;
+        }
+        boolean[][] dp = new boolean[pattern.length() + 1][str.length() + 1];
+        dp[0][0] = true;
+        for (int i = 1; i < pattern.length() + 1; i++) {
+            for (int j = 1; j < str.length() + 1; j++) {
+                if (pattern.charAt(i - 1) == str.charAt(j - 1) || pattern.charAt(i - 1) == '.') {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else if (pattern.charAt(i - 1) == '*') {
+                    dp[i][j] = dp[i - 2][j] || dp[i - 1][j];
+                    if (pattern.charAt(i - 2) == str.charAt(j - 1) || pattern.charAt(i - 2) == '.') {
+                        dp[i][j] = dp[i][j] || dp[i][j - 1];
+                    }
+
+                }
+            }
+        }
+//        for (boolean[] a : dp) {
+//            System.out.println(Arrays.toString(a));
+//        }
+        return dp[pattern.length()][str.length()];
+    }
+
+
+   public static boolean isScramble(String str1, String str2) {
+        if (str1 == null) {
+            return str2 == null;
+        } else if (str2 == null) {
+            return false;
+        }
+        if (str1.length() != str2.length()) {
+            return false;
+        }
+        return isScramble(str1.toCharArray(), str2.toCharArray(), 0, 0, str1.length());
+   }
+
+    private static boolean isScramble(char[] ca1, char[] ca2, int i1, int i2, int l) {
+
+
+return false;
     }
 
 

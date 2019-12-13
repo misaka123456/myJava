@@ -202,6 +202,39 @@ public class Offer {
 
 
     /**
+     * p124 面试题19：正则匹配
+     */
+    public static boolean match(String str, String pattern) {
+        if (str == null || pattern == null) {
+            return false;
+        }
+        return match(str.toCharArray(), pattern.toCharArray(), 0, 0);
+    }
+    private static boolean match(char[] str, char[] pattern, int sStart, int pStart) {
+        if (sStart == str.length && pStart == pattern.length) {
+            return true;
+        }
+        if (sStart < str.length && pStart == pattern.length) {
+            return false;
+        }
+
+        if (pattern[pStart + 1] == '*') {
+            if (str[sStart] == pattern[pStart] || (pattern[pStart] == '.' && sStart < str.length)) {
+                return match(str, pattern, sStart + 1, pStart + 2) ||
+                        match(str, pattern, sStart, pStart + 2) ||
+                        match(str, pattern, sStart + 1, pStart);
+            } else {
+                return match(str, pattern, sStart, pStart + 2);
+            }
+        }
+        if (str[sStart] == pattern[pStart] || (pattern[pStart] == '.' && sStart < str.length)) {
+            return match(str, pattern, sStart + 1, pStart + 1);
+        }
+        return false;
+    }
+
+
+    /**
      * p129 面试题21 奇数在偶数前面
      * @param data 数字数组
      */

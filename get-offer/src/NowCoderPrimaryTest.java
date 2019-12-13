@@ -17,5 +17,8 @@ public class NowCoderPrimaryTest {
 //        System.out.println(Arrays.toString(arr1));
 
 
+//        System.out.println(Arrays.toString(NowCoderPrimary.getMidArr(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9})));
+//        System.out.println(Arrays.toString(NowCoderPrimary.getMidArr(new int[]{1,3,5,3,4,5,2,7,5,8,9,0,1,2,3,4,3})));
+
     }
 }

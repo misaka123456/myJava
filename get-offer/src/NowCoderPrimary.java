@@ -1,11 +1,11 @@
 import myTools.MyArrayTools;
 
+import java.util.PriorityQueue;
+
 public class NowCoderPrimary {
 
     /**
      * 第一课：数组最小和：每个数左边比它小的数的总数
-     * @param arr 数组
-     * @return 总数
      */
     public static int minNumCount(int[] arr) {
 
@@ -51,8 +51,6 @@ public class NowCoderPrimary {
 
     /**
      * 第一课：数组最小和：每个数左边比它小的数的所有和
-     * @param arr 数组
-     * @return 最小和
      */
     public static int minNumSum(int[] arr) {
 
@@ -98,8 +96,6 @@ public class NowCoderPrimary {
 
     /**
      * 第一课：小的放左，大的放右
-     * @param arr
-     * @param n
      */
     public static void smallLeftAndLargeRight(int[] arr, int n) {
         if (arr == null || arr.length == 0) {
@@ -117,8 +113,6 @@ public class NowCoderPrimary {
     }
     /**
      * 第一课：小的放左，大的放右，相等放中间
-     * @param arr
-     * @param n
      */
     public static void smallLeftAndLargeRightAndEqualMiddle(int[] arr, int n) {
         if (arr == null || arr.length == 0) {
@@ -143,6 +137,50 @@ public class NowCoderPrimary {
                }
            }
         }
+    }
+
+
+    /**
+     * 第二课：动态获取数字的中间值
+     * 没读取数组一个元素返回一个中间值
+     * @return 所有中间值的数组
+     */
+    public static int[] getMidArr(int[] arr) {
+
+        if (arr == null) {
+            return null;
+        }
+        int[] midArr = new int[arr.length];
+        if (arr.length == 0) {
+            return midArr;
+        }
+
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((o1, o2) -> o2 - o1);
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+
+        maxHeap.add(arr[0]);
+        midArr[0] = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            // 利用大根堆和小根堆
+            if (arr[i] < maxHeap.peek()) {
+                maxHeap.add(arr[i]);
+                if (maxHeap.size() == minHeap.size() + 1) {
+                    midArr[i] = maxHeap.peek();
+                } else {
+                    minHeap.add(maxHeap.poll());
+                    midArr[i] = (maxHeap.peek() + minHeap.peek()) / 2;
+                }
+            } else {
+                minHeap.add(arr[i]);
+                if (maxHeap.size() == minHeap.size()) {
+                    midArr[i] = (maxHeap.peek() + minHeap.peek()) / 2;
+                } else {
+                    maxHeap.add(minHeap.poll());
+                    midArr[i] = maxHeap.peek();
+                }
+            }
+        }
+        return midArr;
     }
 
 
