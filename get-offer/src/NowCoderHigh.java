@@ -1171,13 +1171,13 @@ public class NowCoderHigh {
             }
         }
 
-        for (int l = 2; l <= len; l++) {
-            for (int i1 = 0; i1 <= len - l; i1++) {
-                for (int i2 = 0; i2 <= len - l; i2++) {
-                    for (int i = 1; i < l; i++) {
-                        if (dp[i1][i2][i] && dp[i1 + i][i2 + i][l - i] ||
-                                (dp[i1 + i][i2][l - i] && dp[i1][i2 + i][i])) {
-                            dp[i1][i2][l] = true;
+        for (int size = 2; size <= len; size++) {
+            for (int i1 = 0; i1 <= len - size; i1++) {
+                for (int i2 = 0; i2 <= len - size; i2++) {
+                    for (int s = 1; s < size; s++) {
+                        if (dp[i1][i2][s] && dp[i1 + s][i2 + s][size - s] ||
+                                (dp[i1 + s][i2][size - s] && dp[i1][i2 + s][s])) {
+                            dp[i1][i2][size] = true;
                             break;
                         }
                     }
@@ -1189,6 +1189,10 @@ public class NowCoderHigh {
         return dp[0][0][len];
 
     }
+
+    /**
+     * 两字符串是否长度相同且组成的字母种类和数量是否都相同
+     */
     private static boolean isSameTypeNum(String str1, String str2) {
 
         if (str1 == null) {
@@ -1219,6 +1223,56 @@ public class NowCoderHigh {
     }
 
 
+    public static int minLengthOfStr1ContainStr2(String str1, String str2) {
+        if (str2 == null || str2.length() == 0) {
+            return 0;
+        }
+        if (str1 == null || str1.length() == 0) {
+            return -1;
+        }
+
+        HashMap<Character, Integer> hm = new HashMap<>();
+        int[] str2chars = new int[128];
+        for (int i = 0; i < str2.length(); i++) {
+            str2chars[str2.charAt(i)] += 1;
+            if (hm.containsKey(str2.charAt(i))) {
+                hm.replace(str2.charAt(i), hm.get(str2.charAt(i)) + 1);
+            } else {
+                hm.put(str2.charAt(i), 1);
+            }
+        }
+
+        int pre = 0;
+        int minL = str1.length();
+
+        char[] ca = str1.toCharArray();
+        int i = -1;
+        while (true) {
+            if (hm.isEmpty()) {
+                minL = Math.min(minL, i - pre + 1);
+                if (str2chars[ca[pre]] >= 0) {
+                    hm.put(ca[pre], 1);
+                }
+                str2chars[ca[pre]] += 1;
+                pre++;
+            } else {
+                i++;
+                if (i >= str1.length()) {
+                    break;
+                }
+                str2chars[ca[i]] -= 1;
+                if (hm.containsKey(ca[i])) {
+                    hm.replace(ca[i], hm.get(ca[i]) - 1);
+                    if (hm.get(ca[i]) == 0) {
+                        hm.remove(ca[i]);
+                    }
+                }
+            }
+
+
+        }
+        return minL == str1.length() ? -1 : minL;
+    }
 }
 
 
