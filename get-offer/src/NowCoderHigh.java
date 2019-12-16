@@ -1307,7 +1307,6 @@ public class NowCoderHigh {
         int minLen = str1.length();
         // 保存总数
         int all = str2.length();
-
         while (true) {
             if (all == 0) {
                 minLen = Math.min(minLen, cur - pre + 1);
@@ -1329,6 +1328,10 @@ public class NowCoderHigh {
         }
         return minLen == str1.length() ? -1 : minLen;
     }
+
+
+
+
 }
 
 

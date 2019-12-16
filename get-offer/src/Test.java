@@ -77,6 +77,11 @@ public class Test {
             System.out.println(it.next());
         }
 
+
+        LinkedList<Integer> ll = new LinkedList<>();
+
+
+
     }
 
 }
