@@ -63,15 +63,19 @@ public class Test {
         System.out.println(tm);
 
 
-        TreeSet<Integer> ts = new TreeSet<>((o1, o2) -> 0);
+        TreeSet<Integer> ts = new TreeSet<>();
         ts.add(1);
         ts.add(2);
         ts.add(3);
         System.out.println(ts);
 
-        HashMap<Integer, Integer> hm = new HashMap<>();
+//        HashMap<Integer, Integer> hm = new HashMap<>();
 
 
+        Iterator<Integer> it = ts.iterator();
+        while (it.hasNext()) {
+            System.out.println(it.next());
+        }
 
     }
 

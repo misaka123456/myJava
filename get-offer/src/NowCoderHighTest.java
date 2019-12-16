@@ -161,6 +161,8 @@ public class NowCoderHighTest {
 
 
 //        System.out.println(NowCoderHigh.minLengthOfStr1ContainStr2("aaabbbaa", "aaa"));
-        System.out.println(NowCoderHigh.minLengthOfStr1ContainStr2("faslkdgfk", "kfk"));
+//        System.out.println(NowCoderHigh.minLengthOfStr1ContainStr2New("aaabbbaa", "aaa"));
+//        System.out.println(NowCoderHigh.minLengthOfStr1ContainStr2("faslkdgfk", "kfk"));
+//        System.out.println(NowCoderHigh.minLengthOfStr1ContainStr2New("faslkdgfk", "kfk"));
     }
 }

@@ -1223,6 +1223,13 @@ public class NowCoderHigh {
     }
 
 
+    /**
+     * 我自己想的方法
+     * 字符串1中包含字符串2所有字符的最小字串长度
+     * @param str1 字符串1
+     * @param str2 字符串2
+     * @return 最小长度
+     */
     public static int minLengthOfStr1ContainStr2(String str1, String str2) {
         if (str2 == null || str2.length() == 0) {
             return 0;
@@ -1272,6 +1279,55 @@ public class NowCoderHigh {
 
         }
         return minL == str1.length() ? -1 : minL;
+    }
+    /**
+     * 牛客网老师的方法
+     * 字符串1中包含字符串2所有字符的最小字串长度
+     * @param str1 字符串1
+     * @param str2 字符串2
+     * @return 最小长度
+     */
+    public static int minLengthOfStr1ContainStr2New(String str1, String str2) {
+        if (str2 == null || str2.length() == 0) {
+            return 0;
+        }
+        if (str1 == null || str1.length() == 0) {
+            return -1;
+        }
+
+        // 保存次数
+        int[] charNumArr = new int[128];
+        for (int i = 0; i < str2.length(); i++) {
+            charNumArr[str2.charAt(i)] += 1;
+        }
+
+        char[] ca = str1.toCharArray();
+        int pre = 0;
+        int cur = -1;
+        int minLen = str1.length();
+        // 保存总数
+        int all = str2.length();
+
+        while (true) {
+            if (all == 0) {
+                minLen = Math.min(minLen, cur - pre + 1);
+                charNumArr[ca[pre]] += 1;
+                if (charNumArr[ca[pre]] > 0) {
+                    all++;
+                }
+                pre++;
+            } else {
+                cur++;
+                if (cur >= str1.length()) {
+                    break;
+                }
+                charNumArr[ca[cur]] -= 1;
+                if (charNumArr[ca[cur]] >= 0) {
+                    all--;
+                }
+            }
+        }
+        return minLen == str1.length() ? -1 : minLen;
     }
 }
 
