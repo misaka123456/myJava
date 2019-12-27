@@ -32,6 +32,9 @@ public class Test {
         System.out.println(t1.preOrder());
         System.out.println(t1.postOrder());
 
+        TreeNode<Integer> t2 = TreeNode.buildByLevelArr(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9});
+        System.out.println(t2.preOrder());
+        System.out.println(t2.levelOrder());
 
 
     }

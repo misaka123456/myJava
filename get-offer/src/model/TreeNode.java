@@ -1,9 +1,8 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import sun.reflect.generics.tree.Tree;
+
+import java.util.*;
 
 public class TreeNode<E> {
 
@@ -257,5 +256,28 @@ public class TreeNode<E> {
         return node;
     }
 
+    /**
+     * 根据层序生成二叉树
+     * @param level 层序数组
+     * @return 根节点
+     */
+    @SuppressWarnings("unchecked")
+    public static TreeNode<Integer> buildByLevelArr(int[] level) {
+        if (level == null || level.length == 0) {
+            return null;
+        }
 
+        TreeNode[] arr = new TreeNode[level.length];
+        arr[0] = new TreeNode(level[0]);
+        for (int i = 1; i < level.length; i++) {
+            TreeNode node = new TreeNode(level[i]);
+            if (i % 2 == 1) {
+                arr[(i - 1) >> 1].left = node;
+            } else {
+                arr[(i - 1) >> 1].right = node;
+            }
+            arr[i] = node;
+        }
+        return (TreeNode<Integer>) arr[0];
+    }
 }
