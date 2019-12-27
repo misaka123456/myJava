@@ -1,38 +1,261 @@
 package model;
 
-public class TreeNode {
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Stack;
 
-    private int value;
+public class TreeNode<E> {
+
+    private Object value;
     private TreeNode left;
     private TreeNode right;
 
-    public TreeNode(int value, TreeNode left, TreeNode right) {
+    public TreeNode(E value) {
+        this.value = value;
+    }
+
+    public TreeNode(E value, TreeNode<E> left, TreeNode<E> right) {
         this.value = value;
         this.left = left;
         this.right = right;
     }
 
-    public int getValue() {
-        return value;
+    @SuppressWarnings("unchecked")
+    private TreeNode<E> treeNode(TreeNode n) {
+        return (TreeNode<E>) n;
     }
 
-    public void setValue(int value) {
+    @SuppressWarnings("unchecked")
+    public E getValue() {
+        return (E) value;
+    }
+
+    public void setValue(E value) {
         this.value = value;
     }
 
-    public TreeNode getLeft() {
-        return left;
+    public TreeNode<E> getLeft() {
+        return treeNode(left);
     }
 
-    public void setLeft(TreeNode left) {
+    public void setLeft(TreeNode<E> left) {
         this.left = left;
     }
 
-    public TreeNode getRight() {
-        return right;
+    public TreeNode<E> getRight() {
+        return treeNode(right);
     }
 
-    public void setRight(TreeNode right) {
+    public void setRight(TreeNode<E> right) {
         this.right = right;
     }
+
+    public int deep() {
+        int deep = 0;
+        LinkedList<TreeNode> list = new LinkedList<>();
+        int curCount = 1;
+        int nextCount = 0;
+        list.offer(this);
+        TreeNode node;
+        while (!list.isEmpty()) {
+            deep++;
+            while (curCount > 0) {
+                node = list.poll();
+                curCount--;
+                assert node != null;
+                if (node.left != null) {
+                    list.offer(node.left);
+                    nextCount++;
+                }
+                if (node.right != null) {
+                    list.offer(node.right);
+                    nextCount++;
+                }
+            }
+            curCount = nextCount;
+            nextCount = 0;
+        }
+        return deep;
+    }
+
+    /**
+     * 先序遍历
+     * @return 结果数组
+     */
+    @SuppressWarnings("unchecked")
+    public List<E> preOrder() {
+        List list = new ArrayList<>();
+        TreeNode node = this;
+        Stack<TreeNode> stack = new Stack<>();
+        while (!stack.isEmpty() || node != null) {
+            if (node != null) {
+                list.add(node.value);
+                stack.push(node);
+                node = node.left;
+            } else {
+                node = stack.pop().right;
+            }
+        }
+        return (List<E>) list;
+    }
+
+    /**
+     * 中序遍历
+     * @return 结果数组
+     */
+    @SuppressWarnings("unchecked")
+    public List<E> inOrder() {
+        List list = new ArrayList<>();
+        TreeNode node = this;
+        Stack<TreeNode> stack = new Stack<>();
+        while (!stack.isEmpty() || node != null) {
+            if (node != null) {
+                stack.push(node);
+                node = node.left;
+            } else {
+                node = stack.pop();
+                list.add(node.value);
+                node = node.right;
+            }
+        }
+        return (List<E>) list;
+    }
+
+
+    /**
+     * 后序遍历
+     * @return 结果数组
+     */
+    @SuppressWarnings("unchecked")
+    public List<E> postOrder() {
+        List<Object> list = new ArrayList<>();
+        TreeNode node = this;
+        TreeNode r = null;
+        Stack<TreeNode> stack = new Stack<>();
+        while (!stack.isEmpty() || node != null) {
+            if (node != null) {
+                stack.push(node);
+                node = node.left;
+            } else {
+                node = stack.peek();
+                if (node.right == null || node.right == r) {
+                    list.add(node.getValue());
+                    r = stack.pop();
+                    node = null;
+                } else {
+                    node = node.right;
+                }
+            }
+        }
+        return (List<E>) list;
+    }
+
+    /**
+     * 层序遍历
+     * @return 结果数组
+     */
+    @SuppressWarnings("unchecked")
+    public List<E> levelOrder() {
+        List<Object> out = new ArrayList<>();
+        LinkedList<TreeNode> list = new LinkedList<>();
+        int curCount = 1;
+        int nextCount = 0;
+        list.offer(this);
+        TreeNode node;
+        while (!list.isEmpty()) {
+            while (curCount > 0) {
+                node = list.poll();
+                curCount--;
+                assert node != null;
+                out.add(node.value);
+                if (node.left != null) {
+                    list.offer(node.left);
+                    nextCount++;
+                }
+                if (node.right != null) {
+                    list.offer(node.right);
+                    nextCount++;
+                }
+            }
+            curCount = nextCount;
+            nextCount = 0;
+        }
+        return (List<E>) out;
+    }
+
+
+    /**
+     * 根据先序和中序数组生成二叉树
+     * @param pre 先序数组
+     * @param in 中序数组
+     * @return 根节点
+     * @throws Exception 数组错误，无法生成
+     */
+    public static TreeNode<Integer> buildByPreAndIn(int[] pre, int[] in) throws Exception {
+        if (pre == null || in == null || pre.length != in.length || pre.length == 0) {
+            return null;
+        }
+        return buildByPreAndIn(pre, 0, pre.length - 1, in, 0, in.length - 1);
+    }
+    private static TreeNode<Integer> buildByPreAndIn(int[] pre, int preStart, int preEnd, int[] in, int inStart, int inEnd) throws Exception {
+        if (preStart > preEnd) {
+            return null;
+        }
+        int v = pre[preStart];
+        TreeNode<Integer> node = new TreeNode<>(v);
+        int inIndex = -1;
+        for (int i = inStart; i <= inEnd; i++) {
+            if (v == in[i]) {
+                inIndex = i;
+                node.left = buildByPreAndIn(pre, preStart + 1, preStart + inIndex - inStart,
+                        in, inStart, inIndex - 1);
+                node.right = buildByPreAndIn(pre, preStart + inIndex - inStart + 1, preEnd,
+                        in, inIndex + 1, inEnd);
+                break;
+            }
+        }
+        if (inIndex == -1) {
+            throw new Exception("preArr or inArr is error");
+        }
+        return node;
+    }
+
+    /**
+     * 根据后序和中序数组生成二叉树
+     * @param post 后序数组
+     * @param in 中序数组
+     * @return 根节点
+     * @throws Exception 数组错误，无法生成
+     */
+    public static TreeNode<Integer> buildByPostAndIn(int[] post, int[] in) throws Exception {
+        if (post == null || in == null || post.length != in.length || post.length == 0) {
+            return null;
+        }
+        return buildByPostAndIn(post, 0, post.length - 1, in, 0, in.length - 1);
+    }
+    private static TreeNode<Integer> buildByPostAndIn(int[] post, int postStart, int postEnd, int[] in, int inStart, int inEnd) throws Exception {
+        if (postStart > postEnd) {
+            return null;
+        }
+        int v = post[postEnd];
+        TreeNode<Integer> node = new TreeNode<>(v);
+        int inIndex = -1;
+        for (int i = inStart; i <= inEnd; i++) {
+            if (v == in[i]) {
+                inIndex = i;
+                node.left = buildByPostAndIn(post, postStart, postStart + inIndex - inStart - 1,
+                        in, inStart, inIndex - 1);
+                node.right = buildByPostAndIn(post, postStart + inIndex - inStart, postEnd - 1,
+                        in, inIndex + 1, inEnd);
+                break;
+            }
+        }
+        if (inIndex == -1) {
+            throw new Exception("postArr or inArr is error");
+        }
+        return node;
+    }
+
+
 }

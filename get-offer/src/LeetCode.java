@@ -1,4 +1,6 @@
-import java.util.HashMap;
+import myTools.MyArrayTools;
+
+import java.util.*;
 
 public class LeetCode {
 
@@ -121,6 +123,62 @@ public class LeetCode {
     }
 
 
+    /**
+     * 448. 找到所有数组中消失的数字
+     * 给定一个范围在  1 ≤ a[i] ≤ n ( n = 数组大小 ) 的 整型数组
+     * 数组中的元素一些出现了两次，另一些只出现一次。
+     * 找到所有在 [1, n] 范围之间没有出现在数组中的数字。
+     */
+    public static List<Integer> findDisappearedNumbers(int[] nums) {
+        List<Integer> list = new ArrayList<>();
+        if (nums == null || nums.length == 0) {
+            return list;
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            while (i != nums[i] - 1 && nums[i] != nums[nums[i] - 1]) {
+                MyArrayTools.swap(nums, i, nums[i] - 1);
+            }
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (i != nums[i] - 1) {
+                list.add(i + 1);
+            }
+        }
+        return list;
+    }
+
+
+    public static int partitionDisjoint(int[] A) {
+
+        if (A.length == 2) {
+            return 1;
+        }
+        int max = A[0];
+        int min = A[A.length - 1];
+        int left = 0;
+        int right = A.length - 1;
+        boolean ex = true;
+        while (left < right) {
+            if (ex) {
+                ex = false;
+                if (A[left] > min) {
+                    return left;
+                }
+                max = Math.max(max, A[left]);
+                left++;
+            } else {
+                ex = true;
+                if (A[right] < max) {
+                    return A.length - right;
+                }
+                min = Math.min(min, A[right]);
+                right--;
+            }
+        }
+        return left + 1;
+
+    }
 
 
 

@@ -510,7 +510,7 @@ public class NowCoderHigh {
     /**
      * 获取树的所有路径的和的最大值
      */
-    public static int getRouteMaxSumInTree(TreeNode root) {
+    public static int getRouteMaxSumInTree(TreeNode<Integer> root) {
 
         if (root == null) {
             return Integer.MIN_VALUE;
@@ -522,7 +522,7 @@ public class NowCoderHigh {
      * @param node 根节点
      * @return [最大路径和, 含根节点最大路径和]
      */
-    private static int[] getSumInfoInTree(TreeNode node) {
+    private static int[] getSumInfoInTree(TreeNode<Integer> node) {
         if (node == null) {
             return null;
         }

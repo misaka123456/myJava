@@ -1,87 +1,40 @@
 import model.MyListByArray;
 import model.MyStackByArray;
+import model.TreeNode;
 import myTools.MyArrayTreeTools;
 
 import java.util.*;
 
 public class Test {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
-//        int[] arr = {11, 11, 11, 11, 1, 111, 111, 1, 1, 1, 2, 3, 3};
-//        MyArrayTreeTools.print(arr);
+//        TreeNode t = TreeNode.buildByPreAndIn(new int[]{1, 2, 4, 5, 3, 6, 7}, new int[]{4, 5, 2, 1, 6, 7, 3});
+//        System.out.println(t.preOrder());
+//        System.out.println(t.inOrder());
+
+//        TreeNode<Integer> t7 = new TreeNode<>(7);
+//        TreeNode<Integer> t6 = new TreeNode<>(6);
+//        TreeNode<Integer> t5 = new TreeNode<>(5);
+//        TreeNode<Integer> t4 = new TreeNode<>(4);
+//        TreeNode<Integer> t3 = new TreeNode<>(3, t6, t7);
+//        TreeNode<Integer> t2 = new TreeNode<>(2, t4, t5);
+//        TreeNode<Integer> t1 = new TreeNode<>(1, t2, t3);
+//        System.out.println(t1.preOrder());
+//        System.out.println(t1.inOrder());
+//        System.out.println(t1.levelOrder());
 //
-//       String[] arr1 = {"1213", "234df", "akdsjg", "ds", "s", "adsfh", "ajfdsgadg", "s", "s"};
-//        MyArrayTreeTools.print(arr1);
+        TreeNode t = TreeNode.buildByPreAndIn(new int[]{1,2,4,8,5,3,6,9,7}, new int[]{4,8,2,5,1,9,6,3,7});
+        System.out.println(t.preOrder());
+        System.out.println(t.inOrder());
 
-
-//        MyStackByArray<Integer> arr = new MyStackByArray<>(10);
-//        arr.push(1);
-//        arr.push(2);
-//        arr.push(3);
-//        arr.push(4);
-//        arr.push(5);
-//        arr.push(6);
-//        System.out.println(arr);
-//        System.out.println(arr.pop());
-//        System.out.println(arr);
-
-
-//        MyListByArray<Integer> arr = new MyListByArray<>(10);
-//        arr.push(1);
-//        arr.push(2);
-//        arr.push(3);
-//        arr.push(4);
-//        arr.push(5);
-//        arr.push(6);
-//        arr.push(7);
-//        System.out.println(arr);
-//        System.out.println(arr.pop());
-//        System.out.println(arr.pop());
-//        System.out.println(arr.pop());
-//        System.out.println(arr.pop());
-//        arr.push(8);
-//        arr.push(9);
-//        arr.push(11);
-//        arr.push(12);
-//        arr.push(12);
-//        arr.push(13);
-//        arr.push(15);
-//        System.out.println(arr);
-
-
-        TreeMap<Integer, Integer> tm = new TreeMap<>(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return o2 - o1;
-            }
-        });
-
-        tm.put(1, 1);
-        tm.put(2, 2);
-
-        System.out.println(tm);
-
-
-        TreeSet<Integer> ts = new TreeSet<>();
-        ts.add(1);
-        ts.add(2);
-        ts.add(3);
-        System.out.println(ts);
-
-//        HashMap<Integer, Integer> hm = new HashMap<>();
-
-
-        Iterator<Integer> it = ts.iterator();
-        while (it.hasNext()) {
-            System.out.println(it.next());
-        }
-
-
-        LinkedList<Integer> ll = new LinkedList<>();
+        TreeNode t1 = TreeNode.buildByPostAndIn(new int[]{8,4,5,2,9,6,7,3,1}, new int[]{4,8,2,5,1,9,6,3,7});
+        System.out.println(t1.preOrder());
+        System.out.println(t1.postOrder());
 
 
 
     }
-
 }
+
+
