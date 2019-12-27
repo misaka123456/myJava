@@ -1,7 +1,5 @@
 package model;
 
-import sun.reflect.generics.tree.Tree;
-
 import java.util.*;
 
 public class TreeNode<E> {
@@ -50,6 +48,9 @@ public class TreeNode<E> {
         this.right = right;
     }
 
+    /**
+     * 通过层序遍历获取深度
+     */
     public int deep() {
         int deep = 0;
         LinkedList<TreeNode> list = new LinkedList<>();
@@ -78,13 +79,17 @@ public class TreeNode<E> {
         return deep;
     }
 
+    @SuppressWarnings("unchecked")
+    private List<E> nodeList(List arr) {
+        return (List<E>) arr;
+    }
+
     /**
      * 先序遍历
      * @return 结果数组
      */
-    @SuppressWarnings("unchecked")
     public List<E> preOrder() {
-        List list = new ArrayList<>();
+        List<Object> list = new ArrayList<>();
         TreeNode node = this;
         Stack<TreeNode> stack = new Stack<>();
         while (!stack.isEmpty() || node != null) {
@@ -96,16 +101,15 @@ public class TreeNode<E> {
                 node = stack.pop().right;
             }
         }
-        return (List<E>) list;
+        return  nodeList(list);
     }
 
     /**
      * 中序遍历
      * @return 结果数组
      */
-    @SuppressWarnings("unchecked")
     public List<E> inOrder() {
-        List list = new ArrayList<>();
+        List<Object> list = new ArrayList<>();
         TreeNode node = this;
         Stack<TreeNode> stack = new Stack<>();
         while (!stack.isEmpty() || node != null) {
@@ -114,11 +118,11 @@ public class TreeNode<E> {
                 node = node.left;
             } else {
                 node = stack.pop();
-                list.add(node.value);
+                list.add(node.getValue());
                 node = node.right;
             }
         }
-        return (List<E>) list;
+        return  nodeList(list);
     }
 
 
@@ -126,7 +130,6 @@ public class TreeNode<E> {
      * 后序遍历
      * @return 结果数组
      */
-    @SuppressWarnings("unchecked")
     public List<E> postOrder() {
         List<Object> list = new ArrayList<>();
         TreeNode node = this;
@@ -147,14 +150,13 @@ public class TreeNode<E> {
                 }
             }
         }
-        return (List<E>) list;
+        return nodeList(list);
     }
 
     /**
      * 层序遍历
      * @return 结果数组
      */
-    @SuppressWarnings("unchecked")
     public List<E> levelOrder() {
         List<Object> out = new ArrayList<>();
         LinkedList<TreeNode> list = new LinkedList<>();
@@ -180,9 +182,8 @@ public class TreeNode<E> {
             curCount = nextCount;
             nextCount = 0;
         }
-        return (List<E>) out;
+        return nodeList(out);
     }
-
 
     /**
      * 根据先序和中序数组生成二叉树
@@ -256,21 +257,28 @@ public class TreeNode<E> {
         return node;
     }
 
+    @SuppressWarnings("unchecked")
+    private static TreeNode<Integer> intNode(TreeNode node) {
+        return (TreeNode<Integer>) node;
+    }
+    @SuppressWarnings("unchecked")
+    private static TreeNode<Integer>[] tnArr(TreeNode[] arr) {
+        return (TreeNode<Integer>[]) arr;
+    }
+
     /**
      * 根据层序生成二叉树
      * @param level 层序数组
      * @return 根节点
      */
-    @SuppressWarnings("unchecked")
     public static TreeNode<Integer> buildByLevelArr(int[] level) {
         if (level == null || level.length == 0) {
             return null;
         }
-
         TreeNode[] arr = new TreeNode[level.length];
-        arr[0] = new TreeNode(level[0]);
+        arr[0] = intNode(new TreeNode<>(level[0]));
         for (int i = 1; i < level.length; i++) {
-            TreeNode node = new TreeNode(level[i]);
+            TreeNode node = intNode(new TreeNode<>(level[i]));
             if (i % 2 == 1) {
                 arr[(i - 1) >> 1].left = node;
             } else {
@@ -278,6 +286,7 @@ public class TreeNode<E> {
             }
             arr[i] = node;
         }
-        return (TreeNode<Integer>) arr[0];
+        return intNode(arr[0]);
     }
+
 }
