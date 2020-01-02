@@ -1,22 +1,21 @@
+import model.TreeNode;
+
+import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 public class Test {
 
 
     public static void main(String[] args) throws Exception {
 
-        TreeMap<Integer, Integer> map = new TreeMap<>();
-        map.put(1, 1);
-        map.put(2, 1);
-        map.put(4, 1);
-        map.put(3, 1);
-        System.out.println(map.keySet());
+        TreeNode<Integer> root = TreeNode.buildByLevelOrder(new Integer[]{1,2,3,4,5,6,7,8,9,0});
+        System.out.println(root.isFull());
+        System.out.println(root.isComplete());
+
 
 
     }
-
 
 }
 

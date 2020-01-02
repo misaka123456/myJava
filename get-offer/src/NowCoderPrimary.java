@@ -26,7 +26,7 @@ public class NowCoderPrimary {
         int i = 0;
         while (l <= mid && r <= end) {
             if (arr[l] < arr[r]) {
-                count++;
+                count += (end - r + 1);
                 newArr[i++] = arr[l++];
             } else {
                 newArr[i++] = arr[r++];

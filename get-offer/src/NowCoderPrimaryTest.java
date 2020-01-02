@@ -4,7 +4,7 @@ public class NowCoderPrimaryTest {
 
     public static void main(String[] args) {
 
-//        System.out.println(NowCoderPrimary.minNumSum(new int[]{1, 3, 4, 2, 5}));
+        System.out.println(NowCoderPrimary.minNumCount(new int[]{1, 3, 4, 2, 5}));
 
 
 //        int[] arr = new int[]{2,6,7,3,5,8,3,9,2};

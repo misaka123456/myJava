@@ -48,6 +48,61 @@ public class TreeNode<E> {
         this.right = right;
     }
 
+    public boolean isLeaf() {
+        return this.left == null && this.right == null;
+    }
+
+    /**
+     * 判断是否是完全二叉树
+     */
+    public boolean isComplete() {
+        TreeNode root;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(this);
+        boolean flag = false;
+        while (!queue.isEmpty()) {
+            root = queue.poll();
+            if (root == null) {
+                flag = true;
+                continue;
+            }
+            if (flag) {
+                return false;
+            }
+            queue.offer(root.left);
+            queue.offer(root.right);
+        }
+        return true;
+    }
+
+    /**
+     * 通过层序遍历判断是否是满二叉树
+     */
+    public boolean isFull() {
+        Queue<TreeNode> queue = new LinkedList<>();
+        int n = 0;
+        queue.offer(this);
+        TreeNode node;
+        boolean flag = false;
+        while (!queue.isEmpty()) {
+            node = queue.poll();
+            if (node == null) {
+                if (!flag && (n & (n + 1)) != 0) {
+                    return false;
+                }
+                flag = true;
+                continue;
+            }
+            if (flag) {
+                return false;
+            }
+            n++;
+            queue.offer(node.left);
+            queue.offer(node.right);
+        }
+        return true;
+    }
+
     /**
      * 通过层序遍历获取深度
      */
@@ -60,9 +115,8 @@ public class TreeNode<E> {
         TreeNode node;
         while (!list.isEmpty()) {
             deep++;
-            while (curCount > 0) {
+            while (curCount-- > 0) {
                 node = list.poll();
-                curCount--;
                 assert node != null;
                 if (node.left != null) {
                     list.offer(node.left);
@@ -77,6 +131,25 @@ public class TreeNode<E> {
             nextCount = 0;
         }
         return deep;
+    }
+
+    /**
+     * 获取树的节点总数
+     */
+    public int nodeCount() {
+        TreeNode node = this;
+        Stack<TreeNode> stack = new Stack<>();
+        int count = 0;
+        while (!stack.isEmpty() || node != null) {
+            if (node != null) {
+                count++;
+                stack.push(node);
+                node = node.left;
+            } else {
+                node = stack.pop().right;
+            }
+        }
+        return count;
     }
 
     @SuppressWarnings("unchecked")
@@ -192,13 +265,13 @@ public class TreeNode<E> {
      * @return 根节点
      * @throws Exception 数组错误，无法生成
      */
-    public static TreeNode<Integer> buildByPreAndIn(int[] pre, int[] in) throws Exception {
+    public static TreeNode<Integer> buildByPreAndInOrder(int[] pre, int[] in) throws Exception {
         if (pre == null || in == null || pre.length != in.length || pre.length == 0) {
             return null;
         }
-        return buildByPreAndIn(pre, 0, pre.length - 1, in, 0, in.length - 1);
+        return buildByPreAndInOrder(pre, 0, pre.length - 1, in, 0, in.length - 1);
     }
-    private static TreeNode<Integer> buildByPreAndIn(int[] pre, int preStart, int preEnd, int[] in, int inStart, int inEnd) throws Exception {
+    private static TreeNode<Integer> buildByPreAndInOrder(int[] pre, int preStart, int preEnd, int[] in, int inStart, int inEnd) throws Exception {
         if (preStart > preEnd) {
             return null;
         }
@@ -208,9 +281,9 @@ public class TreeNode<E> {
         for (int i = inStart; i <= inEnd; i++) {
             if (v == in[i]) {
                 inIndex = i;
-                node.left = buildByPreAndIn(pre, preStart + 1, preStart + inIndex - inStart,
+                node.left = buildByPreAndInOrder(pre, preStart + 1, preStart + inIndex - inStart,
                         in, inStart, inIndex - 1);
-                node.right = buildByPreAndIn(pre, preStart + inIndex - inStart + 1, preEnd,
+                node.right = buildByPreAndInOrder(pre, preStart + inIndex - inStart + 1, preEnd,
                         in, inIndex + 1, inEnd);
                 break;
             }
@@ -228,13 +301,13 @@ public class TreeNode<E> {
      * @return 根节点
      * @throws Exception 数组错误，无法生成
      */
-    public static TreeNode<Integer> buildByPostAndIn(int[] post, int[] in) throws Exception {
+    public static TreeNode<Integer> buildByPostAndInOrder(int[] post, int[] in) throws Exception {
         if (post == null || in == null || post.length != in.length || post.length == 0) {
             return null;
         }
-        return buildByPostAndIn(post, 0, post.length - 1, in, 0, in.length - 1);
+        return buildByPostAndInOrder(post, 0, post.length - 1, in, 0, in.length - 1);
     }
-    private static TreeNode<Integer> buildByPostAndIn(int[] post, int postStart, int postEnd, int[] in, int inStart, int inEnd) throws Exception {
+    private static TreeNode<Integer> buildByPostAndInOrder(int[] post, int postStart, int postEnd, int[] in, int inStart, int inEnd) throws Exception {
         if (postStart > postEnd) {
             return null;
         }
@@ -244,9 +317,9 @@ public class TreeNode<E> {
         for (int i = inStart; i <= inEnd; i++) {
             if (v == in[i]) {
                 inIndex = i;
-                node.left = buildByPostAndIn(post, postStart, postStart + inIndex - inStart - 1,
+                node.left = buildByPostAndInOrder(post, postStart, postStart + inIndex - inStart - 1,
                         in, inStart, inIndex - 1);
-                node.right = buildByPostAndIn(post, postStart + inIndex - inStart, postEnd - 1,
+                node.right = buildByPostAndInOrder(post, postStart + inIndex - inStart, postEnd - 1,
                         in, inIndex + 1, inEnd);
                 break;
             }
@@ -261,17 +334,13 @@ public class TreeNode<E> {
     private static TreeNode<Integer> intNode(TreeNode node) {
         return (TreeNode<Integer>) node;
     }
-    @SuppressWarnings("unchecked")
-    private static TreeNode<Integer>[] tnArr(TreeNode[] arr) {
-        return (TreeNode<Integer>[]) arr;
-    }
 
     /**
      * 根据层序生成二叉树
      * @param level 层序数组
      * @return 根节点
      */
-    public static TreeNode<Integer> buildByLevelArr(int[] level) {
+    public static TreeNode<Integer> buildByLevelOrder(int[] level) {
         if (level == null || level.length == 0) {
             return null;
         }
@@ -288,5 +357,48 @@ public class TreeNode<E> {
         }
         return intNode(arr[0]);
     }
+
+    /**
+     * 根据层序生成二叉树(允许出现null)
+     * @param level 层序数组
+     * @return 根节点
+     */
+    public static TreeNode<Integer> buildByLevelOrder(Integer[] level) {
+        if (level == null || level.length == 0) {
+            return null;
+        }
+        TreeNode root = intNode(new TreeNode<>(level[0]));
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        TreeNode f;
+        int i = 1;
+        Integer temp;
+        while (i < level.length) {
+            f = queue.poll();
+            if (f == null) {
+                throw new NullPointerException("arr is error of null!");
+            }
+            temp = level[i++];
+            if (temp != null) {
+                TreeNode l = intNode(new TreeNode<>(temp));
+                queue.offer(l);
+                f.left = l;
+            }
+            if (i == level.length) {
+                break;
+            }
+            temp = level[i++];
+            if (temp != null) {
+                TreeNode r = intNode(new TreeNode<>(temp));
+                queue.offer(r);
+                f.right = r;
+            }
+        }
+        return intNode(root);
+    }
+
+
+
+
 
 }
