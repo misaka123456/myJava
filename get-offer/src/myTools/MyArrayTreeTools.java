@@ -4,7 +4,6 @@ public class MyArrayTreeTools {
 
     /**
      * 数组树接口打印
-     * @param arr
      */
     public static void print(int[] arr) {
         if (arr == null || arr.length == 0) {
@@ -19,7 +18,6 @@ public class MyArrayTreeTools {
     }
     /**
      * 数组树接口打印
-     * @param arr
      */
     public static void print(char[] arr) {
         if (arr == null || arr.length == 0) {
@@ -34,7 +32,6 @@ public class MyArrayTreeTools {
     }
     /**
      * 数组树接口打印
-     * @param arr
      */
     public static void print(Object[] arr) {
         if (arr == null || arr.length == 0) {
@@ -49,7 +46,6 @@ public class MyArrayTreeTools {
     }
     /**
      * 数组树接口打印
-     * @param arr
      */
     public static void print(String[] arr) {
 
@@ -101,8 +97,6 @@ public class MyArrayTreeTools {
 
     /**
      * 数组树结构求父节点
-     * @param child
-     * @return
      */
     private static int father(int child) {
         if (child == 0) {
@@ -113,8 +107,6 @@ public class MyArrayTreeTools {
 
     /**
      * 数组树结构求深度
-     * @param length
-     * @return
      */
     private static int deep(int length) {
         int d = 0;
@@ -126,8 +118,6 @@ public class MyArrayTreeTools {
 
     /**
      * 数组每个元素的长度
-     * @param arr
-     * @return
      */
     private static int[] getLenArr(String[] arr) {
         int[] lenArr = new int[arr.length];
@@ -139,8 +129,6 @@ public class MyArrayTreeTools {
 
     /**
      * 数组中最大长度元素的长度
-     * @param arr
-     * @return
      */
     private static int getMaxLenOfElem(String[] arr) {
         int maxLen = 1;
@@ -155,9 +143,6 @@ public class MyArrayTreeTools {
 
     /**
      * 数组每个元素相同长度时需要不全的空格数
-     * @param arr
-     * @param maxLen
-     * @return
      */
     private static int[] getBlankCount(String[] arr, int maxLen) {
         int[] blankArr = new int[arr.length];
