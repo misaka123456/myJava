@@ -1,10 +1,3 @@
-
-import model.ListNode;
-import model.TreeNode;
-
-import java.util.Arrays;
-import java.util.Random;
-
 public class OfferTest {
 
 
@@ -83,33 +76,33 @@ public class OfferTest {
 //        System.out.println(Offer.findNotRepeatingChar("abaccdeff"));
 //        System.out.println(Offer.findNotRepeatingChar("asdgadfgdafhgfgsadgfadgasdgasdf"));
 
-//        ListNode nodeA6 = new ListNode(6, null);
-//        ListNode nodeA5 = new ListNode(5, nodeA6);
-//        ListNode nodeA4 = new ListNode(4, nodeA5);
-//        ListNode nodeA3 = new ListNode(3, nodeA4);
-//        ListNode nodeA2 = new ListNode(2, nodeA3);
-//        ListNode nodeA1 = new ListNode(1, nodeA2);
-//        ListNode nodeB2 = new ListNode(2, nodeA5);
-//        ListNode nodeB1 = new ListNode(1, nodeB2);
+//        LinkedNode nodeA6 = new LinkedNode(6, null);
+//        LinkedNode nodeA5 = new LinkedNode(5, nodeA6);
+//        LinkedNode nodeA4 = new LinkedNode(4, nodeA5);
+//        LinkedNode nodeA3 = new LinkedNode(3, nodeA4);
+//        LinkedNode nodeA2 = new LinkedNode(2, nodeA3);
+//        LinkedNode nodeA1 = new LinkedNode(1, nodeA2);
+//        LinkedNode nodeB2 = new LinkedNode(2, nodeA5);
+//        LinkedNode nodeB1 = new LinkedNode(1, nodeB2);
 //        System.out.println(Offer.findFirstCommonNode(nodeA1, nodeB1).getValue());
 
-//        ListNode node5 = new ListNode(5, null);
-//        ListNode node4 = new ListNode(4, node5);
-//        ListNode node3 = new ListNode(3, node4);
-//        ListNode node2 = new ListNode(2, node3);
-//        ListNode head = new ListNode(1, node2);
+//        LinkedNode node5 = new LinkedNode(5, null);
+//        LinkedNode node4 = new LinkedNode(4, node5);
+//        LinkedNode node3 = new LinkedNode(3, node4);
+//        LinkedNode node2 = new LinkedNode(2, node3);
+//        LinkedNode head = new LinkedNode(1, node2);
 //        System.out.println(Offer.findKToTail(head, 0));
 //        System.out.println(Offer.findKToTail(head, 1).getValue());
 //        System.out.println(Offer.findKToTail(head, 5).getValue());
 //        System.out.println(Offer.findKToTail(head, 6));
 
-//        ListNode node6 = new ListNode(6, null);
-//        ListNode node5 = new ListNode(5, node6);
-//        ListNode node4 = new ListNode(4, node5);
-//        ListNode node3 = new ListNode(3, node4);
-//        ListNode node2 = new ListNode(2, node3);
-//        ListNode node1 = new ListNode(1, node2);
-//        ListNode head = new ListNode(0, node1);
+//        LinkedNode node6 = new LinkedNode(6, null);
+//        LinkedNode node5 = new LinkedNode(5, node6);
+//        LinkedNode node4 = new LinkedNode(4, node5);
+//        LinkedNode node3 = new LinkedNode(3, node4);
+//        LinkedNode node2 = new LinkedNode(2, node3);
+//        LinkedNode node1 = new LinkedNode(1, node2);
+//        LinkedNode head = new LinkedNode(0, node1);
 //        node6.setNext(head);
 //        System.out.println(Offer.entryNodeOfLoop(head).getValue());
 //        node6.setNext(node3);

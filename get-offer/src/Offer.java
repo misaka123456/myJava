@@ -1,6 +1,5 @@
 
-import model.ListNode;
-import model.TreeNode;
+import model.LinkedNode;
 
 import java.util.*;
 
@@ -635,28 +634,28 @@ public class Offer {
 
     /**
      * p253 面试题52 两个链表的第一个公共节点
-     * @param listNode1 链表1
-     * @param listNode2 链表2
+     * @param linkedNode1 链表1
+     * @param linkedNode2 链表2
      * @return 公共节点
      */
-    public static ListNode findFirstCommonNode(ListNode listNode1, ListNode listNode2) {
-        if (listNode1 == null || listNode2 == null) {
+    public static LinkedNode findFirstCommonNode(LinkedNode linkedNode1, LinkedNode linkedNode2) {
+        if (linkedNode1 == null || linkedNode2 == null) {
             return null;
         }
 
         // 得到2个链表的长度
-        int list1Length = getListNodeLength(listNode1);
-        int list2Length = getListNodeLength(listNode2);
+        int list1Length = getListNodeLength(linkedNode1);
+        int list2Length = getListNodeLength(linkedNode2);
         int listLengthDif = list1Length - list2Length;
 
-        ListNode nodeLong;
-        ListNode nodeShort;
+        LinkedNode nodeLong;
+        LinkedNode nodeShort;
         if (list1Length > 0) {
-            nodeLong = listNode1;
-            nodeShort = listNode2;
+            nodeLong = linkedNode1;
+            nodeShort = linkedNode2;
         } else {
-            nodeLong = listNode2;
-            nodeShort = listNode1;
+            nodeLong = linkedNode2;
+            nodeShort = linkedNode1;
         }
         // 长的先走几步，保持同步
         for (int i = 0; i < listLengthDif; i++) {
@@ -672,14 +671,14 @@ public class Offer {
     }
     /**
      * 获取链表长度
-     * @param listNode 链表
+     * @param linkedNode 链表
      * @return 长度
      */
-    private static int getListNodeLength(ListNode listNode) {
+    private static int getListNodeLength(LinkedNode linkedNode) {
         int length = 0;
-        while (listNode != null) {
+        while (linkedNode != null) {
             length++;
-            listNode = listNode.getNext();
+            linkedNode = linkedNode.getNext();
         }
         return length;
     }
@@ -691,14 +690,14 @@ public class Offer {
      * @param k k
      * @return 倒数第k个节点
      */
-    public static ListNode findKToTail(ListNode head, int k) {
+    public static LinkedNode findKToTail(LinkedNode head, int k) {
 
         if (head == null || k <= 0) {
             return null;
         }
 
-        ListNode node = head;
-        ListNode nodeK = null;
+        LinkedNode node = head;
+        LinkedNode nodeK = null;
         // 先遍历k次
         while (node != null) {
             if (k-- == 0) {
@@ -724,17 +723,17 @@ public class Offer {
      * @param head 链表头结点
      * @return 入口节点
      */
-    public static ListNode entryNodeOfLoop(ListNode head) {
+    public static LinkedNode entryNodeOfLoop(LinkedNode head) {
 
         // 获取环中某个节点
-        ListNode meetingNode = getOneMeetingNode(head);
+        LinkedNode meetingNode = getOneMeetingNode(head);
         if (meetingNode == null) {
             return null;
         }
 
         // 计算环的长度
         int length = 1;
-        ListNode node = meetingNode.getNext();
+        LinkedNode node = meetingNode.getNext();
         while (node != meetingNode) {
             length++;
             node = node.getNext();
@@ -745,7 +744,7 @@ public class Offer {
             length--;
             node = node.getNext();
         }
-        ListNode entryNode = head;
+        LinkedNode entryNode = head;
         while (entryNode != node) {
             entryNode = entryNode.getNext();
             node = node.getNext();
@@ -757,13 +756,13 @@ public class Offer {
      * @param head 链表头结点
      * @return 环中节点
      */
-    private static ListNode getOneMeetingNode(ListNode head) {
+    private static LinkedNode getOneMeetingNode(LinkedNode head) {
         if (head == null) {
             return null;
         }
 
-        ListNode nodeFast = head;
-        ListNode nodeSlow = head;
+        LinkedNode nodeFast = head;
+        LinkedNode nodeSlow = head;
 
         while (nodeFast != null) {
             nodeFast = nodeFast.getNext();

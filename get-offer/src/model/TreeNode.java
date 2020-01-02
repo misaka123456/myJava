@@ -1,5 +1,7 @@
 package model;
 
+import myTools.MyArrayTools;
+
 import java.util.*;
 
 public class TreeNode<E> {
@@ -7,6 +9,9 @@ public class TreeNode<E> {
     private Object value;
     private TreeNode left;
     private TreeNode right;
+
+    public TreeNode() {
+    }
 
     public TreeNode(E value) {
         this.value = value;
@@ -331,48 +336,25 @@ public class TreeNode<E> {
     }
 
     @SuppressWarnings("unchecked")
-    private static TreeNode<Integer> intNode(TreeNode node) {
-        return (TreeNode<Integer>) node;
-    }
-
-    /**
-     * 根据层序生成二叉树
-     * @param level 层序数组
-     * @return 根节点
-     */
-    public static TreeNode<Integer> buildByLevelOrder(int[] level) {
-        if (level == null || level.length == 0) {
-            return null;
-        }
-        TreeNode[] arr = new TreeNode[level.length];
-        arr[0] = intNode(new TreeNode<>(level[0]));
-        for (int i = 1; i < level.length; i++) {
-            TreeNode node = intNode(new TreeNode<>(level[i]));
-            if (i % 2 == 1) {
-                arr[(i - 1) >> 1].left = node;
-            } else {
-                arr[(i - 1) >> 1].right = node;
-            }
-            arr[i] = node;
-        }
-        return intNode(arr[0]);
+    private static <E> TreeNode<E> elementNode(TreeNode node) {
+        return (TreeNode<E>) node;
     }
 
     /**
      * 根据层序生成二叉树(允许出现null)
-     * @param level 层序数组
+     * @param level 任意对象数组
      * @return 根节点
      */
-    public static TreeNode<Integer> buildByLevelOrder(Integer[] level) {
+    public static <E> TreeNode<E> buildByLevelOrder(E[] level) {
         if (level == null || level.length == 0) {
             return null;
         }
-        TreeNode root = intNode(new TreeNode<>(level[0]));
+        TreeNode<E> root = new TreeNode<>(level[0]);
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
         TreeNode f;
         int i = 1;
-        Integer temp;
+        E temp;
         while (i < level.length) {
             f = queue.poll();
             if (f == null) {
@@ -380,7 +362,7 @@ public class TreeNode<E> {
             }
             temp = level[i++];
             if (temp != null) {
-                TreeNode l = intNode(new TreeNode<>(temp));
+                TreeNode l = new TreeNode<>(temp);
                 queue.offer(l);
                 f.left = l;
             }
@@ -389,13 +371,36 @@ public class TreeNode<E> {
             }
             temp = level[i++];
             if (temp != null) {
-                TreeNode r = intNode(new TreeNode<>(temp));
+                TreeNode r = new TreeNode<>(temp);
                 queue.offer(r);
                 f.right = r;
             }
         }
-        return intNode(root);
+        return root;
     }
+
+    /**
+     * 根据层序生成二叉树(允许出现null)
+     * @param c Collection类对象
+     * @return 根节点
+     */
+    public static <E> TreeNode<E> buildByLevelOrder(Collection<E> c) {
+        return elementNode(buildByLevelOrder(c.toArray(new Object[0])));
+    }
+
+    /**
+     * 根据层序生成二叉树（int类型，没有null）
+     * @param level int数组
+     * @return 根节点
+     */
+    public static TreeNode<Integer> buildByLevelOrder(int[] level) {
+        if (level == null || level.length == 0) {
+            return null;
+        }
+        return buildByLevelOrder(MyArrayTools.intToInteger(level));
+    }
+
+
 
 
 
