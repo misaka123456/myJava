@@ -1,3 +1,4 @@
+import com.sun.org.apache.xerces.internal.xs.datatypes.ObjectList;
 import model.LinkedNode;
 import model.TreeNode;
 import myTools.MyArrayTools;
@@ -14,17 +15,11 @@ public class Test {
     public static void main(String[] args) throws Exception {
 
 
-        int[] arr1 = {0,9,8,7,6,5,4,3,2,1};
+        int[] arr1 = {0,9,8,7,2,3,4,7,5,6,33,45,12,35,43,67,1,23,12,23,6,5,4,3,2,1};
         int[] arr2 = {0,9,8,7,6,5,4,3,2,1};
 
-        MyArrayTools.sortByMerge(arr1);
+        MyArrayTools.sortByQuick(arr1);
         System.out.println(Arrays.toString(arr1));
-        MyArrayTools.sortByQuick(arr2);
-        System.out.println(MyArrayTools.compare(arr2, arr1));
-
-
-        System.out.println(((Comparable<String>) "123").compareTo("133"));
-
 
     }
 

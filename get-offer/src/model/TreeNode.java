@@ -1,5 +1,6 @@
 package model;
 
+import com.sun.istack.internal.NotNull;
 import myTools.MyArrayTools;
 
 import java.util.*;
@@ -270,8 +271,8 @@ public class TreeNode<E> {
      * @return 根节点
      * @throws Exception 数组错误，无法生成
      */
-    public static TreeNode<Integer> buildByPreAndInOrder(int[] pre, int[] in) throws Exception {
-        if (pre == null || in == null || pre.length != in.length || pre.length == 0) {
+    public static TreeNode<Integer> buildByPreAndInOrder(@NotNull int[] pre, @NotNull int[] in) throws Exception {
+        if (pre.length != in.length || pre.length == 0) {
             return null;
         }
         return buildByPreAndInOrder(pre, 0, pre.length - 1, in, 0, in.length - 1);
@@ -306,8 +307,8 @@ public class TreeNode<E> {
      * @return 根节点
      * @throws Exception 数组错误，无法生成
      */
-    public static TreeNode<Integer> buildByPostAndInOrder(int[] post, int[] in) throws Exception {
-        if (post == null || in == null || post.length != in.length || post.length == 0) {
+    public static TreeNode<Integer> buildByPostAndInOrder(@NotNull int[] post, @NotNull int[] in) throws Exception {
+        if (post.length != in.length || post.length == 0) {
             return null;
         }
         return buildByPostAndInOrder(post, 0, post.length - 1, in, 0, in.length - 1);
@@ -345,8 +346,8 @@ public class TreeNode<E> {
      * @param level 任意对象数组
      * @return 根节点
      */
-    public static <E> TreeNode<E> buildByLevelOrder(E[] level) {
-        if (level == null || level.length == 0) {
+    public static <E> TreeNode<E> buildByLevelOrder(@NotNull E[] level) {
+        if (level.length == 0) {
             return null;
         }
         TreeNode<E> root = new TreeNode<>(level[0]);
@@ -384,7 +385,7 @@ public class TreeNode<E> {
      * @param c Collection类对象
      * @return 根节点
      */
-    public static <E> TreeNode<E> buildByLevelOrder(Collection<? extends E> c) {
+    public static <E> TreeNode<E> buildByLevelOrder(@NotNull Collection<? extends E> c) {
         return elementNode(buildByLevelOrder(c.toArray(new Object[0])));
     }
 
@@ -393,7 +394,7 @@ public class TreeNode<E> {
      * @param level int数组
      * @return 根节点
      */
-    public static TreeNode<Integer> buildByLevelOrder(int[] level) {
+    public static TreeNode<Integer> buildByLevelOrder(@NotNull int[] level) {
         if (level == null || level.length == 0) {
             return null;
         }
