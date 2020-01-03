@@ -384,7 +384,7 @@ public class TreeNode<E> {
      * @param c Collection类对象
      * @return 根节点
      */
-    public static <E> TreeNode<E> buildByLevelOrder(Collection<E> c) {
+    public static <E> TreeNode<E> buildByLevelOrder(Collection<? extends E> c) {
         return elementNode(buildByLevelOrder(c.toArray(new Object[0])));
     }
 
