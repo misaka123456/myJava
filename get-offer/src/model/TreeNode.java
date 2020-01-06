@@ -204,7 +204,6 @@ public class TreeNode<E> {
         return  nodeList(list);
     }
 
-
     /**
      * 后序遍历
      * @return 结果数组
@@ -239,27 +238,17 @@ public class TreeNode<E> {
     public List<E> levelOrder() {
         List<Object> out = new ArrayList<>();
         LinkedList<TreeNode> list = new LinkedList<>();
-        int curCount = 1;
-        int nextCount = 0;
         list.offer(this);
         TreeNode node;
         while (!list.isEmpty()) {
-            while (curCount > 0) {
-                node = list.poll();
-                curCount--;
-                assert node != null;
-                out.add(node.value);
-                if (node.left != null) {
-                    list.offer(node.left);
-                    nextCount++;
-                }
-                if (node.right != null) {
-                    list.offer(node.right);
-                    nextCount++;
-                }
+            node = list.poll();
+            out.add(node.value);
+            if (node.left != null) {
+                list.offer(node.left);
             }
-            curCount = nextCount;
-            nextCount = 0;
+            if (node.right != null) {
+                list.offer(node.right);
+            }
         }
         return nodeList(out);
     }
@@ -277,7 +266,8 @@ public class TreeNode<E> {
         }
         return buildByPreAndInOrder(pre, 0, pre.length - 1, in, 0, in.length - 1);
     }
-    private static TreeNode<Integer> buildByPreAndInOrder(int[] pre, int preStart, int preEnd, int[] in, int inStart, int inEnd) throws Exception {
+    private static TreeNode<Integer> buildByPreAndInOrder(int[] pre, int preStart, int preEnd,
+                                                          int[] in, int inStart, int inEnd) throws Exception {
         if (preStart > preEnd) {
             return null;
         }
@@ -311,9 +301,11 @@ public class TreeNode<E> {
         if (post.length != in.length || post.length == 0) {
             return null;
         }
-        return buildByPostAndInOrder(post, 0, post.length - 1, in, 0, in.length - 1);
+        return buildByPostAndInOrder(post, 0, post.length - 1,
+                in, 0, in.length - 1);
     }
-    private static TreeNode<Integer> buildByPostAndInOrder(int[] post, int postStart, int postEnd, int[] in, int inStart, int inEnd) throws Exception {
+    private static TreeNode<Integer> buildByPostAndInOrder(int[] post, int postStart,
+                                                           int postEnd, int[] in, int inStart, int inEnd) throws Exception {
         if (postStart > postEnd) {
             return null;
         }

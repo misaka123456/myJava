@@ -19,21 +19,16 @@ public class AtomicLongTest {
         System.out.println(ai.compareAndSet(0, 10));
         System.out.println(ai);
 
-        ai.getAndUpdate(new IntUnaryOperator() {
-            @Override
-            public int applyAsInt(int operand) {
-                System.out.println(operand);
-                return operand + 1;
-            }
+
+        ai.getAndUpdate(operand -> {
+            System.out.println(operand);
+            return operand + 1;
         });
         System.out.println(ai);
         System.out.println("----------");
-        ai.updateAndGet(new IntUnaryOperator() {
-            @Override
-            public int applyAsInt(int operand) {
-                System.out.println(operand);
-                return operand + 1;
-            }
+        ai.updateAndGet(operand -> {
+            System.out.println(operand);
+            return operand + 1;
         });
         System.out.println(ai);
 

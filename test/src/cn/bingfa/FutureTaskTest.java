@@ -21,46 +21,47 @@ public class FutureTaskTest {
         // 等待线程 T1 执行结果
         System.out.println(ft1.get());
     }
-}
 
-class T1Task implements Callable<String> {
+    static class T1Task implements Callable<String> {
 
-    FutureTask<String> ft2;
+        FutureTask<String> ft2;
 
-    T1Task(FutureTask<String> ft2) {
-        this.ft2 = ft2;
+        T1Task(FutureTask<String> ft2) {
+            this.ft2 = ft2;
+        }
+
+        @Override
+        public String call() throws Exception {
+            System.out.println("T1: 洗茶壶。。。");
+            TimeUnit.SECONDS.sleep(1);
+
+            System.out.println("T1: 烧开水。。。");
+            TimeUnit.SECONDS.sleep(15);
+
+            //获取T2茶叶
+            String tf = ft2.get();
+            System.out.println("T1: 拿到茶叶：" + tf);
+
+            System.out.println("T1: 泡茶。。。");
+            return " 上茶：" + tf;
+
+        }
     }
 
-    @Override
-    public String call() throws Exception {
-        System.out.println("T1: 洗茶壶。。。");
-        TimeUnit.SECONDS.sleep(1);
+    static class T2Task implements Callable<String> {
 
-        System.out.println("T1: 烧开水。。。");
-        TimeUnit.SECONDS.sleep(15);
+        @Override
+        public String call() throws Exception {
+            System.out.println("T2: 洗茶壶...");
+            TimeUnit.SECONDS.sleep(1);
 
-        //获取T2茶叶
-        String tf = ft2.get();
-        System.out.println("T1: 拿到茶叶：" + tf);
+            System.out.println("T2: 洗茶杯...");
+            TimeUnit.SECONDS.sleep(2);
 
-        System.out.println("T1: 泡茶。。。");
-        return " 上茶：" + tf;
-
+            System.out.println("T2: 拿茶叶...");
+            TimeUnit.SECONDS.sleep(1);
+            return " 龙井 ";
+        }
     }
 }
 
-class T2Task implements Callable<String> {
-
-    @Override
-    public String call() throws Exception {
-        System.out.println("T2: 洗茶壶...");
-        TimeUnit.SECONDS.sleep(1);
-
-        System.out.println("T2: 洗茶杯...");
-        TimeUnit.SECONDS.sleep(2);
-
-        System.out.println("T2: 拿茶叶...");
-        TimeUnit.SECONDS.sleep(1);
-        return " 龙井 ";
-    }
-}
