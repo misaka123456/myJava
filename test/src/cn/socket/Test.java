@@ -12,10 +12,7 @@ public class Test {
 
         ByteBuffer bb = ByteBuffer.allocate(3);
 
-        bb.put((byte) 1);
-        bb.put((byte) 2);
-        bb.put((byte) 3);
-        bb.put((byte) 4);
+
 
         System.out.println(bb.get(1));
         System.out.println(bb.get(2));
