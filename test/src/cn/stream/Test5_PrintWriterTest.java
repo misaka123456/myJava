@@ -7,7 +7,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 
-public class PrintWriterTest {
+public class Test5_PrintWriterTest {
     public static void main(String[] args) throws FileNotFoundException {
 
         PrintWriter writer = new PrintWriter("E:\\workspace\\myJava\\test\\src\\cn\\stream\\out.txt");

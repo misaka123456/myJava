@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class BufferedReaderTest {
+public class Test3_BufferedReaderTest {
 
     public static void main(String[] args) throws IOException {
 

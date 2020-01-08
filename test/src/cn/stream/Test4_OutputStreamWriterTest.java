@@ -3,7 +3,7 @@ package cn.stream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
-public class OutputStreamWriterTest {
+public class Test4_OutputStreamWriterTest {
 
 
     public static void main(String[] args) throws IOException {

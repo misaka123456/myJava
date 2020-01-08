@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class InputStreamReaderTest {
+public class Test1_InputStreamReaderTest {
 
     public static void main(String[] args) throws IOException {
 

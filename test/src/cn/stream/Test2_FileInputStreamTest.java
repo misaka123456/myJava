@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class FileInputStreamTest {
+public class Test2_FileInputStreamTest {
 
     public static void main(String[] args) throws IOException {
 
