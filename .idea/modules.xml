@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/get-offer/get-offer.iml" filepath="$PROJECT_DIR$/get-offer/get-offer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/nio-zhanglong-lesson/nio-zhanglong-lesson.iml" filepath="$PROJECT_DIR$/nio-zhanglong-lesson/nio-zhanglong-lesson.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nio-netty-lesson/nio-netty-lesson.iml" filepath="$PROJECT_DIR$/nio-netty-lesson/nio-netty-lesson.iml" />
       <module fileurl="file://$PROJECT_DIR$/small-tools/small-tools.iml" filepath="$PROJECT_DIR$/small-tools/small-tools.iml" />
       <module fileurl="file://$PROJECT_DIR$/test/test.iml" filepath="$PROJECT_DIR$/test/test.iml" />
     </modules>

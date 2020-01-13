@@ -1,4 +1,4 @@
-package nio;
+package nio_zhanglong_lesson;
 
 import java.nio.IntBuffer;
 import java.security.SecureRandom;
