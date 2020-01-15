@@ -13,7 +13,7 @@ class AirConditioner {
         this.notifyAll();
     }
 
-    public synchronized void decrement() throws InterruptedException {
+    synchronized void decrement() throws InterruptedException {
         while (number == 0) {
             this.wait();
         }
@@ -28,7 +28,7 @@ public class Test2_WaitNotify {
 
         AirConditioner air = new AirConditioner();
         new Thread(() -> {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 5; i++) {
                 try {
                     air.add();
                 } catch (InterruptedException e) {
@@ -55,7 +55,7 @@ public class Test2_WaitNotify {
             }
         }, "A2").start();
         new Thread(() -> {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 5; i++) {
                 try {
                     air.decrement();
                 } catch (InterruptedException e) {

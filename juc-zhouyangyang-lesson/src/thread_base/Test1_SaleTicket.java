@@ -35,7 +35,7 @@ public class Test1_SaleTicket {
 class Ticket {
     private int number = 30;
 
-    public synchronized void sale () {
+    synchronized void sale() {
         if (number > 0) {
             System.out.println(Thread.currentThread().getName() + "卖出第 " + (number--) + " 张票，还剩 " + number);
         }

@@ -45,7 +45,7 @@ class AirConditionerByLock {
     private Lock lock = new ReentrantLock();
     private Condition condition = lock.newCondition();
 
-    public void increment() {
+    void increment() {
         lock.lock();
         try {
             while (number != 0) {
@@ -61,7 +61,7 @@ class AirConditionerByLock {
         }
     }
 
-    public void decrement() {
+    void decrement() {
         lock.lock();
         try {
             while (number == 0) {
