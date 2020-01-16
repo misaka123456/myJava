@@ -34,7 +34,8 @@ public class ForkJoinTaskTest {
             Fibonacci f1 = new Fibonacci(n - 1);
             f1.fork();
             Fibonacci f2 = new Fibonacci(n - 2);
-            return f2.compute() + f1.join();
+            f2.fork();
+            return f2.join() + f1.join();
         }
     }
 

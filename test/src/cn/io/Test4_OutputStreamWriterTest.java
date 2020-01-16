@@ -1,4 +1,4 @@
-package cn.stream;
+package cn.io;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;

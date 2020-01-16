@@ -1,8 +1,6 @@
-package cn.stream;
+package cn.io;
 
 import java.io.FileNotFoundException;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 
 public class Test5_PrintWriterTest {

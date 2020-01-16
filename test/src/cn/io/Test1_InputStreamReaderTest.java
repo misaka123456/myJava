@@ -1,8 +1,6 @@
-package cn.stream;
+package cn.io;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.Scanner;
 
 public class Test1_InputStreamReaderTest {
 
