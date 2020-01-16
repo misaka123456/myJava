@@ -23,7 +23,7 @@ public class Test14_ThreadPoolParameter {
                 5,
                 10,
                 TimeUnit.SECONDS,
-                new ArrayBlockingQueue<Runnable>(3),
+                new ArrayBlockingQueue<>(3),
                 Executors.defaultThreadFactory(),
                 new ThreadPoolExecutor.CallerRunsPolicy());
 

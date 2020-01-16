@@ -1,7 +1,5 @@
 package cn.stream;
 
-import sun.awt.Symbol;
-
 import java.io.FileNotFoundException;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
