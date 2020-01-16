@@ -18,7 +18,19 @@ public class Test6_CallableDemo {
         new Thread(ft1).start();
 
         System.out.println(111);
+
         System.out.println(ft1.get());
+//        new Thread(() -> {
+//            try {
+//                System.out.println(ft1.get());
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            } catch (ExecutionException e) {
+//                e.printStackTrace();
+//            }
+//        }).start();
+
+
         System.out.println(222);
 
     }
