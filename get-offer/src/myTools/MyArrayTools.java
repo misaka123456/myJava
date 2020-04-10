@@ -1,18 +1,17 @@
 package myTools;
 
-import com.sun.istack.internal.NotNull;
 
 import java.util.Comparator;
 
 public class MyArrayTools {
 
-    public static <E> void swap(@NotNull E[] arr, int a, int b) {
+    public static <E> void swap(E[] arr, int a, int b) {
         E temp = arr[a];
         arr[a] = arr[b];
         arr[b] = temp;
     }
 
-    public static void swap(@NotNull int[] arr, int a, int b) {
+    public static void swap(int[] arr, int a, int b) {
         if (a == b) {
             return;
         }
@@ -24,7 +23,7 @@ public class MyArrayTools {
     /**
      * int类型数组转Integer封装类数组
      */
-    public static Integer[] intToInteger(@NotNull int[] arr) {
+    public static Integer[] intToInteger(int[] arr) {
         Integer[] newArr = new Integer[arr.length];
         for (int i = 0; i < arr.length; i++) {
             newArr[i] = arr[i];
@@ -35,7 +34,7 @@ public class MyArrayTools {
     /**
      * Integer封装类数组转int类型数组
      */
-    public static int[] integerToInt(@NotNull Integer[] arr) {
+    public static int[] integerToInt(Integer[] arr) {
         int[] newArr = new int[arr.length];
         for (int i = 0; i < arr.length; i++) {
             newArr[i] = arr[i];
@@ -46,14 +45,14 @@ public class MyArrayTools {
     /**
      * int类型数组比较，无比较器
      */
-    public static int compare(@NotNull int[] arr1, @NotNull int[] arr2) {
+    public static int compare(int[] arr1, int[] arr2) {
         return compare(intToInteger(arr1), intToInteger(arr2));
     }
 
     /**
      * int类型数组比较，有比较器
      */
-    public static int compare(@NotNull int[] arr1, @NotNull int[] arr2, @NotNull Comparator<? super Integer> c) {
+    public static int compare(int[] arr1, int[] arr2, Comparator<? super Integer> c) {
         return compare(intToInteger(arr1), intToInteger(arr2), c);
     }
 
@@ -61,14 +60,14 @@ public class MyArrayTools {
      * 任意对象类型数组比较，无比较器
      */
     @SuppressWarnings("unchecked")
-    public static <E> int compare(@NotNull E[] arr1, @NotNull E[] arr2) {
+    public static <E> int compare(E[] arr1, E[] arr2) {
         return compare(arr1, arr2, (o1, o2) -> ((Comparable<? super E>) o1).compareTo(o2));
     }
 
     /**
      * 任意对象类型数组比较，有比较器
      */
-    public static <E> int compare(@NotNull E[] arr1, @NotNull E[] arr2, @NotNull Comparator<? super E> c) {
+    public static <E> int compare(E[] arr1, E[] arr2, Comparator<? super E> c) {
         for (int i = 0; i < arr1.length && i < arr2.length; i++) {
             int r = c.compare(arr1[i], arr2[i]);
             if (r != 0) {
@@ -81,14 +80,14 @@ public class MyArrayTools {
     /**
      * 快排 int类型 无比较器
      */
-    public static void sortByQuick(@NotNull int[] arr) {
+    public static void sortByQuick(int[] arr) {
         sortByQuick(arr, Comparator.comparingInt(o -> o));
     }
 
     /**
      * 快排 int类型 有比较器
      */
-    public static void sortByQuick(@NotNull int[] arr, @NotNull Comparator<? super Integer> c) {
+    public static void sortByQuick(int[] arr, Comparator<? super Integer> c) {
         Integer[] newArr = intToInteger(arr);
         sortByQuick(newArr, c);
         for (int i = 0; i < arr.length; i++) {
@@ -100,14 +99,14 @@ public class MyArrayTools {
      * 快排 任意对象 无比较器
      */
     @SuppressWarnings("unchecked")
-    public static <E> void sortByQuick(@NotNull E[] arr) {
+    public static <E> void sortByQuick(E[] arr) {
         sortByQuick(arr, (o1, o2) -> ((Comparable<? super E>) o1).compareTo(o2));
     }
 
     /**
      * 快排 任意对象 有比较器
      */
-    public static <E> void sortByQuick(@NotNull E[] arr, @NotNull Comparator<? super E> c) {
+    public static <E> void sortByQuick(E[] arr, Comparator<? super E> c) {
         if (arr == null || arr.length == 0) {
             return;
         }
@@ -149,14 +148,14 @@ public class MyArrayTools {
     /**
      * 归并排序 int类型 无比较器
      */
-    public static void sortByMerge(@NotNull int[] arr) {
+    public static void sortByMerge(int[] arr) {
         sortByMerge(arr, Comparator.comparing(o -> o));
     }
 
     /**
      * 归并排序 int类型 有比较器
      */
-    public static void sortByMerge(@NotNull int[] arr, @NotNull Comparator<? super Integer> c) {
+    public static void sortByMerge(int[] arr, Comparator<? super Integer> c) {
         Integer[] newArr = intToInteger(arr);
         sortByMerge(newArr, c);
         for (int i = 0; i < arr.length; i++) {
@@ -168,14 +167,14 @@ public class MyArrayTools {
      * 归并排序 任意对象类型 无比较器
      */
     @SuppressWarnings("unchecked")
-    public static <E> void sortByMerge(@NotNull E[] arr) {
+    public static <E> void sortByMerge(E[] arr) {
         sortByMerge(arr, (o1, o2) -> ((Comparable<? super E>) o1).compareTo(o2));
     }
 
     /**
      * 归并排序 任意对象类型 有比较器
      */
-    public static <E> void sortByMerge(@NotNull E[] arr, @NotNull Comparator<? super E> c) {
+    public static <E> void sortByMerge(E[] arr, Comparator<? super E> c) {
         if (arr == null || arr.length == 0) {
             return;
         }
