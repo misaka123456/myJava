@@ -6,19 +6,19 @@ import java.util.*;
 
 public class TreeNode<E> {
 
-    private Object value;
-    private TreeNode left;
-    private TreeNode right;
+    public Object val;
+    public TreeNode left;
+    public TreeNode right;
 
     public TreeNode() {
     }
 
-    public TreeNode(E value) {
-        this.value = value;
+    public TreeNode(E val) {
+        this.val = val;
     }
 
-    public TreeNode(E value, TreeNode<E> left, TreeNode<E> right) {
-        this.value = value;
+    public TreeNode(E val, TreeNode<E> left, TreeNode<E> right) {
+        this.val = val;
         this.left = left;
         this.right = right;
     }
@@ -30,11 +30,11 @@ public class TreeNode<E> {
 
     @SuppressWarnings("unchecked")
     public E getValue() {
-        return (E) value;
+        return (E) val;
     }
 
-    public void setValue(E value) {
-        this.value = value;
+    public void setValue(E val) {
+        this.val = val;
     }
 
     public TreeNode<E> getLeft() {
@@ -172,7 +172,7 @@ public class TreeNode<E> {
         Stack<TreeNode> stack = new Stack<>();
         while (!stack.isEmpty() || node != null) {
             if (node != null) {
-                list.add(node.value);
+                list.add(node.val);
                 stack.push(node);
                 node = node.left;
             } else {
@@ -241,7 +241,7 @@ public class TreeNode<E> {
         TreeNode node;
         while (!list.isEmpty()) {
             node = list.poll();
-            out.add(node.value);
+            out.add(node.val);
             if (node.left != null) {
                 list.offer(node.left);
             }

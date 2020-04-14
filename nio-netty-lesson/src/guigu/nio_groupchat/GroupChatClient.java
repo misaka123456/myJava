@@ -1,8 +1,7 @@
-package guigu.nio_groupChat;
+package guigu.nio_groupchat;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;

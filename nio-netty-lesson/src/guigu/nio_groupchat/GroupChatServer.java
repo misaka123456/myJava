@@ -1,4 +1,4 @@
-package guigu.nio_groupChat;
+package guigu.nio_groupchat;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
