@@ -1,7 +1,6 @@
 import model.TreeNode;
 
 import java.util.*;
-import java.util.function.BiConsumer;
 
 public class NowCoderHigh {
 

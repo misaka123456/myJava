@@ -338,6 +338,7 @@ public class TreeNode<E> {
      * @return 根节点
      */
     public static <E> TreeNode<E> buildByLevelOrder(E[] level) {
+
         if (level.length == 0) {
             return null;
         }

@@ -1,5 +1,5 @@
 
-import model.LinkedNode;
+import model.MyLinkedNode;
 
 import java.util.*;
 
@@ -638,7 +638,7 @@ public class Offer {
      * @param linkedNode2 链表2
      * @return 公共节点
      */
-    public static LinkedNode findFirstCommonNode(LinkedNode linkedNode1, LinkedNode linkedNode2) {
+    public static MyLinkedNode findFirstCommonNode(MyLinkedNode linkedNode1, MyLinkedNode linkedNode2) {
         if (linkedNode1 == null || linkedNode2 == null) {
             return null;
         }
@@ -648,8 +648,8 @@ public class Offer {
         int list2Length = getListNodeLength(linkedNode2);
         int listLengthDif = list1Length - list2Length;
 
-        LinkedNode nodeLong;
-        LinkedNode nodeShort;
+        MyLinkedNode nodeLong;
+        MyLinkedNode nodeShort;
         if (list1Length > 0) {
             nodeLong = linkedNode1;
             nodeShort = linkedNode2;
@@ -674,7 +674,7 @@ public class Offer {
      * @param linkedNode 链表
      * @return 长度
      */
-    private static int getListNodeLength(LinkedNode linkedNode) {
+    private static int getListNodeLength(MyLinkedNode linkedNode) {
         int length = 0;
         while (linkedNode != null) {
             length++;
@@ -690,14 +690,14 @@ public class Offer {
      * @param k k
      * @return 倒数第k个节点
      */
-    public static LinkedNode findKToTail(LinkedNode head, int k) {
+    public static MyLinkedNode findKToTail(MyLinkedNode head, int k) {
 
         if (head == null || k <= 0) {
             return null;
         }
 
-        LinkedNode node = head;
-        LinkedNode nodeK = null;
+        MyLinkedNode node = head;
+        MyLinkedNode nodeK = null;
         // 先遍历k次
         while (node != null) {
             if (k-- == 0) {
@@ -723,17 +723,17 @@ public class Offer {
      * @param head 链表头结点
      * @return 入口节点
      */
-    public static LinkedNode entryNodeOfLoop(LinkedNode head) {
+    public static MyLinkedNode entryNodeOfLoop(MyLinkedNode head) {
 
         // 获取环中某个节点
-        LinkedNode meetingNode = getOneMeetingNode(head);
+        MyLinkedNode meetingNode = getOneMeetingNode(head);
         if (meetingNode == null) {
             return null;
         }
 
         // 计算环的长度
         int length = 1;
-        LinkedNode node = meetingNode.getNext();
+        MyLinkedNode node = meetingNode.getNext();
         while (node != meetingNode) {
             length++;
             node = node.getNext();
@@ -744,7 +744,7 @@ public class Offer {
             length--;
             node = node.getNext();
         }
-        LinkedNode entryNode = head;
+        MyLinkedNode entryNode = head;
         while (entryNode != node) {
             entryNode = entryNode.getNext();
             node = node.getNext();
@@ -756,13 +756,13 @@ public class Offer {
      * @param head 链表头结点
      * @return 环中节点
      */
-    private static LinkedNode getOneMeetingNode(LinkedNode head) {
+    private static MyLinkedNode getOneMeetingNode(MyLinkedNode head) {
         if (head == null) {
             return null;
         }
 
-        LinkedNode nodeFast = head;
-        LinkedNode nodeSlow = head;
+        MyLinkedNode nodeFast = head;
+        MyLinkedNode nodeSlow = head;
 
         while (nodeFast != null) {
             nodeFast = nodeFast.getNext();

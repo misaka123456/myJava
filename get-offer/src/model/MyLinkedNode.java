@@ -4,19 +4,19 @@ import myTools.MyArrayTools;
 
 import java.util.Collection;
 
-public class LinkedNode<E> {
+public class MyLinkedNode<E> {
 
     private Object value;
-    private LinkedNode next;
+    private MyLinkedNode next;
 
-    public LinkedNode() {
+    public MyLinkedNode() {
     }
 
-    public LinkedNode(E value) {
+    public MyLinkedNode(E value) {
         this.value = value;
     }
 
-    public LinkedNode(E value, LinkedNode next) {
+    public MyLinkedNode(E value, MyLinkedNode next) {
         this.value = value;
         this.next = next;
     }
@@ -30,7 +30,7 @@ public class LinkedNode<E> {
         this.value = value;
     }
 
-    public void setNext(LinkedNode next) {
+    public void setNext(MyLinkedNode next) {
         this.next = next;
     }
 
@@ -38,7 +38,7 @@ public class LinkedNode<E> {
         return elementData(value);
     }
 
-    public LinkedNode getNext() {
+    public MyLinkedNode getNext() {
         return next;
     }
 
@@ -52,9 +52,9 @@ public class LinkedNode<E> {
     /**
      * 得到环中任意一个节点，不存在环则返回null
      */
-    private LinkedNode getLoopNode() {
-        LinkedNode fast = this.next;
-        LinkedNode slow = this;
+    private MyLinkedNode getLoopNode() {
+        MyLinkedNode fast = this.next;
+        MyLinkedNode slow = this;
         while (fast != null) {
             if (fast == slow) {
                 return fast;
@@ -73,12 +73,12 @@ public class LinkedNode<E> {
      * 获取环的长度，没有环则返回-1
      */
     public int loopLength() {
-        LinkedNode node = getLoopNode();
+        MyLinkedNode node = getLoopNode();
         if (node == null) {
             return 0;
         }
         int len = 1;
-        LinkedNode n = node.next;
+        MyLinkedNode n = node.next;
         while (n != node) {
             n = n.next;
             len++;
@@ -89,13 +89,13 @@ public class LinkedNode<E> {
     /**
      * 得到环的起点，没有环则返回null
      */
-    public LinkedNode<E> getLoopStart() {
+    public MyLinkedNode<E> getLoopStart() {
         int len = loopLength();
         if (len == -1) {
             return null;
         }
-        LinkedNode start = this;
-        LinkedNode node = start;
+        MyLinkedNode start = this;
+        MyLinkedNode node = start;
         while (len-- > 0) {
             node = node.next;
         }
@@ -109,7 +109,7 @@ public class LinkedNode<E> {
     /**
      * 根据对象数组构建链表
      */
-    public static <E> LinkedNode<E> build(E[] arr) {
+    public static <E> MyLinkedNode<E> build(E[] arr) {
         if (arr == null || arr.length == 0) {
             return null;
         }
@@ -119,15 +119,15 @@ public class LinkedNode<E> {
     /**
      * 根据对象数组构建链表，p代表环的其实节点在数组中的位置
      */
-    public static <E> LinkedNode<E> build(E[] arr, int p) {
-        LinkedNode<E> root = new LinkedNode<>(arr[0]);
-        LinkedNode node = root;
-        LinkedNode pNode = null;
+    public static <E> MyLinkedNode<E> build(E[] arr, int p) {
+        MyLinkedNode<E> root = new MyLinkedNode<>(arr[0]);
+        MyLinkedNode node = root;
+        MyLinkedNode pNode = null;
         if (p == 0) {
             pNode = root;
         }
         for (int i = 1; i < arr.length; i++) {
-            node.next = new LinkedNode<>(arr[0]);
+            node.next = new MyLinkedNode<>(arr[0]);
             node = node.next;
             if (p == i) {
                 pNode = node;
@@ -140,28 +140,28 @@ public class LinkedNode<E> {
     }
 
     @SuppressWarnings("unchecked")
-    private static <E> LinkedNode<E> elementNode(LinkedNode n) {
-        return (LinkedNode<E>) n;
+    private static <E> MyLinkedNode<E> elementNode(MyLinkedNode n) {
+        return (MyLinkedNode<E>) n;
     }
 
     /**
      * 根据集合对象构建链表
      */
-    public static <E> LinkedNode<E> build(Collection<E> c) {
+    public static <E> MyLinkedNode<E> build(Collection<E> c) {
         return elementNode(build(c.toArray(new Object[0])));
     }
 
     /**
      * 根据集合对象构建链表
      */
-    public static <E> LinkedNode<E> build(Collection<E> c, int p) {
+    public static <E> MyLinkedNode<E> build(Collection<E> c, int p) {
         return elementNode(build(c.toArray(new Object[0]), p));
     }
 
     /**
      * 根据int类型数组构建链表
      */
-    public static LinkedNode<Integer> build(int[] arr) {
+    public static MyLinkedNode<Integer> build(int[] arr) {
         if (arr == null || arr.length == 0) {
             return null;
         }
@@ -171,7 +171,7 @@ public class LinkedNode<E> {
     /**
      * 根据int类型数组构建链表
      */
-    public static LinkedNode<Integer> build(int[] arr, int p) {
+    public static MyLinkedNode<Integer> build(int[] arr, int p) {
         if (arr == null || arr.length == 0) {
             return null;
         }
