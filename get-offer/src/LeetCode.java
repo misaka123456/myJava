@@ -422,9 +422,99 @@ public class LeetCode {
         }
     }
 
+
+    /**
+     * 200. 岛屿数量
+     * 给你一个由 '1'（陆地）和 '0'（水）组成的的二维网格，请你计算网格中岛屿的数量。
+     * 岛屿总是被水包围，并且每座岛屿只能由水平方向和/或竖直方向上相邻的陆地连接形成。
+     * 此外，你可以假设该网格的四条边均被水包围。
+     */
+    public static int numIslands(char[][] grid) {
+        if (grid.length == 0 || grid[0].length == 0) {
+            return 0;
+        }
+        int count = 0;
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == '1') {
+                    count++;
+                    setIsland(grid, i, j);
+                }
+            }
+        }
+        return count;
+    }
+    private static void setIsland(char[][] grid, int x, int y) {
+        grid[x][y] = '0';
+        if (x > 0 && grid[x - 1][y] == '1') {
+            setIsland(grid, x - 1, y);
+        }
+        if (x < grid.length - 1 && grid[x + 1][y] == '1') {
+            setIsland(grid, x + 1, y);
+        }
+        if (y > 0 && grid[x][y - 1] == '1') {
+            setIsland(grid, x, y - 1);
+        }
+        if (y < grid[0].length - 1 && grid[x][y + 1] == '1') {
+            setIsland(grid, x, y + 1);
+        }
+    }
+
+
+    /**
+     * 面试题32 - III. 从上到下打印二叉树 III
+     * 请实现一个函数按照之字形顺序打印二叉树，
+     * 即第一行按照从左到右的顺序打印，
+     * 第二层按照从右到左的顺序打印，
+     * 第三行再按照从左到右的顺序打印，
+     * 其他行以此类推。
+     */
+    public static List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        Stack<TreeNode> leftStack = new Stack<>();
+        Stack<TreeNode> rightStack = new Stack<>();
+        TreeNode node = root;
+        leftStack.push(root);
+
+        List<Integer> list;
+        while (!leftStack.isEmpty()) {
+            list = new ArrayList<>();
+            while (!leftStack.isEmpty()) {
+                node = leftStack.pop();
+                list.add((int)node.val);
+                if (node.left != null) {
+                    rightStack.push(node.left);
+                }
+                if (node.right != null) {
+                    rightStack.push(node.right);
+                }
+            }
+            result.add(list);
+            if (rightStack.isEmpty()) {
+                break;
+            }
+            list = new ArrayList<>();
+            while (!rightStack.isEmpty()) {
+                node = rightStack.pop();
+                list.add((int)node.val);
+                if (node.right != null) {
+                    leftStack.push(node.right);
+                }
+                if (node.left != null) {
+                    leftStack.push(node.left);
+                }
+            }
+            result.add(list);
+        }
+        return result;
+    }
+
+
     public static void main(String[] args) {
 
-        System.out.println(letterCasePermutation("a1b2"));
 
     }
 
