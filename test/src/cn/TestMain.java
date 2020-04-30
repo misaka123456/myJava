@@ -2,19 +2,14 @@ package cn;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.*;
 
 
 public class TestMain {
 
     public static void main(String[] args) throws IOException {
-        List<Integer> list = new ArrayList<>();
-        List<Integer> integers = Collections.synchronizedList(list);
-        integers.add((1));
 
-
-
+        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);
 
     }
 

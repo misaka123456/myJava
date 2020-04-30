@@ -15,6 +15,11 @@ public class CollectionTest {
         List<Integer> integers1 = Arrays.asList(integers);
         System.out.println(integers1);
 
+        System.out.println("-------------");
+        TreeMap<Integer, Integer> treeMap = new TreeMap<>((a, b) -> b - a);
+
+
+
 
 
 

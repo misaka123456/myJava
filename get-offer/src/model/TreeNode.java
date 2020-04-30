@@ -4,170 +4,26 @@ import myTools.MyArrayTools;
 
 import java.util.*;
 
-public class TreeNode<E> {
+public class TreeNode {
 
-    public Object val;
+    public int val;
     public TreeNode left;
     public TreeNode right;
 
     public TreeNode() {
     }
 
-    public TreeNode(E val) {
+    public TreeNode(int val) {
         this.val = val;
     }
 
-    public TreeNode(E val, TreeNode<E> left, TreeNode<E> right) {
-        this.val = val;
-        this.left = left;
-        this.right = right;
-    }
-
-    @SuppressWarnings("unchecked")
-    private TreeNode<E> treeNode(TreeNode n) {
-        return (TreeNode<E>) n;
-    }
-
-    @SuppressWarnings("unchecked")
-    public E getValue() {
-        return (E) val;
-    }
-
-    public void setValue(E val) {
-        this.val = val;
-    }
-
-    public TreeNode<E> getLeft() {
-        return treeNode(left);
-    }
-
-    public void setLeft(TreeNode<E> left) {
-        this.left = left;
-    }
-
-    public TreeNode<E> getRight() {
-        return treeNode(right);
-    }
-
-    public void setRight(TreeNode<E> right) {
-        this.right = right;
-    }
-
-    public boolean isLeaf() {
-        return this.left == null && this.right == null;
-    }
-
-    /**
-     * 判断是否是完全二叉树
-     */
-    public boolean isComplete() {
-        TreeNode root;
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(this);
-        boolean flag = false;
-        while (!queue.isEmpty()) {
-            root = queue.poll();
-            if (root == null) {
-                flag = true;
-                continue;
-            }
-            if (flag) {
-                return false;
-            }
-            queue.offer(root.left);
-            queue.offer(root.right);
-        }
-        return true;
-    }
-
-    /**
-     * 通过层序遍历判断是否是满二叉树
-     */
-    public boolean isFull() {
-        Queue<TreeNode> queue = new LinkedList<>();
-        int n = 0;
-        queue.offer(this);
-        TreeNode node;
-        boolean flag = false;
-        while (!queue.isEmpty()) {
-            node = queue.poll();
-            if (node == null) {
-                if (!flag && (n & (n + 1)) != 0) {
-                    return false;
-                }
-                flag = true;
-                continue;
-            }
-            if (flag) {
-                return false;
-            }
-            n++;
-            queue.offer(node.left);
-            queue.offer(node.right);
-        }
-        return true;
-    }
-
-    /**
-     * 通过层序遍历获取深度
-     */
-    public int deep() {
-        int deep = 0;
-        LinkedList<TreeNode> list = new LinkedList<>();
-        int curCount = 1;
-        int nextCount = 0;
-        list.offer(this);
-        TreeNode node;
-        while (!list.isEmpty()) {
-            deep++;
-            while (curCount-- > 0) {
-                node = list.poll();
-                assert node != null;
-                if (node.left != null) {
-                    list.offer(node.left);
-                    nextCount++;
-                }
-                if (node.right != null) {
-                    list.offer(node.right);
-                    nextCount++;
-                }
-            }
-            curCount = nextCount;
-            nextCount = 0;
-        }
-        return deep;
-    }
-
-    /**
-     * 获取树的节点总数
-     */
-    public int nodeCount() {
-        TreeNode node = this;
-        Stack<TreeNode> stack = new Stack<>();
-        int count = 0;
-        while (!stack.isEmpty() || node != null) {
-            if (node != null) {
-                count++;
-                stack.push(node);
-                node = node.left;
-            } else {
-                node = stack.pop().right;
-            }
-        }
-        return count;
-    }
-
-    @SuppressWarnings("unchecked")
-    private List<E> nodeList(List arr) {
-        return (List<E>) arr;
-    }
 
     /**
      * 先序遍历
      * @return 结果数组
      */
-    public List<E> preOrder() {
-        List<Object> list = new ArrayList<>();
+    public List<Integer> preOrder() {
+        List<Integer> list = new ArrayList<>();
         TreeNode node = this;
         Stack<TreeNode> stack = new Stack<>();
         while (!stack.isEmpty() || node != null) {
@@ -179,15 +35,15 @@ public class TreeNode<E> {
                 node = stack.pop().right;
             }
         }
-        return  nodeList(list);
+        return  list;
     }
 
     /**
      * 中序遍历
      * @return 结果数组
      */
-    public List<E> inOrder() {
-        List<Object> list = new ArrayList<>();
+    public List<Integer> inOrder() {
+        List<Integer> list = new ArrayList<>();
         TreeNode node = this;
         Stack<TreeNode> stack = new Stack<>();
         while (!stack.isEmpty() || node != null) {
@@ -196,19 +52,19 @@ public class TreeNode<E> {
                 node = node.left;
             } else {
                 node = stack.pop();
-                list.add(node.getValue());
+                list.add(node.val);
                 node = node.right;
             }
         }
-        return  nodeList(list);
+        return list;
     }
 
     /**
      * 后序遍历
      * @return 结果数组
      */
-    public List<E> postOrder() {
-        List<Object> list = new ArrayList<>();
+    public List<Integer> postOrder() {
+        List<Integer> list = new ArrayList<>();
         TreeNode node = this;
         TreeNode r = null;
         Stack<TreeNode> stack = new Stack<>();
@@ -219,7 +75,7 @@ public class TreeNode<E> {
             } else {
                 node = stack.peek();
                 if (node.right == null || node.right == r) {
-                    list.add(node.getValue());
+                    list.add(node.val);
                     r = stack.pop();
                     node = null;
                 } else {
@@ -227,15 +83,15 @@ public class TreeNode<E> {
                 }
             }
         }
-        return nodeList(list);
+        return list;
     }
 
     /**
      * 层序遍历
      * @return 结果数组
      */
-    public List<E> levelOrder() {
-        List<Object> out = new ArrayList<>();
+    public List<Integer> levelOrder() {
+        List<Integer> out = new ArrayList<>();
         LinkedList<TreeNode> list = new LinkedList<>();
         list.offer(this);
         TreeNode node;
@@ -249,7 +105,7 @@ public class TreeNode<E> {
                 list.offer(node.right);
             }
         }
-        return nodeList(out);
+        return out;
     }
 
     /**
@@ -259,19 +115,19 @@ public class TreeNode<E> {
      * @return 根节点
      * @throws Exception 数组错误，无法生成
      */
-    public static TreeNode<Integer> buildByPreAndInOrder(int[] pre, int[] in) throws Exception {
+    public static TreeNode buildByPreAndInOrder(int[] pre, int[] in) throws Exception {
         if (pre.length != in.length || pre.length == 0) {
             return null;
         }
         return buildByPreAndInOrder(pre, 0, pre.length - 1, in, 0, in.length - 1);
     }
-    private static TreeNode<Integer> buildByPreAndInOrder(int[] pre, int preStart, int preEnd,
+    private static TreeNode buildByPreAndInOrder(int[] pre, int preStart, int preEnd,
                                                           int[] in, int inStart, int inEnd) throws Exception {
         if (preStart > preEnd) {
             return null;
         }
         int v = pre[preStart];
-        TreeNode<Integer> node = new TreeNode<>(v);
+        TreeNode node = new TreeNode(v);
         int inIndex = -1;
         for (int i = inStart; i <= inEnd; i++) {
             if (v == in[i]) {
@@ -296,20 +152,20 @@ public class TreeNode<E> {
      * @return 根节点
      * @throws Exception 数组错误，无法生成
      */
-    public static TreeNode<Integer> buildByPostAndInOrder(int[] post, int[] in) throws Exception {
+    public static TreeNode buildByPostAndInOrder(int[] post, int[] in) throws Exception {
         if (post.length != in.length || post.length == 0) {
             return null;
         }
         return buildByPostAndInOrder(post, 0, post.length - 1,
                 in, 0, in.length - 1);
     }
-    private static TreeNode<Integer> buildByPostAndInOrder(int[] post, int postStart,
+    private static TreeNode buildByPostAndInOrder(int[] post, int postStart,
                                                            int postEnd, int[] in, int inStart, int inEnd) throws Exception {
         if (postStart > postEnd) {
             return null;
         }
         int v = post[postEnd];
-        TreeNode<Integer> node = new TreeNode<>(v);
+        TreeNode node = new TreeNode(v);
         int inIndex = -1;
         for (int i = inStart; i <= inEnd; i++) {
             if (v == in[i]) {
@@ -327,27 +183,23 @@ public class TreeNode<E> {
         return node;
     }
 
-    @SuppressWarnings("unchecked")
-    private static <E> TreeNode<E> elementNode(TreeNode node) {
-        return (TreeNode<E>) node;
-    }
 
     /**
      * 根据层序生成二叉树(允许出现null)
      * @param level 任意对象数组
      * @return 根节点
      */
-    public static <E> TreeNode<E> buildByLevelOrder(E[] level) {
+    public static TreeNode buildByLevelOrder(Integer[] level) {
 
         if (level.length == 0) {
             return null;
         }
-        TreeNode<E> root = new TreeNode<>(level[0]);
+        TreeNode root = new TreeNode(level[0]);
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
         TreeNode f;
         int i = 1;
-        E temp;
+        Integer temp;
         while (i < level.length) {
             f = queue.poll();
             if (f == null) {
@@ -355,7 +207,7 @@ public class TreeNode<E> {
             }
             temp = level[i++];
             if (temp != null) {
-                TreeNode l = new TreeNode<>(temp);
+                TreeNode l = new TreeNode(temp);
                 queue.offer(l);
                 f.left = l;
             }
@@ -364,7 +216,7 @@ public class TreeNode<E> {
             }
             temp = level[i++];
             if (temp != null) {
-                TreeNode r = new TreeNode<>(temp);
+                TreeNode r = new TreeNode(temp);
                 queue.offer(r);
                 f.right = r;
             }
@@ -373,30 +225,15 @@ public class TreeNode<E> {
     }
 
     /**
-     * 根据层序生成二叉树(允许出现null)
-     * @param c Collection类对象
-     * @return 根节点
-     */
-    public static <E> TreeNode<E> buildByLevelOrder(Collection<? extends E> c) {
-        return elementNode(buildByLevelOrder(c.toArray(new Object[0])));
-    }
-
-    /**
      * 根据层序生成二叉树（int类型，没有null）
      * @param level int数组
      * @return 根节点
      */
-    public static TreeNode<Integer> buildByLevelOrder(int[] level) {
+    public static TreeNode buildByLevelOrder(int[] level) {
         if (level == null || level.length == 0) {
             return null;
         }
         return buildByLevelOrder(MyArrayTools.intToInteger(level));
     }
-
-
-
-
-
-
 
 }

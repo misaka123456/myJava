@@ -513,9 +513,369 @@ public class LeetCode {
     }
 
 
+    /**
+     * 76. 最小覆盖子串
+     * 给你一个字符串 S、一个字符串 T，请在字符串 S 里面找出：包含 T 所有字母的最小子串。
+     */
+    public static String minWindow(String s, String t) {
+        if (s.length() < t.length()) {
+            return "";
+        }
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < t.length(); i++) {
+            map.put(t.charAt(i), map.getOrDefault(t.charAt(i), 0) + 1);
+        }
+        int count = 0;
+        int start = 0;
+        int end = s.length();
+        int pre = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (map.containsKey(c)) {
+                int temp = map.get(c) - 1;
+                map.put(c, temp);
+                if (temp == 0) {
+                    count++;
+                    if (count == map.size()) {
+                        while (pre < s.length()) {
+                            if (i - pre < end - start) {
+                                start = pre;
+                                end = i;
+                            }
+                            c = s.charAt(pre);
+                            if (map.containsKey(c)) {
+                                temp = map.get(c) + 1;
+                                map.put(c, temp);
+                                if (temp == 1) {
+                                    count--;
+                                    pre++;
+                                    break;
+                                }
+                            }
+                            pre++;
+                        }
+                    }
+                }
+            }
+        }
+        if (end == s.length()) {
+            return "";
+        }
+        return s.substring(start, end + 1);
+    }
+
+
+    /**
+     * 1209. 删除字符串中的所有相邻重复项 II
+     * 给你一个字符串 s，「k 倍重复项删除操作」将会从 s 中选择 k 个相邻且相等的字母，并删除它们，使被删去的字符串的左侧和右侧连在一起。
+     * 你需要对 s 重复进行无限次这样的删除操作，直到无法继续为止。
+     * 在执行完所有删除操作后，返回最终得到的字符串
+     */
+    public static String removeDuplicates(String s, int k) {
+        if (s == null || s.length() < k) {
+            return s;
+        }
+        Stack<Character> chStack = new Stack<>();
+        Stack<Integer> countStack = new Stack<>();
+        char c;
+        int count;
+        for (int i = s.length() - 1; i >= 0; i--) {
+            c = s.charAt(i);
+            if (chStack.isEmpty() || chStack.peek() != c) {
+                chStack.push(c);
+                countStack.push(1);
+            } else {
+                count = countStack.pop() + 1;
+                if (count == k) {
+                    chStack.pop();
+                } else {
+                    countStack.push(count);
+                }
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        while (!chStack.isEmpty()) {
+            count = countStack.pop();
+            c = chStack.pop();
+            while (count-- > 0) {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 518. 零钱兑换 II
+     * 给定不同面额的硬币和一个总金额。写出函数来计算可以凑成总金额的硬币组合数。假设每一种面额的硬币有无限个。
+     */
+    public int change(int amount, int[] coins) {
+        if (amount == 0) {
+            return 1;
+        }
+        if (coins.length == 0) {
+            return 0;
+        }
+        int[] money = new int[amount + 1];
+        money[0] = 1;
+        for (int c : coins) {
+            for (int i = c; i <= amount; i++) {
+                money[i] = money[i] + money[i - c];
+            }
+        }
+        return money[amount];
+    }
+
+
+    /**
+     * 846. 一手顺子
+     * 爱丽丝有一手（hand）由整数数组给定的牌。 
+     * 现在她想把牌重新排列成组，使得每个组的大小都是 W，且由 W 张连续的牌组成。
+     * 如果她可以完成分组就返回 true，否则返回 false。
+     */
+    public static boolean isNStraightHand(int[] hand, int W) {
+        if (hand.length % W != 0) {
+            return false;
+        }
+        Arrays.sort(hand);
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int h : hand) {
+            map.put(h, map.getOrDefault(h, 0) + 1);
+        }
+        for (int h : hand) {
+            int count = map.getOrDefault(h, 0);
+            if (count != 0) {
+                for (int i = 0; i < W; i++) {
+                    count = map.getOrDefault(h + i, 0);
+                    if (count == 0) {
+                        return false;
+                    } else if (count == 1){
+                        map.remove(h + i);
+                    } else {
+                        map.put(h + i, count - 1);
+                    }
+                }
+            }
+        }
+        return map.isEmpty();
+    }
+
+
+    /**
+     * 34. 在排序数组中查找元素的第一个和最后一个位置
+     * 给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。
+     * 你的算法时间复杂度必须是 O(log n) 级别。
+     * 如果数组中不存在目标值，返回 [-1, -1]。
+     */
+    public static int[] searchRange(int[] nums, int target) {
+        int[] out = new int[] {-1, -1};
+        int len = nums.length - 1;
+        if (len == -1 || target < nums[0] || target > nums[len]) {
+            return out;
+        }
+        int start = 0;
+        int end = len;
+        int mid;
+        if (nums[0] == target) {
+            out[0] = 0;
+        } else {
+            while (start < end) {
+                mid = (start + end) >> 1;
+                if (nums[mid + 1] == target) {
+                    if (nums[mid] < target) {
+                        out[0] = mid + 1;
+                        break;
+                    } else {
+                        end = mid;
+                    }
+                } else if (nums[mid + 1] > target) {
+                    end = mid;
+                } else {
+                    start = mid + 2;
+                }
+            }
+            if (start == end) {
+                if (nums[start] == target) {
+                    out[0] = start;
+                } else {
+                    return out;
+                }
+            }
+        }
+        if (nums[len] == target) {
+            out[1] = len;
+        } else {
+            end = len;
+            while (start < end) {
+                mid = (start + end) >> 1;
+                if (nums[mid] == target) {
+                    if (nums[mid + 1] > target) {
+                        out[1] = mid;
+                        break;
+                    } else {
+                        start = mid + 1;
+                    }
+                } else if (nums[mid] > target) {
+                    end = mid - 1;
+                } else {
+                    start = mid + 1;
+                }
+            }
+            if (start == end) {
+                out[1] = start;
+            }
+        }
+        return out;
+    }
+
+
+    /**
+     * 1128. 等价多米诺骨牌对的数量
+     */
+    public int numEquivDominoPairs(int[][] dominoes) {
+        if (dominoes.length == 0) {
+            return 0;
+        }
+        Map<Integer, Integer> map = new HashMap<>();
+        int sum;
+        for (int[] d : dominoes) {
+            if (d[0] <= d[1]) {
+                sum = d[1] * 1000 + d[0];
+            } else {
+                sum = d[0] * 1000 + d[1];
+            }
+            map.put(sum, map.getOrDefault(sum, 0) + 1);
+        }
+        int count = 0;
+        for (int val : map.values()) {
+            count += (val - 1) * val / 2;
+        }
+        return count;
+    }
+
+
+    /**
+     * 388. 文件的最长绝对路径
+     * @param input
+     * @return
+     */
+    public static int lengthLongestPath(String input) {
+        if (input.length() == 0) {
+            return 0;
+        }
+        int maxLen = 0;
+        int curMaxLen = 0;
+        List<Integer> list = new ArrayList<>();
+        int start = 0;
+        int len = 0;
+        int curFloor = 0;
+        int i = 0;
+        boolean isFile = false;
+        for (; i < input.length(); i++) {
+            if (input.charAt(i) == '.') {
+                isFile = true;
+            }
+            if (input.charAt(i) == '\n') {
+                list.add(i);
+                break;
+            }
+        }
+        if (isFile) {
+            maxLen = i;
+        }
+        while (i < input.length()) {
+            curFloor = 0;
+            i += 1;
+            while (input.charAt(i) == '\t') {
+                curFloor++;
+                i += 1;
+            }
+            start = i;
+            isFile = false;
+            while (i != input.length() && input.charAt(i) != '\n') {
+                if (input.charAt(i) == '.') {
+                    isFile = true;
+                }
+                i++;
+            }
+            len = i - start;
+            if (isFile) {
+                curMaxLen = curFloor + len;
+                while (--curFloor >= 0) {
+                    curMaxLen += list.get(curFloor);
+                }
+                maxLen = Math.max(maxLen, curMaxLen);
+            } else {
+                if (list.size() == curFloor) {
+                    list.add(len);
+                } else {
+                    list.set(curFloor, len);
+                }
+            }
+        }
+        return maxLen;
+    }
+
+
+    /**
+     * 面试题 08.02. 迷路的机器人
+     */
+    public static List<List<Integer>> pathWithObstacles(int[][] obstacleGrid) {
+
+        List<List<Integer>> route = new ArrayList<>();
+        int h = obstacleGrid.length - 1;
+        int w = obstacleGrid[0].length - 1;
+        if (obstacleGrid[0][0] == 1 || obstacleGrid[h][w] == 1) {
+            return route;
+        }
+        boolean[][] dp = new boolean[h + 1][w + 1];
+        dp[0][0] = true;
+        dp[h][w] = true;
+        int x = 0;
+        int y = 0;
+        while (x < h || y < w) {
+            dp[x][y] = true;
+            if (x < h && obstacleGrid[x + 1][y] == 0) {
+                x++;
+                continue;
+            }
+            if (y < w && obstacleGrid[x][y + 1] == 0) {
+                y++;
+                continue;
+            }
+            if (x == 0 && y == 0) {
+                return route;
+            }
+            dp[x][y] = false;
+            obstacleGrid[x][y] = 1;
+            if (x > 0 && dp[x - 1][y]) {
+                x--;
+            } else {
+                y--;
+            }
+        }
+        x = 0;
+        y = 0;
+        while (x < h || y < w) {
+            route.add(Arrays.asList(x, y));
+            if (x < h && dp[x + 1][y]) {
+                x++;
+            } else {
+                y++;
+            }
+        }
+        route.add(Arrays.asList(x, y));
+        return route;
+    }
+
+
     public static void main(String[] args) {
 
-
+        int[][] map = {
+                {0,0,0},
+                {0,1,0},
+                {0,0,0}
+        };
+        System.out.println(pathWithObstacles(map));
     }
 
 

@@ -509,7 +509,7 @@ public class NowCoderHigh {
     /**
      * 获取树的所有路径的和的最大值
      */
-    public static int getRouteMaxSumInTree(TreeNode<Integer> root) {
+    public static int getRouteMaxSumInTree(TreeNode root) {
 
         if (root == null) {
             return Integer.MIN_VALUE;
@@ -521,31 +521,31 @@ public class NowCoderHigh {
      * @param node 根节点
      * @return [最大路径和, 含根节点最大路径和]
      */
-    private static int[] getSumInfoInTree(TreeNode<Integer> node) {
+    private static int[] getSumInfoInTree(TreeNode node) {
         if (node == null) {
             return null;
         }
 
-        int[] left = getSumInfoInTree(node.getLeft());
-        int[] right = getSumInfoInTree(node.getRight());
+        int[] left = getSumInfoInTree(node.left);
+        int[] right = getSumInfoInTree(node.right);
 
-        int maxSumHead = node.getValue();
-        int maxSum = node.getValue();
+        int maxSumHead = node.val;
+        int maxSum = node.val;
         if (left != null) {
             if (right != null) {
                 // 左右子节点都存在
                 maxSumHead = Math.max(left[1], right[1]);
-                maxSumHead = maxSumHead > 0 ? maxSumHead + node.getValue() : node.getValue();
+                maxSumHead = maxSumHead > 0 ? maxSumHead + node.val : node.val;
                 maxSum = Math.max(left[0], right[0]);
                 maxSum = Math.max(maxSum, maxSumHead);
             } else {
                 // 只存在左节点
-                maxSumHead = Math.max(left[1] + node.getValue(), node.getValue());
+                maxSumHead = Math.max(left[1] + node.val, node.val);
                 maxSum = Math.max(maxSumHead, left[0]);
             }
         } else if (right != null) {
             // 只存在右节点
-            maxSumHead = Math.max(right[1] + node.getValue(), node.getValue());
+            maxSumHead = Math.max(right[1] + node.val, node.val);
             maxSum = Math.max(maxSumHead, right[0]);
         }
         return new int[]{maxSum, maxSumHead};
@@ -574,8 +574,8 @@ public class NowCoderHigh {
         if (node == null) {
             return null;
         }
-        int[] left = getRouteLengthInfoInTree(node.getLeft());
-        int[] right = getRouteLengthInfoInTree(node.getRight());
+        int[] left = getRouteLengthInfoInTree(node.left);
+        int[] right = getRouteLengthInfoInTree(node.right);
 
         int maxLength = 1;
         int deep = 1;
