@@ -1,7 +1,5 @@
-package cn.bingfa;
+package cn.concurrent;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 
 public class DeadLockTest {

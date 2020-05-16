@@ -1,4 +1,4 @@
-package cn.bingfa;
+package cn.concurrent;
 
 import java.io.IOException;
 import java.util.concurrent.Executors;

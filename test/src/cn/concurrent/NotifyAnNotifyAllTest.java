@@ -1,4 +1,4 @@
-package cn.bingfa;
+package cn.concurrent;
 
 import java.util.concurrent.TimeUnit;
 

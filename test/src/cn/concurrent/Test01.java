@@ -1,4 +1,4 @@
-package cn.bingfa;
+package cn.concurrent;
 
 public class Test01 {
 

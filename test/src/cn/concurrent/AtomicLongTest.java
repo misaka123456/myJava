@@ -1,8 +1,7 @@
-package cn.bingfa;
+package cn.concurrent;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.IntUnaryOperator;
 
 public class AtomicLongTest {
 

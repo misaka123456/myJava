@@ -1,4 +1,4 @@
-package cn.EnumTest;
+package cn.base;
 
 public enum Idol {
 

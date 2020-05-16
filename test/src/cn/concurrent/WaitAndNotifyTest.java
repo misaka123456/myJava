@@ -1,4 +1,4 @@
-package cn.bingfa;
+package cn.concurrent;
 
 public class WaitAndNotifyTest {
     public static void main(String[] args) {

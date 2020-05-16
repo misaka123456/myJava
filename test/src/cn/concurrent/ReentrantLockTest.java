@@ -1,4 +1,4 @@
-package cn.bingfa;
+package cn.concurrent;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -6,9 +6,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ReentrantLockTest {
 
-    private String[] strArr = new String[10];
 
-    private int num = 0;
+    private int num = 3;
 
     private final Lock lock = new ReentrantLock();
 
@@ -22,6 +21,7 @@ public class ReentrantLockTest {
             while (num == 10) {
                 notFull.await();
             }
+            print(s);
             notEmpty.signal();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -30,21 +30,22 @@ public class ReentrantLockTest {
         }
     }
 
-    void deq() {
+    void deq(String s) {
         lock.lock();
         try {
             while (num == 0) {
                 notEmpty.await();
             }
+            print(s);
             notFull.signal();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    public void print() {
+    public void print(String s) {
         for (int i = 0; i < num; i++) {
-            System.out.println(strArr[i]);
+            System.out.println(s);
         }
     }
 
@@ -52,8 +53,9 @@ public class ReentrantLockTest {
 
         ReentrantLockTest t = new ReentrantLockTest();
 
-        t.enq("dszf");
-        t.print();
+        t.enq("1");
+        t.enq("2");
+
 
 
 
