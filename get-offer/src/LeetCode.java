@@ -1,3 +1,4 @@
+import model.ListNode;
 import model.TreeNode;
 import myTools.MyArrayTools;
 
@@ -868,14 +869,227 @@ public class LeetCode {
     }
 
 
-    public static void main(String[] args) {
+    /**
+     * 47. 全排列 II
+     */
+    public static List<List<Integer>> permuteUnique(int[] nums) {
 
-        int[][] map = {
-                {0,0,0},
-                {0,1,0},
-                {0,0,0}
-        };
-        System.out.println(pathWithObstacles(map));
+        List<List<Integer>> result = new ArrayList<>();
+        if (nums == null || nums.length == 0) {
+            return result;
+        }
+
+        Arrays.sort(nums);
+        permuteUnique(nums, new int[nums.length], new boolean[nums.length], 0, result);
+        return result;
+
+
+
+    }
+    private static void permuteUnique(int[] nums, int[] route, boolean[] used, int len, List<List<Integer>> result) {
+        if (len == nums.length) {
+            List<Integer> list = new ArrayList<>();
+            for (int r : route) {
+                list.add(r);
+            }
+            result.add(list);
+            return;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (used[i]) {
+                continue;
+            }
+            if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) {
+                continue;
+            }
+            used[i] = true;
+            route[len] = nums[i];
+            permuteUnique(nums, route, used, len + 1, result);
+            used[i] = false;
+        }
+    }
+
+
+    /**
+     * 1079. 活字印刷
+     */
+    static int count = 0;
+    public static int numTilePossibilities(String tiles) {
+        if (tiles == null || tiles.length() == 0) {
+            return 0;
+        }
+        char[] nums = tiles.toCharArray();
+        Arrays.sort(nums);
+        numTilePossibilities(nums, new boolean[nums.length], 0);
+        return count - 1;
+    }
+    private static void numTilePossibilities(char[] nums, boolean[] used, int len) {
+        count++;
+        if (len == nums.length) {
+            return;
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            if (used[i]) {
+                continue;
+            }
+            if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) {
+                continue;
+            }
+            used[i] = true;
+            numTilePossibilities(nums, used, len + 1);
+            used[i] = false;
+        }
+    }
+
+
+    /**
+     * 1300. 转变数组后最接近目标值的数组和
+     */
+    public static int findBestValue(int[] arr, int target) {
+        if (arr.length == 1) {
+            return target;
+        }
+        int a = 0;
+        int b = 0;
+        Arrays.sort(arr);
+        if (target <= arr.length * arr[0]) {
+            a = target / arr.length ;
+            b = target / arr.length + 1;
+            if (target - a * arr.length <= b * arr.length - target) {
+                return a;
+            } else {
+                return b;
+            }
+        }
+
+
+        int[] curSumArr = new int[arr.length];
+        curSumArr[0] = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            curSumArr[i] = curSumArr[i - 1] + arr[i];
+        }
+
+        int curClosestSum = 0;
+
+        int l = 0;
+        int r = arr.length - 1;
+        int mid = 0;
+
+        while (r - l >= 2) {
+            mid = (l + r) >> 1;
+            curClosestSum = curSumArr[mid - 1] + arr[mid] * (arr.length - mid);
+            if (curClosestSum == target) {
+                return arr[mid];
+            } else if (curClosestSum < target) {
+                l = mid;
+            } else {
+                r = mid;
+            }
+        }
+        a = (target - curSumArr[l]) / (arr.length - r);
+        b = (target - curSumArr[l]) / (arr.length - r) + 1;
+        if (target - curSumArr[l] - (arr.length - r) * a <= (arr.length - r) * b - target + curSumArr[l]) {
+            return a;
+        } else {
+            return b;
+        }
+    }
+
+
+    public static ListNode removeZeroSumSublists(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        ListNode myHead = new ListNode(0);
+        myHead.next = head;
+        Map<Integer, ListNode> map = new HashMap<>();
+        Stack<Integer> stack = new Stack<>();
+        ListNode node = myHead.next;
+        int curSum = 0;
+        while (node != null) {
+            curSum = node.val + (stack.isEmpty() ? 0 : stack.peek());
+            if (curSum == 0) {
+                stack.clear();
+                map.clear();
+                myHead = node;
+
+            } else if (map.containsKey(curSum)) {
+                map.get(curSum).next = node.next;
+
+                while (stack.peek() != curSum) {
+                    map.remove(stack.pop());
+                }
+            } else {
+                map.put(curSum, node);
+                stack.push(curSum);
+
+            }
+            node = node.next;
+        }
+        return myHead.next;
+    }
+
+
+    /**
+     * 260. 只出现一次的数字 III
+     */
+    public static int[] singleNumber(int[] nums) {
+        int sum = 0;
+        for (int n : nums) {
+            sum = sum ^ n;
+        }
+        int gap = sum & (-sum);
+        int a = 0;
+        int b = 0;
+        for (int n : nums) {
+            if ((n & gap) == gap) {
+                a = a ^ n;
+            } else {
+                b = b ^ n;
+            }
+        }
+        return new int[]{a, b};
+
+    }
+
+
+    public static int numSquares(int n) {
+        int[] dp = new int[n + 1];
+        dp[0] = 0;
+        for (int i = 1; i <= n; i++) {
+            dp[i] = n;
+        }
+        List<Integer> list = new ArrayList<>();
+        int k = 1;
+        while (true) {
+            int diff = n - k * k;
+            if (diff < 0) {
+                break;
+            } else if (diff <= 1){
+                return diff + 1;
+            } else {
+                list.add(n - diff);
+            }
+            k++;
+        }
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < list.size(); j++) {
+                if (i - list.get(j) >= 0) {
+                    dp[i] = Math.min(dp[i], dp[i - list.get(j)] + 1);
+                }
+            }
+        }
+        return dp[n];
+    }
+
+
+
+
+    public static void main(String[] args)  {
+        System.out.println(numSquares(12));
+
+
     }
 
 
