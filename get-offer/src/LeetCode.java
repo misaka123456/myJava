@@ -1085,9 +1085,70 @@ public class LeetCode {
 
 
 
+    public static String smallestSubsequence(String text) {
+        if (text.length() <= 1) {
+            return text;
+        }
+        int[] countArr = new int[26];
+        char[] chars = text.toCharArray();
+        for (char c : chars) {
+            countArr[c - 'a']++;
+        }
+
+        int[] preArr = new int[26];
+        int pre = -1;
+        for (int i = 0; i < 26; i++) {
+            if (countArr[i] != 0) {
+                preArr[i] = pre;
+                pre = i;
+            }
+        }
+
+        int[] nextArr = new int[26];
+        int next = 26;
+        for (int i = 25; i >= 0; i--) {
+            if (countArr[i] != 0) {
+                nextArr[i] = next;
+                next = i;
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (char c : chars) {
+            int n = c - 'a';
+            if (countArr[n] == 1) {
+                sb.append(c);
+                countArr[n] = 0;
+                if (nextArr[n] == 26 && preArr[n] == -1) {
+                    break;
+                }
+                if (nextArr[n] == 26) {
+                    nextArr[preArr[n]] = 26;
+                } else if (preArr[n] == -1) {
+                    preArr[nextArr[n]] = -1;
+                } else {
+                    nextArr[preArr[n]] = nextArr[n];
+                    preArr[nextArr[n]] = preArr[n];
+                }
+            } else if (countArr[n] > 1) {
+                if (preArr[n] == -1) {
+                    sb.append(c);
+                    if (nextArr[n] != 26) {
+                        preArr[nextArr[n]] = -1;
+                    }
+                    countArr[n] = 0;
+                } else {
+
+                    countArr[n]--;
+                }
+            }
+        }
+        return sb.toString();
+    }
+
 
     public static void main(String[] args)  {
-        System.out.println(numSquares(12));
+        System.out.println(smallestSubsequence("leetcode"));
 
 
     }
