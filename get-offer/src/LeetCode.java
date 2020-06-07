@@ -2,8 +2,11 @@ import model.ListNode;
 import model.TreeNode;
 import myTools.MyArrayTools;
 
+import java.io.*;
 import java.util.*;
 
+
+@SuppressWarnings("all")
 public class LeetCode {
 
     private static void swap(int[] arr, int a, int b) {
@@ -515,10 +518,14 @@ public class LeetCode {
 
 
     /**
-     * 76. 最小覆盖子串
-     * 给你一个字符串 S、一个字符串 T，请在字符串 S 里面找出：包含 T 所有字母的最小子串。
+     * 给你一个字符串 S、一个字符串 T，请在字符串 S 里面找出：包含 T 所有字符的最小子串。
+     *
+     * 示例：
+     *
+     * 输入: S = "ADOBECODEBANC", T = "ABC"
+     * 输出: "BANC"
      */
-    public static String minWindow(String s, String t) {
+    public static String _0076_最小覆盖子串(String s, String t) {
         if (s.length() < t.length()) {
             return "";
         }
@@ -606,10 +613,9 @@ public class LeetCode {
     }
 
     /**
-     * 518. 零钱兑换 II
      * 给定不同面额的硬币和一个总金额。写出函数来计算可以凑成总金额的硬币组合数。假设每一种面额的硬币有无限个。
      */
-    public int change(int amount, int[] coins) {
+    public int _0518_零钱兑换_II(int amount, int[] coins) {
         if (amount == 0) {
             return 1;
         }
@@ -628,12 +634,11 @@ public class LeetCode {
 
 
     /**
-     * 846. 一手顺子
      * 爱丽丝有一手（hand）由整数数组给定的牌。 
      * 现在她想把牌重新排列成组，使得每个组的大小都是 W，且由 W 张连续的牌组成。
      * 如果她可以完成分组就返回 true，否则返回 false。
      */
-    public static boolean isNStraightHand(int[] hand, int W) {
+    public static boolean _0846_一手顺子(int[] hand, int W) {
         if (hand.length % W != 0) {
             return false;
         }
@@ -662,12 +667,11 @@ public class LeetCode {
 
 
     /**
-     * 34. 在排序数组中查找元素的第一个和最后一个位置
      * 给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。
      * 你的算法时间复杂度必须是 O(log n) 级别。
      * 如果数组中不存在目标值，返回 [-1, -1]。
      */
-    public static int[] searchRange(int[] nums, int target) {
+    public static int[] _0034_在排序数组中查找元素的第一个和最后一个位置(int[] nums, int target) {
         int[] out = new int[] {-1, -1};
         int len = nums.length - 1;
         if (len == -1 || target < nums[0] || target > nums[len]) {
@@ -729,10 +733,7 @@ public class LeetCode {
     }
 
 
-    /**
-     * 1128. 等价多米诺骨牌对的数量
-     */
-    public int numEquivDominoPairs(int[][] dominoes) {
+    public int _1128_等价多米诺骨牌对的数量(int[][] dominoes) {
         if (dominoes.length == 0) {
             return 0;
         }
@@ -754,12 +755,7 @@ public class LeetCode {
     }
 
 
-    /**
-     * 388. 文件的最长绝对路径
-     * @param input
-     * @return
-     */
-    public static int lengthLongestPath(String input) {
+    public static int _0388_文件的最长绝对路径(String input) {
         if (input.length() == 0) {
             return 0;
         }
@@ -817,62 +813,8 @@ public class LeetCode {
     }
 
 
-    /**
-     * 面试题 08.02. 迷路的机器人
-     */
-    public static List<List<Integer>> pathWithObstacles(int[][] obstacleGrid) {
 
-        List<List<Integer>> route = new ArrayList<>();
-        int h = obstacleGrid.length - 1;
-        int w = obstacleGrid[0].length - 1;
-        if (obstacleGrid[0][0] == 1 || obstacleGrid[h][w] == 1) {
-            return route;
-        }
-        boolean[][] dp = new boolean[h + 1][w + 1];
-        dp[0][0] = true;
-        dp[h][w] = true;
-        int x = 0;
-        int y = 0;
-        while (x < h || y < w) {
-            dp[x][y] = true;
-            if (x < h && obstacleGrid[x + 1][y] == 0) {
-                x++;
-                continue;
-            }
-            if (y < w && obstacleGrid[x][y + 1] == 0) {
-                y++;
-                continue;
-            }
-            if (x == 0 && y == 0) {
-                return route;
-            }
-            dp[x][y] = false;
-            obstacleGrid[x][y] = 1;
-            if (x > 0 && dp[x - 1][y]) {
-                x--;
-            } else {
-                y--;
-            }
-        }
-        x = 0;
-        y = 0;
-        while (x < h || y < w) {
-            route.add(Arrays.asList(x, y));
-            if (x < h && dp[x + 1][y]) {
-                x++;
-            } else {
-                y++;
-            }
-        }
-        route.add(Arrays.asList(x, y));
-        return route;
-    }
-
-
-    /**
-     * 47. 全排列 II
-     */
-    public static List<List<Integer>> permuteUnique(int[] nums) {
+    public static List<List<Integer>> _0047_全排列_II(int[] nums) {
 
         List<List<Integer>> result = new ArrayList<>();
         if (nums == null || nums.length == 0) {
@@ -911,10 +853,10 @@ public class LeetCode {
 
 
     /**
-     * 1079. 活字印刷
+     *
      */
     static int count = 0;
-    public static int numTilePossibilities(String tiles) {
+    public static int _1079_活字印刷(String tiles) {
         if (tiles == null || tiles.length() == 0) {
             return 0;
         }
@@ -943,10 +885,7 @@ public class LeetCode {
     }
 
 
-    /**
-     * 1300. 转变数组后最接近目标值的数组和
-     */
-    public static int findBestValue(int[] arr, int target) {
+    public static int _1300_转变数组后最接近目标值的数组和(int[] arr, int target) {
         if (arr.length == 1) {
             return target;
         }
@@ -997,7 +936,7 @@ public class LeetCode {
     }
 
 
-    public static ListNode removeZeroSumSublists(ListNode head) {
+    public static ListNode _1171_从链表中删去总和值为零的连续节点(ListNode head) {
         if (head == null) {
             return null;
         }
@@ -1031,10 +970,8 @@ public class LeetCode {
     }
 
 
-    /**
-     * 260. 只出现一次的数字 III
-     */
-    public static int[] singleNumber(int[] nums) {
+
+    public static int[] _0260_只出现一次的数字_III(int[] nums) {
         int sum = 0;
         for (int n : nums) {
             sum = sum ^ n;
@@ -1054,7 +991,7 @@ public class LeetCode {
     }
 
 
-    public static int numSquares(int n) {
+    public static int _0279_完全平方数(int n) {
         int[] dp = new int[n + 1];
         dp[0] = 0;
         for (int i = 1; i <= n; i++) {
@@ -1084,74 +1021,551 @@ public class LeetCode {
     }
 
 
-
-    public static String smallestSubsequence(String text) {
-        if (text.length() <= 1) {
-            return text;
-        }
-        int[] countArr = new int[26];
-        char[] chars = text.toCharArray();
-        for (char c : chars) {
-            countArr[c - 'a']++;
-        }
-
-        int[] preArr = new int[26];
-        int pre = -1;
-        for (int i = 0; i < 26; i++) {
-            if (countArr[i] != 0) {
-                preArr[i] = pre;
-                pre = i;
-            }
-        }
-
-        int[] nextArr = new int[26];
-        int next = 26;
-        for (int i = 25; i >= 0; i--) {
-            if (countArr[i] != 0) {
-                nextArr[i] = next;
-                next = i;
-            }
-        }
-
-        StringBuilder sb = new StringBuilder();
-        for (char c : chars) {
-            int n = c - 'a';
-            if (countArr[n] == 1) {
-                sb.append(c);
-                countArr[n] = 0;
-                if (nextArr[n] == 26 && preArr[n] == -1) {
-                    break;
-                }
-                if (nextArr[n] == 26) {
-                    nextArr[preArr[n]] = 26;
-                } else if (preArr[n] == -1) {
-                    preArr[nextArr[n]] = -1;
-                } else {
-                    nextArr[preArr[n]] = nextArr[n];
-                    preArr[nextArr[n]] = preArr[n];
-                }
-            } else if (countArr[n] > 1) {
-                if (preArr[n] == -1) {
-                    sb.append(c);
-                    if (nextArr[n] != 26) {
-                        preArr[nextArr[n]] = -1;
+    public static List<List<String>> _1331_数组序号转换(String[] paths) {
+        List<List<String>> result = new ArrayList<>();
+        Map<String, List<String>> map = new HashMap<>();
+        List<String> list = null;
+        for (String path : paths) {
+            int index = path.indexOf(' ');
+            String fatherPath = path.substring(0, index) + "/";
+            String[] files = path.substring(index + 1).split(" ");
+            for (String file : files) {
+                int valueIndex = file.indexOf('(');
+                String value = file.substring(valueIndex + 1, file.length() - 1);
+                if (map.containsKey(value)) {
+                    list = map.get(value);
+                    if (list.size() == 1) {
+                        result.add(list);
                     }
-                    countArr[n] = 0;
                 } else {
-
-                    countArr[n]--;
+                    list = new ArrayList<>();
+                    map.put(value, list);
                 }
+                list.add(fatherPath + file.substring(0, valueIndex));
             }
+
+
+
+
+
+        }
+        return result;
+    }
+
+
+    /**
+     * 给定一个由空格分割单词的句子 S。每个单词只包含大写或小写字母。
+     *
+     * 我们要将句子转换为 “Goat Latin”（一种类似于 猪拉丁文 - Pig Latin 的虚构语言）。
+     *
+     * 山羊拉丁文的规则如下：
+     *
+     * 如果单词以元音开头（a, e, i, o, u），在单词后添加"ma"。
+     * 例如，单词"apple"变为"applema"。
+     *
+     * 如果单词以辅音字母开头（即非元音字母），移除第一个字符并将它放到末尾，之后再添加"ma"。
+     * 例如，单词"goat"变为"oatgma"。
+     *
+     * 根据单词在句子中的索引，在单词最后添加与索引相同数量的字母'a'，索引从1开始。
+     * 例如，在第一个单词后添加"a"，在第二个单词后添加"aa"，以此类推。
+     * 返回将 S 转换为山羊拉丁文后的句子。
+     */
+    public static String _0824_山羊拉丁文(String S) {
+        if (S.length() == 0) {
+            return "";
+        }
+        String[] sArr = S.split(" ");
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        while (true) {
+            char c = sArr[i].charAt(0);
+            if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' ||
+                    c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U') {
+                sb.append(sArr[i]);
+            } else {
+                sb.append(sArr[i].substring(1));
+                sb.append(c);
+            }
+            sb.append("ma");
+            for (int n = 0; n <= i; n++) {
+                sb.append("a");
+            }
+            i++;
+            if (i == sArr.length) {
+                break;
+            }
+            sb.append(' ');
         }
         return sb.toString();
     }
 
 
-    public static void main(String[] args)  {
-        System.out.println(smallestSubsequence("leetcode"));
+    /**
+     * 给定两个整数 n 和 k，返回 1 ... n 中所有可能的 k 个数的组合。
+     *
+     * 示例:
+     *
+     * 输入: n = 4, k = 2
+     * 输出:
+     * [
+     *   [2,4],
+     *   [3,4],
+     *   [2,3],
+     *   [1,2],
+     *   [1,3],
+     *   [1,4],
+     * ]
+     */
+    public static List<List<Integer>> _0077_组合(int n, int k) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (n < k) {
+            return result;
+        }
+        int[] arr = new int[k];
+        combine(n, k, 0, 0, arr, result);
+        return result;
+    }
+    private static void combine(int n, int k, int curCount, int preValue, int[] arr, List<List<Integer>> result) {
+        if (curCount == k) {
+            List<Integer> list = new ArrayList<>();
+            for (int a : arr) {
+                list.add(a);
+            }
+            result.add(list);
+            return;
+        }
+        for (int i = preValue + 1; i <= n; i++) {
+            arr[curCount] = i;
+            combine(n, k, curCount + 1, i, arr, result);
+        }
+    }
+
+
+    /**
+     * 给定一个数组 A，将其划分为两个不相交（没有公共元素）的连续子数组 left 和 right， 使得：
+     *
+     * left 中的每个元素都小于或等于 right 中的每个元素。
+     * left 和 right 都是非空的。
+     * left 要尽可能小。
+     * 在完成这样的分组后返回 left 的长度。可以保证存在这样的划分方法。
+     *
+     * 示例 1：
+     *
+     * 输入：[5,0,3,8,6]
+     * 输出：3
+     * 解释：left = [5,0,3]，right = [8,6]
+     * 示例 2：
+     *
+     * 输入：[1,1,1,0,6,12]
+     * 输出：4
+     * 解释：left = [1,1,1,0]，right = [6,12]
+     */
+    public static int _0915_分割数组(int[] A) {
+        if (A.length <= 1) {
+            return A.length;
+        }
+        int min = 0;
+        for (int i = 1; i < A.length; i++) {
+            if (A[i] < A[min]) {
+                min = i;
+            }
+        }
+        int leftMax = Integer.MIN_VALUE;
+        for (int i = 0; i < min; i++) {
+            leftMax = Math.max(leftMax, A[i]);
+        }
+        int end = min;
+        for (int i = min + 1; i < A.length; i++) {
+            if (A[i] < leftMax) {
+                end = i;
+            }
+        }
+        return end + 1;
+    }
+
+
+    /**
+     * 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
+     *
+     * 如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
+     *
+     * 您可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+     *
+     * 示例：
+     *
+     * 输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
+     * 输出：7 -> 0 -> 8
+     * 原因：342 + 465 = 807
+     */
+    public ListNode _0002_两数相加(ListNode l1, ListNode l2) {
+
+        ListNode l1Child = l1;
+        ListNode l2Child = l2;
+
+        ListNode head = l1;
+        int top = 0;
+        while (l1Child != null && l2Child != null) {
+            int sum = top + l1Child.val + l2Child.val;
+            if (sum >= 10) {
+                top = 1;
+                sum -= 10;
+                if (l1Child.next == null && l2Child.next == null) {
+                    l1Child.val = sum;
+                    l1Child.next = new ListNode(1);
+                    return head;
+                }
+            } else {
+                top = 0;
+            }
+            l1Child.val = sum;
+            l2Child.val = sum;
+            l1Child = l1Child.next;
+            l2Child = l2Child.next;
+        }
+
+        if (l1Child == null) {
+            head = l2;
+            l1Child = l2Child;
+        }
+        while (l1Child != null) {
+            if (top == 0 || l1Child.val != 9) {
+                l1Child.val = top + l1Child.val;
+                break;
+            }
+            if (l1Child.val == 9) {
+                l1Child.val = 0;
+                if (l1Child.next == null) {
+                    l1Child.next = new ListNode(1);
+                    break;
+                }
+                top = 1;
+                l1Child = l1Child.next;
+            }
+        }
+        return head;
+
+    }
+
+
+    /**
+     * 给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。
+     *
+     * 示例 1：
+     *
+     * 输入: "babad"
+     * 输出: "bab"
+     * 注意: "aba" 也是一个有效答案。
+     * 示例 2：
+     *
+     * 输入: "cbbd"
+     * 输出: "bb"
+     */
+    public static String _0005_最长回文子串(String s) {
+        if (s.length() == 0) {
+            return "";
+        }
+        char[] arr = s.toCharArray();
+        boolean[][] dp = new boolean[arr.length][arr.length];
+        for (int i = 0; i < dp.length; i++) {
+            dp[i][i] = true;
+        }
+        int maxL = 0;
+        int maxR = 0;
+        for (int j = 1; j < dp.length; j++) {
+            if ((dp[j - 1][j] = arr[j - 1] == arr[j]) && maxR - maxL == 0) {
+                maxL = j - 1;
+                maxR = j;
+            }
+            for (int i = j - 2; i >= 0; i--) {
+                if ((dp[i][j] = dp[i + 1][j - 1] && (arr[i] == arr[j])) && j - i > maxR - maxL) {
+                    maxL = i;
+                    maxR = j;
+                }
+            }
+        }
+        return s.substring(maxL, maxR + 1);
+    }
+
+
+    /**
+     * 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
+     *
+     * 注意：答案中不可以包含重复的三元组。
+     *
+     * 示例：
+     *
+     * 给定数组 nums = [-1, 0, 1, 2, -1, -4]，
+     *
+     * 满足要求的三元组集合为：
+     * [
+     *   [-1, 0, 1],
+     *   [-1, -1, 2]
+     * ]
+     */
+    public static List<List<Integer>> _0015_三数之和(int[] nums) {
+
+        List<List<Integer>> result = new ArrayList<>();
+        if (nums.length <= 2) {
+            return result;
+        }
+        Arrays.sort(nums);
+
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            map.put(-nums[i], i);
+        }
+        for (int i = 0; i < nums.length && nums[i] <= 0; i++) {
+            if (i != 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            for (int j = i + 1; j < nums.length; j++) {
+                if (j != i + 1 && nums[j] == nums[j - 1]) {
+                    continue;
+                }
+                int lastIndex = map.getOrDefault(nums[i] + nums[j], -1);
+                if (lastIndex > j) {
+                    result.add(Arrays.asList(nums[i], nums[j], nums[lastIndex]));
+                }
+            }
+        }
+        return result;
+    }
+
+
+    /**
+     * 合并 k 个排序链表，返回合并后的排序链表。请分析和描述算法的复杂度。
+     *
+     * 示例:
+     *
+     * 输入:
+     * [
+     *   1->4->5,
+     *   1->3->4,
+     *   2->6
+     * ]
+     * 输出: 1->1->2->3->4->4->5->6
+     */
+    public ListNode _0023_合并K个排序链表(ListNode[] lists) {
+        ListNode head = new ListNode();
+        ListNode node = head;
+        PriorityQueue<ListNode> heap = new PriorityQueue<>(Comparator.comparingInt(n -> n.val));
+        for (ListNode list : lists) {
+            if (list != null) {
+                heap.offer(list);
+            }
+        }
+        while (!heap.isEmpty()) {
+            ListNode temp = heap.poll();
+            node.next = temp;
+            node = temp;
+            temp = temp.next;
+            if (temp != null) {
+                heap.offer(temp);
+            }
+        }
+        return head.next;
+    }
+
+
+
+    public static int[][] reconstructQueue(int[][] people) {
+        LinkedList<int[]> list = new LinkedList<>();
+        Arrays.sort(people, (o1, o2) -> o1[0] == o2[0] ? o1[1] - o2[1] : o2[0] - o1[0]);
+        for (int[] person : people) {
+            list.add(person[1], person);
+        }
+        return list.toArray(new int[0][]);
+
+    }
+
+
+    /**
+     * 79. 单词搜索
+     * 给定一个二维网格和一个单词，找出该单词是否存在于网格中。
+     *
+     * 单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。
+     *
+     * 示例:
+     *
+     * board =
+     * [
+     *   ['A','B','C','E'],
+     *   ['S','F','C','S'],
+     *   ['A','D','E','E']
+     * ]
+     *
+     * 给定 word = "ABCCED", 返回 true
+     * 给定 word = "SEE", 返回 true
+     * 给定 word = "ABCB", 返回 false
+     */
+    public static boolean _0079_单词搜索(char[][] board, String word) {
+        if (word.length() == 0) {
+            return true;
+        }
+
+        boolean[][] used = new boolean[board.length][board[0].length];
+
+        char[] arr = word.toCharArray();
+        char c = arr[0];
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j] == c) {
+                    if (existCore(board, i, j, arr, used, 0)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    private static boolean existCore(char[][] board, int i, int j, char[] arr, boolean[][] used, int end) {
+        if (end == arr.length - 1) {
+            return true;
+        }
+        used[i][j] = true;
+        end++;
+        if ((i > 0 && !used[i - 1][j] && arr[end] == board[i - 1][j] && existCore(board, i - 1, j, arr, used, end)) ||
+                (i < board.length - 1 && !used[i + 1][j] && arr[end] == board[i + 1][j] && existCore(board, i + 1, j, arr, used, end)) ||
+                (j > 0 && !used[i][j - 1] && arr[end] == board[i][j - 1] && existCore(board, i, j - 1, arr, used, end)) ||
+                (j < board[0].length - 1 && !used[i][j + 1] && arr[end] == board[i][j + 1] && existCore(board, i, j + 1, arr, used, end))) {
+            return true;
+        }
+        used[i][j] = false;
+        return false;
+    }
+
+
+    /**
+     * 给定一个无序的整数数组，找到其中最长上升子序列的长度。
+     *
+     * 示例:
+     *
+     * 输入: [10,9,2,5,3,7,101,18]
+     * 输出: 4
+     * 解释: 最长的上升子序列是 [2,3,7,101]，它的长度是 4。
+     * 说明:
+     *
+     * 可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。
+     * 你算法的时间复杂度应该为 O(n2) 。
+     * 进阶: 你能将算法的时间复杂度降低到 O(n log n) 吗?
+     */
+    public static int _0300_最长上升子序列(int[] nums) {
+        if (nums.length <= 1) {
+            return nums.length;
+        }
+        int[] dp = new int[nums.length];
+        dp[0] = 1;
+        for (int i = 1; i < nums.length; i++) {
+            dp[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if (nums[i] > nums[j]) {
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+
+            }
+        }
+        int maxLen = 1;
+        for (int len : dp) {
+            maxLen = Math.max(maxLen, len);
+        }
+        return maxLen;
+    }
+
+
+    public static int[] topKFrequent(int[] nums, int k) {
+
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int n : nums) {
+            map.put(n, map.getOrDefault(n, 0) + 1);
+        }
+        int[] arr = new int[k];
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> map.get(a)));
+        int count = 0;
+        for (int key : map.keySet()) {
+            if (count == k) {
+                if (map.get(key) > map.get(minHeap.peek())) {
+                    minHeap.poll();
+                    minHeap.offer(key);
+                }
+            } else {
+                minHeap.offer(key);
+            }
+        }
+        for (int i = 0; i < k; i++) {
+            arr[i] = minHeap.poll();
+        }
+        return arr;
+    }
+
+
+    /**
+     * 将一个给定字符串根据给定的行数，以从上往下、从左到右进行 Z 字形排列。
+     *
+     * 比如输入字符串为 "LEETCODEISHIRING" 行数为 3 时，排列如下：
+     *
+     * L   C   I   R
+     * E T O E S I I G
+     * E   D   H   N
+     * 之后，你的输出需要从左往右逐行读取，产生出一个新的字符串，比如："LCIRETOESIIGEDHN"。
+     *
+     * 请你实现这个将字符串进行指定行数变换的函数：
+     *
+     * string convert(string s, int numRows);
+     * 示例 1:
+     *
+     * 输入: s = "LEETCODEISHIRING", numRows = 3
+     * 输出: "LCIRETOESIIGEDHN"
+     * 示例 2:
+     *
+     * 输入: s = "LEETCODEISHIRING", numRows = 4
+     * 输出: "LDREOEIIECIHNTSG"
+     * 解释:
+     *
+     * L     D     R
+     * E   O E   I I
+     * E C   I H   N
+     * T     S     G
+     */
+    public static String _0006_Z字形变换(String s, int numRows) {
+        if (s.length() == 0 || numRows == 1) {
+            return s;
+        }
+        StringBuilder[] arr = new StringBuilder[numRows];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = new StringBuilder();
+        }
+        int twoN = (numRows - 1) << 1;
+        int j = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (j < numRows) {
+                arr[j].append(s.charAt(i));
+                j++;
+            } else if (j < twoN) {
+                arr[twoN - j].append(s.charAt(i));
+                j++;
+            } else {
+                j = 0;
+                i--;
+            }
+        }
+        for (int i = 1; i < numRows; i++) {
+            arr[0].append(arr[i]);
+        }
+        return arr[0].toString();
+    }
+
+
+
+    public static void main(String[] args) {
+
+        for (int i = 0; i < 32; i++) {
+            System.out.println((i * (i - 1) / 2));
+        }
 
 
     }
+
+
 
 
 
