@@ -73,7 +73,7 @@ public class CleanPic {
             if (j >= biNames.length) {
                 for (int k = i; k < yuanNames.length; k++) {
                     System.out.println(++yuanCount + " yuan: " + yuanNames[k]);
-                    //yuanPics[k].renameTo(new File(yuanShanDir, yuanPics[k].getName()));
+                    yuanPics[k].renameTo(new File(yuanShanDir, yuanPics[k].getName()));
                 }
                 break;
             }
@@ -82,12 +82,12 @@ public class CleanPic {
                 j++;
             } else if (cha > 0) {
                 System.out.println(++biCount + " bizhi: " + biNames[j]);
-                //biPics[j].renameTo(new File(biShanDir, biPics[j].getName()));
+                biPics[j].renameTo(new File(biShanDir, biPics[j].getName()));
                 j++;
                 i--;
             } else {
                 System.out.println(++yuanCount + " yuan: " + yuanNames[i]);
-                //yuanPics[i].renameTo(new File(yuanShanDir, yuanPics[i].getName()));
+                yuanPics[i].renameTo(new File(yuanShanDir, yuanPics[i].getName()));
             }
         }
         System.out.println("yuan: " + yuanCount + "; bi: " + biCount);

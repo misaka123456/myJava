@@ -26,7 +26,7 @@ public class WaitAndNotifyTest {
         }).start();
         new Thread(() -> {
             while(true){
-                task.comsume();
+                task.consume();
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -57,7 +57,7 @@ public class WaitAndNotifyTest {
             notifyAll();
         }
 
-        public synchronized void comsume() {
+        public synchronized void consume() {
             while (num <= 0) {
                 try {
                     System.out.println(Thread.currentThread().getName() + "没有商品了，消费者处于等待状态...");

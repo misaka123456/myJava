@@ -2,7 +2,6 @@ import model.ListNode;
 import model.TreeNode;
 import myTools.MyArrayTools;
 
-import java.io.*;
 import java.util.*;
 
 
@@ -1555,13 +1554,110 @@ public class LeetCode {
     }
 
 
+    /**
+     * 给定 pushed 和 popped 两个序列，每个序列中的 值都不重复，只有当它们可能是在最初空栈上进行的推入 push 和弹出 pop 操作序列的结果时，返回 true；否则，返回 false 。
+     *
+     * 示例 1：
+     *
+     * 输入：pushed = [1,2,3,4,5], popped = [4,5,3,2,1]
+     * 输出：true
+     * 解释：我们可以按以下顺序执行：
+     * push(1), push(2), push(3), push(4), pop() -> 4,
+     * push(5), pop() -> 5, pop() -> 3, pop() -> 2, pop() -> 1
+     * 示例 2：
+     *
+     * 输入：pushed = [1,2,3,4,5], popped = [4,3,5,1,2]
+     * 输出：false
+     * 解释：1 不能在 2 之前弹出。
+     */
+    public static boolean _0946_验证栈序列(int[] pushed, int[] popped) {
+        int[] stack = new int[pushed.length];
+        int top = -1;
+        int i = 0;
+        for (int pushValue : pushed) {
+            stack[++top] = pushValue;
+            while (top >= 0 && stack[top] == popped[i]) {
+                i++;
+                top--;
+            }
+        }
+        return top == -1;
+    }
+
+
+
+    public static String getPermutation(int n, int k) {
+        k--;
+        int num = 1;
+        for (int i = 1; i <= n; i++) {
+            num *= i;
+        }
+        boolean[] used = new boolean[n];
+        String str = "";
+        for (int i = 0; i < n; i++) {
+            num = num / (n - i);
+            int a = k / num;
+            k = k % num;
+            for (int j = 0; j < n; j++) {
+                if (!used[j]) {
+                    if (a == 0) {
+                        str = str + (j + 1);
+                        used[j] = true;
+                        break;
+                    } else {
+                        a--;
+                    }
+                }
+            }
+        }
+        return str;
+    }
+
+
+    /**
+     * 给出一棵二叉树，其上每个结点的值都是 0 或 1 。每一条从根到叶的路径都代表一个从最高有效位开始的二进制数。例如，如果路径为 0 -> 1 -> 1 -> 0 -> 1，那么它表示二进制数 01101，也就是 13 。
+     *
+     * 对树上的每一片叶子，我们都要找出从根到该叶子的路径所表示的数字。
+     *
+     * 以 10^9 + 7 为模，返回这些数字之和。
+     *
+     * 示例：
+     *
+     * 输入：[1,0,1,0,1,0,1]
+     * 输出：22
+     * 解释：(100) + (101) + (110) + (111) = 4 + 5 + 6 + 7 = 22
+     */
+    public static int _1022_从根到叶的二进制数之和(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return sumRootToLeafCore(root, 0);
+    }
+    private static int sumRootToLeafCore(TreeNode root, int sum) {
+        sum = (sum << 1) + root.val;
+        if (root.left == null && root.right == null) {
+            return sum;
+        }
+        int sum1 = 0;
+        if (root.left != null) {
+            sum1 += sumRootToLeafCore(root.left, sum);
+        }
+        if (root.right != null) {
+            sum1 += sumRootToLeafCore(root.right, sum);
+        }
+        return sum1;
+    }
+
+
+
+
+
+
 
     public static void main(String[] args) {
 
-        for (int i = 0; i < 32; i++) {
-            System.out.println((i * (i - 1) / 2));
-        }
-
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(1, 1);
 
     }
 
