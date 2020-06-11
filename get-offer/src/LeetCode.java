@@ -1649,16 +1649,348 @@ public class LeetCode {
     }
 
 
+    /**
+     * 输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历结果。如果是则返回 true，否则返回 false。假设输入的数组的任意两个数字都互不相同。
+     *
+     * 参考以下这颗二叉搜索树：
+     *
+     *      5
+     *     / \
+     *    2   6
+     *   / \
+     *  1   3
+     * 示例 1：
+     *
+     * 输入: [1,6,3,2,5]
+     * 输出: false
+     * 示例 2：
+     *
+     * 输入: [1,3,2,6,5]
+     * 输出: true
+     */
+    public boolean 面试题33_二叉搜索树的后序遍历序列(int[] postorder) {
+        return verifyPostorderCore(postorder, 0, postorder.length - 1);
+    }
+    private boolean verifyPostorderCore(int[] postorder, int start, int end) {
+        if (start >= end) {
+            return true;
+        }
+        int i = start;
+        while (i < end && postorder[i] < postorder[end]) {
+            i++;
+        }
+        for (int j = i + 1; j < end; j++) {
+            if (postorder[j] < postorder[end]) {
+                return false;
+            }
+        }
+        return verifyPostorderCore(postorder, start, i - 1) && verifyPostorderCore(postorder, i, end - 1);
+    }
+
+
+    /**
+     * 比较两个版本号 version1 和 version2。
+     * 如果 version1 > version2 返回 1，如果 version1 < version2 返回 -1， 除此之外返回 0。
+     *
+     * 你可以假设版本字符串非空，并且只包含数字和 . 字符。
+     *
+     *  . 字符不代表小数点，而是用于分隔数字序列。
+     *
+     * 例如，2.5 不是“两个半”，也不是“差一半到三”，而是第二版中的第五个小版本。
+     *
+     * 你可以假设版本号的每一级的默认修订版号为 0。例如，版本号 3.4 的第一级（大版本）和第二级（小版本）修订号分别为 3 和 4。其第三级和第四级修订号均为 0。
+     *  
+     * 示例 1:
+     *
+     * 输入: version1 = "0.1", version2 = "1.1"
+     * 输出: -1
+     * 示例 2:
+     *
+     * 输入: version1 = "1.0.1", version2 = "1"
+     * 输出: 1
+     * 示例 3:
+     *
+     * 输入: version1 = "7.5.2.4", version2 = "7.5.3"
+     * 输出: -1
+     * 示例 4：
+     *
+     * 输入：version1 = "1.01", version2 = "1.001"
+     * 输出：0
+     * 解释：忽略前导零，“01” 和 “001” 表示相同的数字 “1”。
+     * 示例 5：
+     *
+     * 输入：version1 = "1.0", version2 = "1.0.0"
+     * 输出：0
+     * 解释：version1 没有第三级修订号，这意味着它的第三级修订号默认为 “0”。
+     */
+    public int _0165_比较版本号(String version1, String version2) {
+        if (version1.length() == 0 && version2.length() == 0) {
+            return 0;
+        }
+        String[] arr1 = version1.split("\\.");
+        String[] arr2 = version2.split("\\.");
+        int i1 = 0;
+        int i2 = 0;
+        while (i1 < arr1.length && i2 < arr2.length) {
+            int n1 = Integer.parseInt(arr1[i1]);
+            int n2 = Integer.parseInt(arr2[i2]);
+            if (n1 != n2) {
+                return n1 > n2 ? 1 : -1;
+            }
+            i1++;
+            i2++;
+        }
+        if (i1 == arr1.length) {
+            while (i2 < arr2.length) {
+                if (Integer.parseInt(arr2[i2]) != 0) {
+                    return -1;
+                }
+                i2++;
+            }
+        } else {
+            while (i1 < arr1.length) {
+                if (Integer.parseInt(arr1[i1]) != 0) {
+                    return 1;
+                }
+                i1++;
+            }
+        }
+        return 0;
+    }
+
+
+    /**
+     * 给定一个经过编码的字符串，返回它解码后的字符串。
+     *
+     * 编码规则为: k[encoded_string]，表示其中方括号内部的 encoded_string 正好重复 k 次。注意 k 保证为正整数。
+     *
+     * 你可以认为输入字符串总是有效的；输入字符串中没有额外的空格，且输入的方括号总是符合格式要求的。
+     *
+     * 此外，你可以认为原始数据不包含数字，所有的数字只表示重复的次数 k ，例如不会出现像 3a 或 2[4] 的输入。
+     *
+     * 示例 1：
+     *
+     * 输入：s = "3[a]2[bc]"
+     * 输出："aaabcbc"
+     * 示例 2：
+     *
+     * 输入：s = "3[a2[c]]"
+     * 输出："accaccacc"
+     * 示例 3：
+     *
+     * 输入：s = "2[abc]3[cd]ef"
+     * 输出："abcabccdcdcdef"
+     * 示例 4：
+     *
+     * 输入：s = "abc3[cd]xyz"
+     * 输出："abccdcdcdxyz"
+     */
+    public static String _0394_字符串解码(String s) {
+        if (s.length() == 0) {
+            return "";
+        }
+
+        Stack<String> strStack = new Stack<>();
+        Stack<Integer> numStack = new Stack<>();
+
+        StringBuilder sb = new StringBuilder();
+
+        int count = 0;
+        int pre = 0;
+        int i = 0;
+        while (i < s.length()) {
+            char c = s.charAt(i);
+            if (c >= '0' && c <= '9') {
+                count = count * 10 + c - '0';
+                i++;
+            } else if (c == '[') {
+                numStack.push(count);
+                strStack.push("");
+                count = 0;
+                i++;
+            } else if (c == ']') {
+                String code = strStack.pop();
+                String ccooddee = "";
+                count = numStack.pop();
+                while (count > 0) {
+                    ccooddee += code;
+                    count--;
+                }
+                if (numStack.isEmpty()) {
+                    sb.append(ccooddee);
+                } else {
+                    strStack.push(strStack.pop() + ccooddee);
+                }
+                i++;
+            } else {
+                pre = i;
+                while (i < s.length() && s.charAt(i) != ']' && s.charAt(i) > '9') {
+                    i++;
+                }
+                if (numStack.isEmpty()) {
+                    sb.append(s.substring(pre, i));
+                } else {
+                    strStack.push(strStack.pop() + s.substring(pre, i));
+                }
+                count = 0;
+            }
+        }
+        return sb.toString();
+    }
+
+
+    /**
+     * 给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。
+     *
+     * 相邻的结点 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。
+     *
+     * 例如，给定三角形：
+     *
+     * [
+     *      [2],
+     *     [3,4],
+     *    [6,5,7],
+     *   [4,1,8,3]
+     * ]
+     * 自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11）。
+     */
+    public static int _0120_三角形最小路径和(List<List<Integer>> triangle) {
+        if (triangle.size() == 0) {
+            return 0;
+        }
+        int[] dp = new int[triangle.size()];
+        dp[0] = triangle.get(0).get(0);
+        for (int i = 1; i < triangle.size(); i++) {
+            List<Integer> list = triangle.get(i);
+            dp[i] += dp[i - 1] + list.get(list.size() - 1);
+            for (int j = list.size() - 2; j > 0; j--) {
+                dp[j] = list.get(j) + Math.min(dp[j], dp[j - 1]);
+            }
+            dp[0] += list.get(0);
+        }
+        int min = dp[0];
+        for (int d : dp) {
+            min = Math.min(d, min);
+        }
+        return min;
+    }
 
 
 
 
+
+    /**
+     * 给定一个整数 n，生成所有由 1 ... n 为节点所组成的 二叉搜索树 。
+     *
+     * 示例：
+     *
+     * 输入：3
+     * 输出：
+     * [
+     *   [1,null,3,2],
+     *   [3,2,null,1],
+     *   [3,1,null,null,2],
+     *   [2,1,3],
+     *   [1,null,2,null,3]
+     * ]
+     * 解释：
+     * 以上的输出对应以下 5 种不同结构的二叉搜索树：
+     *
+     *    1         3     3      2      1
+     *     \       /     /      / \      \
+     *      3     2     1      1   3      2
+     *     /     /       \                 \
+     *    2     1         2                 3
+     */
+    public List<TreeNode> _0095_不同的二叉搜索树_II(int n) {
+        if (n == 0) {
+            return new ArrayList<TreeNode>();
+        }
+        return generateTrees(1, n);
+    }
+
+    private List<TreeNode> generateTrees(int start, int end) {
+        List<TreeNode> list = new ArrayList<>();
+        if (start > end) {
+            list.add(null);
+            return list;
+        }
+        for (int i = start; i <= end; i++) {
+            List<TreeNode> left = generateTrees(start, i - 1);
+            List<TreeNode> right = generateTrees(i + 1, end);
+            for (TreeNode l : left) {
+                for (TreeNode r : right) {
+                    TreeNode root = new TreeNode(i);
+                    root.left = l;
+                    root.right = r;
+                    list.add(root);
+                }
+            }
+        }
+        return list;
+    }
+
+
+    /**
+     * 给定一个整数 n，求以 1 ... n 为节点组成的二叉搜索树有多少种？
+     *
+     * 示例:
+     *
+     * 输入: 3
+     * 输出: 5
+     * 解释:
+     * 给定 n = 3, 一共有 5 种不同结构的二叉搜索树:
+     *
+     *    1         3     3      2      1
+     *     \       /     /      / \      \
+     *      3     2     1      1   3      2
+     *     /     /       \                 \
+     *    2     1         2                 3
+     */
+    public static int _0096_不同的二叉搜索树(int n) {
+        if (n == 0) {
+            return 0;
+        }
+        int[] dp = new int[n + 1];
+        dp[0] = 1;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < i; j++) {
+                dp[i] += dp[j] * dp[i - j - 1];
+            }
+        }
+        return dp[n];
+    }
+
+
+
+    public static int maxScoreSightseeingPair(int[] A) {
+
+        if (A.length == 2) {
+            return A[0] + A[1] - 1;
+        }
+        int left = 0;
+        int right = A.length - 1;
+        int max = 0;
+        while (right > left + 1) {
+            max = Math.max(A[left] + A[right] + left - right, max);
+            if (A[left + 1] == A[right - 1]) {
+                if (A[left] < A[right]) {
+                    left++;
+                } else {
+                    right--;
+                }
+            } else if (A[left] - A[left + 1] < A[right] - A[right - 1]) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return Math.max(A[left] + A[right] + left - right, max);
+    }
 
     public static void main(String[] args) {
 
-        HashMap<Integer, Integer> map = new HashMap<>();
-        map.put(1, 1);
-
+        System.out.println(maxScoreSightseeingPair(new int[]{3,7,2,3}));
     }
 
 
