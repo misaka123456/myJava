@@ -1988,9 +1988,100 @@ public class LeetCode {
         return Math.max(A[left] + A[right] + left - right, max);
     }
 
+
+    /**
+     * 给定一个非负整数 num。对于 0 ≤ i ≤ num 范围中的每个数字 i ，计算其二进制数中的 1 的数目并将它们作为数组返回。
+     *
+     * 示例 1:
+     *
+     * 输入: 2
+     * 输出: [0,1,1]
+     * 示例 2:
+     *
+     * 输入: 5
+     * 输出: [0,1,1,2,1,2]
+     * 进阶:
+     *
+     * 给出时间复杂度为O(n*sizeof(integer))的解答非常容易。但你可以在线性时间O(n)内用一趟扫描做到吗？
+     * 要求算法的空间复杂度为O(n)。
+     */
+    public static int[] _0338_比特位计数(int num) {
+        int[] arr = new int[num + 1];
+        arr[0] = 0;
+        int i = 1;
+        int pre = 0;
+        int n = 1;
+        while (i <= num) {
+            arr[i] = arr[pre] + 1;
+            i++;
+            pre++;
+            if (pre == n) {
+                pre = 0;
+                n = n << 1;
+            }
+        }
+        return arr;
+    }
+
+
+    /**
+     * 给定一个非空二叉树，返回其最大路径和。
+     *
+     * 本题中，路径被定义为一条从树中任意节点出发，达到任意节点的序列。该路径至少包含一个节点，且不一定经过根节点。
+     *
+     * 示例 1:
+     *
+     * 输入: [1,2,3]
+     *
+     *        1
+     *       / \
+     *      2   3
+     *
+     * 输出: 6
+     * 示例 2:
+     *
+     * 输入: [-10,9,20,null,null,15,7]
+     *
+     *    -10
+     *    / \
+     *   9  20
+     *     /  \
+     *    15   7
+     */
+    public static int _0124_二叉树中的最大路径和(TreeNode root) {
+        return maxPathSumCore(root)[0];
+    }
+    private static int[] maxPathSumCore(TreeNode root) {
+        if (root == null) {
+            return new int[]{0, 0};
+        }
+        int[] left = maxPathSumCore(root.left);
+        int[] right = maxPathSumCore(root.right);
+        return new int[]{Math.max(root.val + left[1] + right[1],
+                                  Math.max(root.left == null ? Integer.MIN_VALUE : left[0],
+                                           root.right == null ? Integer.MIN_VALUE : right[0])) ,
+                         Math.max(Math.max(left[1], right[1]) + root.val, 0)};
+    }
+
+
+
+
+
+
+
+
+
+
     public static void main(String[] args) {
 
-        System.out.println(maxScoreSightseeingPair(new int[]{3,7,2,3}));
+
+
+
+
+
+
+
+
     }
 
 
