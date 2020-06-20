@@ -1,5 +1,7 @@
 package myTools;
 
+import java.util.List;
+
 public class MyArrayTreeTools {
 
     /**
@@ -44,6 +46,15 @@ public class MyArrayTreeTools {
         }
         print(strArr);
     }
+
+    /**
+     * list打印树
+     */
+    public static void print(List list) {
+        Object[] objects = list.toArray(new Object[0]);
+        print(objects);
+    }
+
     /**
      * 数组树接口打印
      */
@@ -142,7 +153,7 @@ public class MyArrayTreeTools {
     }
 
     /**
-     * 数组每个元素相同长度时需要不全的空格数
+     * 数组每个元素相同长度时需要补全的空格数
      */
     private static int[] getBlankCount(String[] arr, int maxLen) {
         int[] blankArr = new int[arr.length];

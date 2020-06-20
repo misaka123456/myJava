@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/juc-zhouyangyang-lesson/juc-zhouyangyang-lesson.iml" filepath="$PROJECT_DIR$/juc-zhouyangyang-lesson/juc-zhouyangyang-lesson.iml" />
       <module fileurl="file://$PROJECT_DIR$/nio-netty-lesson/nio-netty-lesson.iml" filepath="$PROJECT_DIR$/nio-netty-lesson/nio-netty-lesson.iml" />
       <module fileurl="file://$PROJECT_DIR$/small-tools/small-tools.iml" filepath="$PROJECT_DIR$/small-tools/small-tools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-text/spring-text.iml" filepath="$PROJECT_DIR$/spring-text/spring-text.iml" />
       <module fileurl="file://$PROJECT_DIR$/test/test.iml" filepath="$PROJECT_DIR$/test/test.iml" />
     </modules>
   </component>

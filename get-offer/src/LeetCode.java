@@ -1585,8 +1585,33 @@ public class LeetCode {
     }
 
 
-
-    public static String getPermutation(int n, int k) {
+    /**
+     * 给出集合 [1,2,3,…,n]，其所有元素共有 n! 种排列。
+     *
+     * 按大小顺序列出所有排列情况，并一一标记，当 n = 3 时, 所有排列如下：
+     *
+     * "123"
+     * "132"
+     * "213"
+     * "231"
+     * "312"
+     * "321"
+     * 给定 n 和 k，返回第 k 个排列。
+     *
+     * 说明：
+     *
+     * 给定 n 的范围是 [1, 9]。
+     * 给定 k 的范围是[1,  n!]。
+     * 示例 1:
+     *
+     * 输入: n = 3, k = 3
+     * 输出: "213"
+     * 示例 2:
+     *
+     * 输入: n = 4, k = 9
+     * 输出: "2314"
+     */
+    public static String _0060_第k个排列(int n, int k) {
         k--;
         int num = 1;
         for (int i = 1; i <= n; i++) {
@@ -1668,7 +1693,7 @@ public class LeetCode {
      * 输入: [1,3,2,6,5]
      * 输出: true
      */
-    public boolean 面试题33_二叉搜索树的后序遍历序列(int[] postorder) {
+    public boolean _面试题33_二叉搜索树的后序遍历序列(int[] postorder) {
         return verifyPostorderCore(postorder, 0, postorder.length - 1);
     }
     private boolean verifyPostorderCore(int[] postorder, int start, int end) {
@@ -2064,27 +2089,976 @@ public class LeetCode {
     }
 
 
+    /**
+     * 给你一个长度固定的整数数组 arr，请你将该数组中出现的每个零都复写一遍，并将其余的元素向右平移。
+     *
+     * 注意：请不要在超过该数组长度的位置写入元素。
+     *
+     * 要求：请对输入的数组 就地 进行上述修改，不要从函数返回任何东西。
+     *
+     * 示例 1：
+     *
+     * 输入：[1,0,2,3,0,4,5,0]
+     * 输出：null
+     * 解释：调用函数后，输入的数组将被修改为：[1,0,0,2,3,0,0,4]
+     * 示例 2：
+     *
+     * 输入：[1,2,3]
+     * 输出：null
+     * 解释：调用函数后，输入的数组将被修改为：[1,2,3]
+     */
+    public static void _1089_复写零(int[] arr) {
+        int len = 0;
+        int i = 0;
+        for (; i + len < arr.length; i++) {
+            if (arr[i] == 0) {
+                len++;
+            }
+        }
+        i--;
+        int j = arr.length - 1;
+        if (arr[i] == 0 && i + len == arr.length) {
+            arr[j--] = 0;
+            i--;
+        }
+        while (j >= 0) {
+            if (arr[i] == 0) {
+                arr[j--] = 0;
+                arr[j--] = 0;
+            } else {
+                arr[j--] = arr[i];
+            }
+            i--;
+        }
+    }
+
+
+    /**
+     * 给定一个字符串 s ，找到其中最长的回文子序列，并返回该序列的长度。可以假设 s 的最大长度为 1000 。
+     *
+     * 示例 1:
+     * 输入:
+     *
+     * "bbbab"
+     * 输出:
+     *
+     * 4
+     * 一个可能的最长回文子序列为 "bbbb"。
+     *
+     * 示例 2:
+     * 输入:
+     *
+     * "cbbd"
+     * 输出:
+     *
+     * 2
+     * 一个可能的最长回文子序列为 "bb"。
+     */
+    public static int _0516_最长回文子序列(String s) {
+        if (s.length() <= 1) {
+            return s.length();
+        }
+        int[][] dp = new int[s.length()][s.length()];
+        for (int i = 0; i < dp.length; i++) {
+            dp[i][i] = 1;
+        }
+        int len = 0;
+        for (int j = 1; j < dp.length; j++) {
+            for (int i = j - 1; i >= 0; i--) {
+                dp[i][j] = Math.max(dp[i + 1][j], dp[i][j - 1]);
+                if (s.charAt(i) == s.charAt(j)) {
+                    dp[i][j] = Math.max(dp[i][j], dp[i + 1][j - 1] + 2);
+                }
+                len = Math.max(dp[i][j], len);
+            }
+        }
+        return len;
+    }
+
+
+    /**
+     * 给定一个整数序列：a1, a2, ..., an，一个132模式的子序列 ai, aj, ak 被定义为：当 i < j < k 时，ai < ak < aj。设计一个算法，当给定有 n 个数字的序列时，验证这个序列中是否含有132模式的子序列。
+     *
+     * 注意：n 的值小于15000。
+     *
+     * 示例1:
+     *
+     * 输入: [1, 2, 3, 4]
+     *
+     * 输出: False
+     *
+     * 解释: 序列中不存在132模式的子序列。
+     * 示例 2:
+     *
+     * 输入: [3, 1, 4, 2]
+     *
+     * 输出: True
+     *
+     * 解释: 序列中有 1 个132模式的子序列： [1, 4, 2].
+     * 示例 3:
+     *
+     * 输入: [-1, 3, 2, 0]
+     *
+     * 输出: True
+     *
+     * 解释: 序列中有 3 个132模式的的子序列: [-1, 3, 2], [-1, 3, 0] 和 [-1, 2, 0].
+     */
+    public boolean _0456_132模式(int[] nums) {
+        if (nums.length < 3) {
+            return false;
+        }
+        int[] min = new int[nums.length];
+        Stack<Integer> stack = new Stack<>();
+        min[0] = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            min[i] = Math.min(min[i - 1], nums[i]);
+        }
+        for (int i = nums.length - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && stack.peek() < nums[i]) {
+                if (stack.peek() > min[i]) {
+                    return true;
+                } else {
+                    stack.pop();
+                }
+            }
+            stack.push(nums[i]);
+        }
+        return false;
+    }
+
+
+    /**
+     * 给定一组不含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集）。
+     *
+     * 说明：解集不能包含重复的子集。
+     *
+     * 示例:
+     *
+     * 输入: nums = [1,2,3]
+     * 输出:
+     * [
+     *   [3],
+     *   [1],
+     *   [2],
+     *   [1,2,3],
+     *   [1,3],
+     *   [2,3],
+     *   [1,2],
+     *   []
+     * ]
+     */
+    public static List<List<Integer>> _0078_子集(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        subsets(nums, new int[nums.length], -1, 0, result);
+        return result;
+    }
+    private static void subsets(int[] nums, int[] arr, int end, int len, List<List<Integer>> result) {
+        if (end == nums.length) {
+            return;
+        }
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < len; i++) {
+            list.add(arr[i]);
+        }
+        result.add(list);
+        end++;
+        for (int i = end; i < nums.length; i++) {
+            arr[len] = nums[i];
+            subsets(nums, arr, i, len + 1, result);
+        }
+    }
 
 
 
+    /**
+     * 给定一个字符串，请将字符串里的字符按照出现的频率降序排列。
+     *
+     * 示例 1:
+     *
+     * 输入:
+     * "tree"
+     *
+     * 输出:
+     * "eert"
+     *
+     * 解释:
+     * 'e'出现两次，'r'和't'都只出现一次。
+     * 因此'e'必须出现在'r'和't'之前。此外，"eetr"也是一个有效的答案。
+     * 示例 2:
+     *
+     * 输入:
+     * "cccaaa"
+     *
+     * 输出:
+     * "cccaaa"
+     *
+     * 解释:
+     * 'c'和'a'都出现三次。此外，"aaaccc"也是有效的答案。
+     * 注意"cacaca"是不正确的，因为相同的字母必须放在一起。
+     * 示例 3:
+     *
+     * 输入:
+     * "Aabb"
+     *
+     * 输出:
+     * "bbAa"
+     *
+     * 解释:
+     * 此外，"bbaA"也是一个有效的答案，但"Aabb"是不正确的。
+     * 注意'A'和'a'被认为是两种不同的字符。
+     */
+    public static String _0451_根据字符出现频率排序(String s) {
+        int[] counts = new int[128];
+        int count = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (counts[s.charAt(i)]++ == 0) {
+                count++;
+            }
+        }
+
+        int i = 0;
+        Integer[] addrs = new Integer[count];
+        for (int j = 0; j < counts.length; j++) {
+            if (counts[j] > 0) {
+                addrs[i++] = j;
+            }
+        }
+        Arrays.sort(addrs, Comparator.comparingInt(a -> -counts[a]));
+
+        char[] arr = new char[s.length()];
+        i = 0;
+        for (Integer addr : addrs) {
+            for (int j = 0; j < counts[addr]; j++) {
+                arr[i++] = (char)(addr + 0);
+            }
+        }
+        return new String(arr);
+    }
 
 
+    /**
+     * 给你一个字符串 croakOfFrogs，它表示不同青蛙发出的蛙鸣声（字符串 "croak" ）的组合。由于同一时间可以有多只青蛙呱呱作响，所以 croakOfFrogs 中会混合多个 “croak” 。请你返回模拟字符串中所有蛙鸣所需不同青蛙的最少数目。
+     *
+     * 注意：要想发出蛙鸣 "croak"，青蛙必须 依序 输出 ‘c’, ’r’, ’o’, ’a’, ’k’ 这 5 个字母。如果没有输出全部五个字母，那么它就不会发出声音。
+     *
+     * 如果字符串 croakOfFrogs 不是由若干有效的 "croak" 字符混合而成，请返回 -1 。
+     *
+     * 示例 1：
+     *
+     * 输入：croakOfFrogs = "croakcroak"
+     * 输出：1
+     * 解释：一只青蛙 “呱呱” 两次
+     * 示例 2：
+     *
+     * 输入：croakOfFrogs = "crcoakroak"
+     * 输出：2
+     * 解释：最少需要两只青蛙，“呱呱” 声用黑体标注
+     * 第一只青蛙 "crcoakroak"
+     * 第二只青蛙 "crcoakroak"
+     * 示例 3：
+     *
+     * 输入：croakOfFrogs = "croakcrook"
+     * 输出：-1
+     * 解释：给出的字符串不是 "croak" 的有效组合。
+     * 示例 4：
+     *
+     * 输入：croakOfFrogs = "croakcroa"
+     * 输出：-1
+     */
+    public static int _1419_数青蛙(String croakOfFrogs) {
+        int[] addr = new int[128];
+        addr['c'] = 1;
+        addr['r'] = 2;
+        addr['o'] = 3;
+        addr['a'] = 4;
+        addr['k'] = 5;
+        int[] counts = new int[5];
+        int num = 0;
+        int maxNum = 0;
+        for (int i = 0; i < croakOfFrogs.length(); i++) {
+            char c = croakOfFrogs.charAt(i);
+            if (addr[c] == 0) {
+                return -1;
+            } else {
+                if (c == 'c') {
+                    num++;
+                    maxNum = Math.max(maxNum, num);
+                    counts[addr[c]]++;
+                } else {
+                    if (counts[addr[c] - 1]-- == 0) {
+                        return -1;
+                    }
+                    if (c == 'k') {
+                        num--;
+                    } else {
+                        counts[addr[c]]++;
+                    }
+                }
+            }
+        }
+        for (int c : counts) {
+            if (c != 0) {
+                return -1;
+            }
+        }
+        return maxNum;
+    }
 
+
+    /**
+     * 我们定义「顺次数」为：每一位上的数字都比前一位上的数字大 1 的整数。
+     *
+     * 请你返回由 [low, high] 范围内所有顺次数组成的 有序 列表（从小到大排序）。
+     *
+     * 示例 1：
+     *
+     * 输出：low = 100, high = 300
+     * 输出：[123,234]
+     * 示例 2：
+     *
+     * 输出：low = 1000, high = 13000
+     * 输出：[1234,2345,3456,4567,5678,6789,12345]
+     *  
+     * 提示：
+     * 10 <= low <= high <= 10^9
+     */
+    public static List<Integer> _1291_顺次数(int low, int high) {
+        List<Integer> list = new ArrayList<>();
+        int add = 11;
+        int n = 2;
+        int start = 12;
+        int num = 12;
+        while (num <= high) {
+            if (num >= low) {
+                list.add(num);
+            }
+            if (num % 10 == 9) {
+                n++;
+                start = start * 10 + n;
+                num = start;
+                add = add * 10 + 1;
+            } else {
+                num = num + add;
+            }
+        }
+        return list;
+
+    }
+
+
+    /**
+     * 给定两个由一些 闭区间 组成的列表，每个区间列表都是成对不相交的，并且已经排序。
+     *
+     * 返回这两个区间列表的交集。
+     *
+     * （形式上，闭区间 [a, b]（其中 a <= b）表示实数 x 的集合，而 a <= x <= b。两个闭区间的交集是一组实数，要么为空集，要么为闭区间。例如，[1, 3] 和 [2, 4] 的交集为 [2, 3]。）
+     *
+     * 输入：A = [[0,2],[5,10],[13,23],[24,25]], B = [[1,5],[8,12],[15,24],[25,26]]
+     * 输出：[[1,2],[5,5],[8,10],[15,23],[24,24],[25,25]]
+     */
+    public int[][] _0986_区间列表的交集(int[][] A, int[][] B) {
+        int AIndex = 0;
+        int BIndex = 0;
+        List<int[]> list = new ArrayList<>();
+        while (AIndex < A.length && BIndex < B.length) {
+            int start = Math.max(A[AIndex][0], B[BIndex][0]);
+            int end = Math.min(A[AIndex][1], B[BIndex][1]);
+            if (start <= end) {
+                list.add(new int[]{start, end});
+            }
+            if (A[AIndex][1] > B[BIndex][1]) {
+                BIndex++;
+            } else {
+                AIndex++;
+            }
+        }
+        return list.toArray(new int[0][]);
+    }
+
+
+    /**
+     * 给定一个二叉树，找到最长的路径，这个路径中的每个节点具有相同值。 这条路径可以经过也可以不经过根节点。
+     * 注意：两个节点之间的路径长度由它们之间的边数表示。
+     *
+     * 示例 1:
+     * 输入:
+     *
+     *               5
+     *              / \
+     *             4   5
+     *            / \   \
+     *           1   1   5
+     * 输出:
+     * 2
+     *
+     * 示例 2:
+     * 输入:
+     *
+     *               1
+     *              / \
+     *             4   5
+     *            / \   \
+     *           4   4   5
+     * 输出:
+     * 2
+     */
+    public int _0687_最长同值路径(TreeNode root) {
+        return longestUnivaluePathCore(root)[0];
+    }
+    private int[] longestUnivaluePathCore(TreeNode root) {
+        if (root == null) {
+            return new int[]{0, 0};
+        }
+        int[] left = longestUnivaluePathCore(root.left);
+        int[] right = longestUnivaluePathCore(root.right);
+        int leftLen = (root.left != null && root.val == root.left.val) ? left[1] + 1 : 0;
+        int rightLen = (root.right != null && root.val == root.right.val) ? right[1] + 1 : 0;
+        return new int[] {Math.max(leftLen + rightLen, Math.max(left[0], right[0])), Math.max(leftLen, rightLen)};
+    }
+
+
+    /**
+     * 给定由 N 个小写字母字符串组成的数组 A，其中每个字符串长度相等。
+     *
+     * 选取一个删除索引序列，对于 A 中的每个字符串，删除对应每个索引处的字符。
+     *
+     * 比如，有 A = ["abcdef", "uvwxyz"]，删除索引序列 {0, 2, 3}，删除后 A 为["bef", "vyz"]。
+     *
+     * 假设，我们选择了一组删除索引 D，那么在执行删除操作之后，最终得到的数组的元素是按 字典序（A[0] <= A[1] <= A[2] ... <= A[A.length - 1]）排列的，然后请你返回 D.length 的最小可能值。
+     *
+     * 示例 1：
+     *
+     * 输入：["ca","bb","ac"]
+     * 输出：1
+     * 解释：
+     * 删除第一列后，A = ["a", "b", "c"]。
+     * 现在 A 中元素是按字典排列的 (即，A[0] <= A[1] <= A[2])。
+     * 我们至少需要进行 1 次删除，因为最初 A 不是按字典序排列的，所以答案是 1。
+     * 示例 2：
+     *
+     * 输入：["xc","yb","za"]
+     * 输出：0
+     * 解释：
+     * A 的列已经是按字典序排列了，所以我们不需要删除任何东西。
+     * 注意 A 的行不需要按字典序排列。
+     * 也就是说，A[0][0] <= A[0][1] <= ... 不一定成立。
+     * 示例 3：
+     *
+     * 输入：["zyx","wvu","tsr"]
+     * 输出：3
+     * 解释：
+     * 我们必须删掉每一列。
+     */
+    public int _0955_删列造序_II(String[] A) {
+        int count = 0;
+        boolean[] arr = new boolean[A[0].length()];
+        int[] indexs = new int[A.length];
+        for (int i = 1; i < A.length; i++) {
+            indexs[i] = 0;
+        }
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 1; j < A.length; j++) {
+                String s = A[j];
+                String pre = A[j - 1];
+                for (int k = indexs[j]; k <= i; k++) {
+                    if (!arr[k]) {
+                        if (s.charAt(k) > pre.charAt(k)) {
+                            indexs[j] = k;
+                            break;
+                        } else if (s.charAt(k) < pre.charAt(k)) {
+                            arr[i] = true;
+                            count++;
+                        }
+                    }
+                }
+            }
+        }
+        return count;
+    }
+
+
+    /**
+     * 给你一个整数数组 arr 和一个整数 k 。现需要从数组中恰好移除 k 个元素，请找出移除后数组中不同整数的最少数目。
+     *
+     * 示例 1：
+     * 输入：arr = [5,5,4], k = 1
+     * 输出：1
+     * 解释：移除 1 个 4 ，数组中只剩下 5 一种整数。
+     * 示例 2：
+     *
+     * 输入：arr = [4,3,1,1,3,3,2], k = 3
+     * 输出：2
+     * 解释：先移除 4、2 ，然后再移除两个 1 中的任意 1 个或者三个 3 中的任意 1 个，最后剩下 1 和 3 两种整数。
+     */
+    public static int _1481_不同整数的最少数目(int[] arr, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int a : arr) {
+            map.put(a, map.getOrDefault(a, 0) + 1);
+        }
+        int[] counts = new int[map.size()];
+        int i = 0;
+        for (Integer count : map.values()) {
+            counts[i++] = count;
+        }
+        Arrays.sort(counts);
+        int count = counts.length;
+        i = 0;
+        for (; i < counts.length && counts[i] <= k; i++) {
+            k -= counts[i];
+            count--;
+        }
+        return count;
+    }
+
+
+    /**
+     * 给定一个二叉树，根节点为第1层，深度为 1。在其第 d 层追加一行值为 v 的节点。
+     * 添加规则：给定一个深度值 d （正整数），针对深度为 d-1 层的每一非空节点 N，为 N 创建两个值为 v 的左子树和右子树。
+     * 将 N 原先的左子树，连接为新节点 v 的左子树；将 N 原先的右子树，连接为新节点 v 的右子树。
+     * 如果 d 的值为 1，深度 d - 1 不存在，则创建一个新的根节点 v，原先的整棵树将作为 v 的左子树。
+     * 示例 1:
+     * 输入:
+     * 二叉树如下所示:
+     *        4
+     *      /   \
+     *     2     6
+     *    / \   /
+     *   3   1 5
+     *
+     * v = 1
+     * d = 2
+     * 输出:
+     *        4
+     *       / \
+     *      1   1
+     *     /     \
+     *    2       6
+     *   / \     /
+     *  3   1   5
+     *
+     * 示例 2:
+     * 输入:
+     * 二叉树如下所示:
+     *       4
+     *      /
+     *     2
+     *    / \
+     *   3   1
+     *
+     * v = 1
+     * d = 3
+     * 输出:
+     *       4
+     *      /
+     *     2
+     *    / \
+     *   1   1
+     *  /     \
+     * 3       1
+     * 注意:
+     * 输入的深度值 d 的范围是：[1，二叉树最大深度 + 1]。
+     * 输入的二叉树至少有一个节点。
+     */
+    public static TreeNode _0623_在二叉树中增加一行(TreeNode root, int v, int d) {
+        if (d == 1) {
+            TreeNode node = new TreeNode(v);
+            node.left = root;
+            return node;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        TreeNode node = null;
+        queue.offer(root);
+        int curCount = 1;
+        int nextCount = 0;
+        int deep = 1;
+        while (curCount != 0) {
+            if (++deep == d) {
+                break;
+            }
+            while (curCount-- > 0) {
+                node = queue.poll();
+                if (node.left != null) {
+                    nextCount++;
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    nextCount++;
+                    queue.offer(node.right);
+                }
+            }
+            curCount = nextCount;
+            nextCount = 0;
+        }
+        while (!queue.isEmpty()) {
+            node = queue.poll();
+            TreeNode left = new TreeNode(v);
+            TreeNode right = new TreeNode(v);
+            left.left = node.left;
+            right.right = node.right;
+            node.left = left;
+            node.right = right;
+        }
+        return root;
+    }
+
+
+    /**
+     * 序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。
+     * 请设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 / 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。
+     * 示例: 
+     * 你可以将以下二叉树：
+     *
+     *     1
+     *    / \
+     *   2   3
+     *      / \
+     *     4   5
+     * 序列化为 "[1,2,3,null,null,4,5]"
+     */
+    public static String _0297_二叉树的序列化与反序列化(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        TreeNode node = null;
+        queue.offer(root);
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        while (true) {
+            node = queue.poll();
+            if (node != null) {
+                sb.append(node.val);
+                queue.offer(node.left);
+                queue.offer(node.right);
+            } else {
+                sb.append("null");
+                if (queue.isEmpty()) {
+                    sb.append("]");
+                    break;
+                }
+            }
+            sb.append(", ");
+        }
+        return sb.toString();
+    }
+    public static TreeNode deserialize(String data) {
+        if (data.equals("[]") || data.equals("[null]")) {
+            return null;
+        }
+        String[] str = data.substring(1, data.length() - 1).split(", ");
+        Integer[] arr = new Integer[str.length];
+        for (int i = 0; i < arr.length; i++) {
+            if (str[i].equals("null")) {
+                arr[i] = null;
+            } else {
+                arr[i] = Integer.parseInt(str[i]);
+            }
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        TreeNode root = new TreeNode(arr[0]);
+        queue.offer(root);
+        TreeNode node = null;
+        int i = 1;
+        while (i < arr.length) {
+            node = queue.poll();
+            if (arr[i] != null) {
+                node.left = new TreeNode(arr[i]);
+                queue.offer(node.left);
+            }
+            i++;
+            if (arr[i] != null) {
+                node.right = new TreeNode(arr[i]);
+                queue.offer(node.right);
+            }
+            i++;
+        }
+        return root;
+    }
+
+    /**
+     * 我们从二叉树的根节点 root 开始进行深度优先搜索。
+     * 在遍历中的每个节点处，我们输出 D 条短划线（其中 D 是该节点的深度），然后输出该节点的值。
+     * （如果节点的深度为 D，则其直接子节点的深度为 D + 1。根节点的深度为 0）。
+     * 如果节点只有一个子节点，那么保证该子节点为左子节点。
+     * 给出遍历输出 S，还原树并返回其根节点 root。
+     */
+    public TreeNode _1028_从先序遍历还原二叉树(String S) {
+        if (S.length() == 0) {
+            return null;
+        }
+        int i = 0;
+        int num = 0;
+        while (true) {
+            char c = i == S.length() ? '-' : S.charAt(i);
+            if (c != '-') {
+                num = num * 10 + c - '0';
+                i++;
+            } else {
+                break;
+            }
+        }
+        TreeNode root = new TreeNode(num);
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode node = null;
+        stack.push(root);
+        int deep = 0;
+        while (i < S.length()) {
+            char c = S.charAt(i);
+            if (c == '-') {
+                deep++;
+                i++;
+            } else {
+                num = 0;
+                while (true) {
+                    c = i == S.length() ? '-' : S.charAt(i);
+                    if (c != '-') {
+                        num = num * 10 + c - '0';
+                        i++;
+                    } else {
+                        if (deep == stack.size()) {
+                            node = stack.peek();
+                            node.left = new TreeNode(num);
+                            stack.push(node.left);
+                        } else {
+                            while (deep < stack.size()) {
+                                stack.pop();
+                            }
+                            node = stack.peek();
+                            node.right = new TreeNode(num);
+                            stack.push(node.right);
+                        }
+                        deep = 0;
+                        break;
+                    }
+                }
+            }
+        }
+        return root;
+    }
+
+
+    /**
+     * 给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
+     * candidates 中的数字可以无限制重复被选取。
+     * 说明：
+     * 所有数字（包括 target）都是正整数。
+     * 解集不能包含重复的组合。 
+     * 示例 1:
+     *
+     * 输入: candidates = [2,3,6,7], target = 7,
+     * 所求解集为:
+     * [
+     *   [7],
+     *   [2,2,3]
+     * ]
+     * 示例 2:
+     * 输入: candidates = [2,3,5], target = 8,
+     * 所求解集为:
+     * [
+     *   [2,2,2,2],
+     *   [2,3,3],
+     *   [3,5]
+     * ]
+     */
+    public List<List<Integer>> _0039_组合总和(int[] candidates, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        int[] arr = new int[target + 1];
+        combinationSum(candidates, target, 0, arr, -1, 0, result);
+        return result;
+    }
+
+    private void combinationSum(int[] candidates, int target, int start, int[] arr, int end, int sum, List<List<Integer>> result) {
+        if (sum == target) {
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i <= end; i++) {
+                list.add(arr[i]);
+            }
+            result.add(list);
+            return;
+        }
+        if (start == candidates.length) {
+            return;
+        }
+        for (int i = start; i < candidates.length; i++) {
+            int newSum = sum;
+            int newEnd = end;
+            int j = 0;
+            while (newSum <= target) {
+                newEnd++;
+                arr[newEnd] = candidates[i];
+                newSum += candidates[i];
+                combinationSum(candidates, target, i + 1, arr, newEnd, newSum, result);
+            }
+        }
+    }
+
+
+    /**
+     * 给你一个整数数组 nums 和一个正整数 k，请你判断是否可以把这个数组划分成一些由 k 个连续数字组成的集合。
+     * 如果可以，请返回 True；否则，返回 False。
+     * 示例 1：
+     * 输入：nums = [1,2,3,3,4,4,5,6], k = 4
+     * 输出：true
+     * 解释：数组可以分成 [1,2,3,4] 和 [3,4,5,6]。
+     * 示例 2：
+     * 输入：nums = [3,2,1,2,3,4,3,4,5,9,10,11], k = 3
+     * 输出：true
+     * 解释：数组可以分成 [1,2,3] , [2,3,4] , [3,4,5] 和 [9,10,11]。
+     * 示例 3：
+     * 输入：nums = [3,3,2,2,1,1], k = 3
+     * 输出：true
+     * 示例 4：
+     * 输入：nums = [1,2,3,4], k = 3
+     * 输出：false
+     * 解释：数组不能分成几个大小为 3 的子数组。
+     */
+    public static boolean _1296_划分数组为连续数字的集合(int[] nums, int k) {
+        if (nums.length % k != 0) {
+            return false;
+        }
+        Arrays.sort(nums);
+        Map<Integer, Queue<Integer>> map = new HashMap<>();
+        for (int n : nums) {
+            Queue<Integer> queue = map.get(n - 1);
+            if (queue == null) {
+                queue = map.get(n);
+                if (queue == null) {
+                    queue = new LinkedList<>();
+                    map.put(n, queue);
+                }
+                queue.offer(1);
+            } else {
+                int c = queue.poll() + 1;
+                if (queue.isEmpty()) {
+                    map.remove(n - 1);
+                }
+                if (c != k) {
+                    queue = map.get(n);
+                    if (queue == null) {
+                        queue = new LinkedList<>();
+                    }
+                    queue.offer(c);
+                    map.put(n, queue);
+                }
+            }
+        }
+        return map.isEmpty();
+    }
+
+
+    /**
+     * 给定一个 m x n 的矩阵，如果一个元素为 0，则将其所在行和列的所有元素都设为 0。请使用原地算法。
+     * 示例 1:
+     * 输入:
+     * [
+     *   [1,1,1],
+     *   [1,0,1],
+     *   [1,1,1]
+     * ]
+     * 输出:
+     * [
+     *   [1,0,1],
+     *   [0,0,0],
+     *   [1,0,1]
+     * ]
+     * 示例 2:
+     *
+     * 输入:
+     * [
+     *   [0,1,2,0],
+     *   [3,4,5,2],
+     *   [1,3,1,5]
+     * ]
+     * 输出:
+     * [
+     *   [0,0,0,0],
+     *   [0,4,5,0],
+     *   [0,3,1,0]
+     * ]
+     */
+    public static void _0073_矩阵置零(int[][] matrix) {
+        int h = matrix.length;
+        int w = matrix[0].length;
+        int X = -1;
+        int Y = -1;
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < w; j++) {
+                if (matrix[i][j] == 0) {
+                    if (X == -1) {
+                        X = i;
+                        Y = j;
+                        for (int k = 0; k < h; k++) {
+                            if (matrix[k][Y] == 0) {
+                                matrix[k][Y] = k;
+                            } else {
+                                matrix[k][Y] = -1;
+                            }
+                        }
+                        for (int k = 0; k < w; k++) {
+                            if (matrix[X][k] == 0) {
+                                matrix[X][k] = k;
+                            } else {
+                                matrix[X][k] = -1;
+                            }
+                        }
+                    } else {
+                        matrix[i][Y] = i;
+                        matrix[X][j] = j;
+                    }
+                }
+            }
+        }
+        if (X == -1) {
+            return;
+        }
+        for (int i = 0; i < h; i++) {
+            if (i != X && matrix[i][Y] != -1) {
+                for (int j = 0; j < w; j++) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+        for (int j = 0; j < w; j++) {
+            if (j != Y && matrix[X][j] != -1) {
+                for (int i = 0; i < h; i++) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+        for (int k = 0; k < h; k++) {
+            matrix[k][Y] = 0;
+        }
+        for (int k = 0; k < w; k++) {
+            matrix[X][k] = 0;
+        }
+    }
+
+
+    public static boolean _0010_正则表达式匹配(String s, String p) {
+        return isMatch(s.toCharArray(), p.toCharArray(), 0, 0);
+    }
+    private static boolean isMatch(char[] sArr, char[] pArr, int sStart, int pStart) {
+        if (pStart == pArr.length) {
+            return sArr.length == sStart;
+        }
+
+        if (pStart + 1 < pArr.length && pArr[pStart + 1] == '*') {
+            if (sStart < sArr.length && (sArr[sStart] == pArr[pStart] || pArr[pStart] == '.')) {
+                return isMatch(sArr, pArr, sStart, pStart + 2) ||
+                        isMatch(sArr, pArr, sStart + 1, pStart) ||
+                        isMatch(sArr, pArr, sStart + 1, pStart + 2);
+            }
+            return isMatch(sArr, pArr, sStart, pStart + 2);
+        }
+        if (sStart < sArr.length && sArr[sStart] == pArr[pStart] || pArr[pStart] == '.') {
+            return isMatch(sArr, pArr, sStart + 1, pStart + 1);
+        }
+        return false;
+    }
 
 
     public static void main(String[] args) {
 
 
-
-
-
-
-
-
-
     }
-
-
 
 
 

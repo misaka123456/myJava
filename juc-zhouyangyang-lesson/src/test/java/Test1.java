@@ -1,8 +1,8 @@
+import org.junit.Test;
 
+public class Test1 {
 
-public class Test {
-
-    @org.junit.Test
+    @Test
     public void test1() {
         System.out.println(1);
     }

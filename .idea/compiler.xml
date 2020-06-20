@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="juc-zhouyangyang-lesson" />
+        <module name="spring-text" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
-      <module name="juc-zhouyangyang-lesson" target="8" />
+      <module name="juc-zhouyangyang-lesson" target="11" />
+      <module name="spring-text" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
