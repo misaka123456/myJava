@@ -212,4 +212,75 @@ public class MyArrayTools {
         @SuppressWarnings("unchecked") E[] eArr = (E[]) tempArr;
         System.arraycopy(eArr, 0, arr, start, tempArr.length);
     }
+
+    /**
+     * 堆排序
+     */
+    public static void sortByHeap(int[] arr) {
+        Integer[] newArr = intToInteger(arr);
+        sortByHeap(newArr);
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = newArr[i];
+        }
+    }
+
+    /**
+     * 堆排序
+     */
+    public static void sortByHeap(int[] arr, Comparator<? super Integer> c) {
+        Integer[] newArr = intToInteger(arr);
+        sortByHeap(newArr, c);
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = newArr[i];
+        }
+    }
+
+    /**
+     * 堆排序
+     */
+    @SuppressWarnings("unchecked")
+    public static <E> void sortByHeap(E[] arr) {
+        sortByHeap(arr, ((o1, o2) -> ((Comparable<? super E>) o1).compareTo(o2)));
+    }
+
+    /**
+     * 堆排序
+     */
+    public static <E> void sortByHeap(E[] arr, Comparator<? super E> c) {
+        if (arr == null || arr.length <= 1) {
+            return;
+        }
+        for (int i = 1; i < arr.length; i++) {
+            int j = i;
+            while (j != 0) {
+                int father = (j - 1) >> 1;
+                if (c.compare(arr[j], arr[father]) > 0) {
+                    swap(arr, j, father);
+                    j = father;
+                } else {
+                    break;
+                }
+            }
+        }
+        for (int i = arr.length - 1; i > 0; i--) {
+            swap(arr, i, 0);
+            int j = 0;
+            while (j < i) {
+                int child = (j << 1) + 1;
+                if (child < i) {
+                    if (child + 1 < i && c.compare(arr[child + 1], arr[child]) > 0) {
+                        child = child + 1;
+                    }
+                    if (c.compare(arr[child], arr[j]) > 0) {
+                        swap(arr, j, child);
+                        j = child;
+                    } else {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+    }
 }

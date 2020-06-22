@@ -1141,49 +1141,6 @@ public class LeetCode {
 
 
     /**
-     * 给定一个数组 A，将其划分为两个不相交（没有公共元素）的连续子数组 left 和 right， 使得：
-     *
-     * left 中的每个元素都小于或等于 right 中的每个元素。
-     * left 和 right 都是非空的。
-     * left 要尽可能小。
-     * 在完成这样的分组后返回 left 的长度。可以保证存在这样的划分方法。
-     *
-     * 示例 1：
-     *
-     * 输入：[5,0,3,8,6]
-     * 输出：3
-     * 解释：left = [5,0,3]，right = [8,6]
-     * 示例 2：
-     *
-     * 输入：[1,1,1,0,6,12]
-     * 输出：4
-     * 解释：left = [1,1,1,0]，right = [6,12]
-     */
-    public static int _0915_分割数组(int[] A) {
-        if (A.length <= 1) {
-            return A.length;
-        }
-        int min = 0;
-        for (int i = 1; i < A.length; i++) {
-            if (A[i] < A[min]) {
-                min = i;
-            }
-        }
-        int leftMax = Integer.MIN_VALUE;
-        for (int i = 0; i < min; i++) {
-            leftMax = Math.max(leftMax, A[i]);
-        }
-        int end = min;
-        for (int i = min + 1; i < A.length; i++) {
-            if (A[i] < leftMax) {
-                end = i;
-            }
-        }
-        return end + 1;
-    }
-
-
-    /**
      * 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
      *
      * 如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
@@ -3053,6 +3010,79 @@ public class LeetCode {
         }
         return false;
     }
+
+
+    public static boolean _0010_正则表达式匹配_2(String s, String p) {
+        char[] sArr = s.toCharArray();
+        char[] pArr = p.toCharArray();
+        boolean[][] dp = new boolean[sArr.length + 1][pArr.length + 1];
+        dp[0][0] = true;
+
+        for (int j = 1; j <= pArr.length; j++) {
+            if (pArr[j - 1] == '*') {
+                dp[0][j] = dp[0][j - 2];
+            }
+        }
+        for (int j = 1; j <= pArr.length; j++) {
+            for (int i = 1; i <= sArr.length; i++) {
+                if (pArr[j - 1] == '*') {
+                    if (j - 2 == 0) {
+                        if (i - 1 == 0) {
+                            dp[i][j] = dp[i][j - 1];
+                        } else {
+                            dp[i][j] = dp[i - 1][j] && (pArr[j - 2] == '.' || pArr[j - 2] == sArr[i - 1]);
+                        }
+                    } else {
+                        dp[i][j] = dp[i][j - 2] || dp[i][j - 1] || (dp[i - 1][j] && (pArr[j - 2] == '.' || pArr[j - 2] == sArr[i - 1]));
+                    }
+                } else if (pArr[j - 1] == '.' || pArr[j - 1] == sArr[i - 1]){
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = false;
+                }
+
+            }
+        }
+        return dp[sArr.length][pArr.length];
+    }
+
+
+    /**
+     * 给定一个数组 A，将其划分为两个不相交（没有公共元素）的连续子数组 left 和 right， 使得：
+     * left 中的每个元素都小于或等于 right 中的每个元素。
+     * left 和 right 都是非空的。
+     * left 要尽可能小。
+     * 在完成这样的分组后返回 left 的长度。可以保证存在这样的划分方法。
+     *
+     * 示例 1：
+     * 输入：[5,0,3,8,6]
+     * 输出：3
+     * 解释：left = [5,0,3]，right = [8,6]
+     * 示例 2：
+     * 输入：[1,1,1,0,6,12]
+     * 输出：4
+     * 解释：left = [1,1,1,0]，right = [6,12]
+     */
+    public static int _0915_分割数组(int[] A) {
+        if (A.length == 0) {
+            return 0;
+        }
+        int pre = 0;
+        int leftMax = A[0];
+        int max = A[0];
+        for (int i = 1; i < A.length; i++) {
+            if (A[i] < leftMax) {
+                pre = i;
+                leftMax = max;
+            } else {
+                max = Math.max(max, A[i]);
+            }
+        }
+        return pre + 1;
+    }
+
+
+
 
 
     public static void main(String[] args) {
