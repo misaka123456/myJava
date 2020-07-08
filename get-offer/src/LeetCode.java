@@ -3082,9 +3082,93 @@ public class LeetCode {
     }
 
 
+    public static int _1297_子串的最大出现次数(String s, int maxLetters, int minSize, int maxSize) {
+        Map<String, Integer> map = new HashMap<>();
+        int[] arr = new int[26];
+        int count = 0;
+        char[] chars = s.toCharArray();
+        int pre = 0;
+        int i = 0;
+        while (i < chars.length) {
+            int c = chars[i] - 'a';
+            if (arr[c]++ == 0) {
+                count++;
+            }
+            if (i - pre < minSize - 1) {
+                i++;
+                continue;
+            }
+            while (count > maxLetters || i - pre > maxSize - 1) {
+                c = chars[pre] - 'a';
+                pre++;
+                if (arr[c]-- == 1) {
+                    count--;
+                }
+            }
+            for (int j = pre; j <= i - minSize + 1; j++) {
+                String str = s.substring(j, i + 1);
+                map.put(str, map.getOrDefault(str, 0) + 1);
+            }
+            i++;
+        }
+        int max = 0;
+        for (int v : map.values()) {
+            max = Math.max(max, v);
+        }
+        return max;
+    }
+
+    /**
+     * 给出整数数组 A，将该数组分隔为长度最多为 K 的几个（连续）子数组。分隔完成后，每个子数组的中的值都会变为该子数组中的最大值。
+     * 返回给定数组完成分隔后的最大和。
+     * 示例：
+     * 输入：A = [1,15,7,9,2,5,10], K = 3
+     * 输出：84
+     * 解释：A 变为 [15,15,15,9,10,10,10]
+     */
+    public static int _1043_分隔数组以得到最大和(int[] A, int K) {
+        int[] dp = new int[A.length];
+        int max = 0;
+        for (int i = 0; i < K; i++) {
+            if (i == A.length) {
+                return max * A.length;
+            }
+            max = Math.max(max, A[i]);
+            dp[i] = max * (i + 1);
+        }
+
+        for (int i = K; i < A.length; i++) {
+            max = 0;
+            for (int j = 0; j < K; j++) {
+                max = Math.max(max, A[i - j]);
+                dp[i] = Math.max(dp[i], dp[i - j - 1] + max * (j + 1));
+            }
+        }
+        return dp[A.length - 1];
+    }
 
 
-
+    public int _0045_跳跃游戏_II(int[] nums) {
+        if (nums.length <= 1) {
+            return 0;
+        }
+        int count = 1;
+        int i = 0;
+        int next = 0;
+        int end = 0;
+        while (i + nums[i] < nums.length - 1) {
+            end = i;
+            for (int j = i + 1; j <= i + nums[i]; j++) {
+                if (j + nums[j] > end) {
+                    end = j + nums[j];
+                    next = j;
+                }
+            }
+            i = next;
+            count++;
+        }
+        return count;
+    }
     public static void main(String[] args) {
 
 

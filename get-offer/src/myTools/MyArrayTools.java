@@ -1,6 +1,7 @@
 package myTools;
 
 
+import java.util.Arrays;
 import java.util.Comparator;
 
 public class MyArrayTools {
@@ -282,5 +283,24 @@ public class MyArrayTools {
                 }
             }
         }
+    }
+
+
+    public static int[][] build2DArray(String str) {
+        String[] strArr =  str.substring(2, str.length() - 2).split("],\\[");
+        int[][] map = new int[strArr.length][];
+        for (int i = 0; i < map.length; i++) {
+            String[] arr = strArr[i].split(",");
+            int[] list = new int[arr.length];
+            for (int j = 0; j < list.length; j++) {
+                list[j] = Integer.parseInt(arr[j]);
+            }
+            map[i] = list;
+        }
+        return map;
+    }
+
+    public static void main(String[] args) {
+
     }
 }

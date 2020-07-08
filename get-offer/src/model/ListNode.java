@@ -11,4 +11,17 @@ public class ListNode {
     public ListNode(){};
     public ListNode(int x) { val = x; }
 
+
+    public static ListNode build(int... arr) {
+        if (arr.length == 0) {
+            return null;
+        }
+        ListNode head = new ListNode(arr[0]);
+        ListNode temp = head;
+        for (int i = 1; i < arr.length; i++) {
+            temp.next = new ListNode(arr[i]);
+            temp = temp.next;
+        }
+        return head;
+    }
 }

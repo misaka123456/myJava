@@ -403,7 +403,7 @@ public class NowCoderHigh {
 
 
     /**
-     * 数组转化为A-Z的伪26进制字符串（没有0）
+     * 数字转化为A-Z的伪26进制字符串（没有0）
      */
     public static String intParseToAZStr(int num) {
 
