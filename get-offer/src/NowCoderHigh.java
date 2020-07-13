@@ -1042,10 +1042,6 @@ public class NowCoderHigh {
                 count = count + popElem[1];
             }
         }
-
-
-
-
         return count;
 
 

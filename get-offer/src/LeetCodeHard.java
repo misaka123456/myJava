@@ -418,7 +418,209 @@ public class LeetCodeHard {
         return magGap;
     }
 
+
+    /**
+     * 实现一个基本的计算器来计算一个简单的字符串表达式的值。
+     * 字符串表达式可以包含左括号 ( ，右括号 )，加号 + ，减号 -，非负整数和空格  。
+     *
+     * 示例 1:
+     * 输入: "1 + 1"
+     * 输出: 2
+     * 示例 2:
+     * 输入: " 2-1 + 2 "
+     * 输出: 3
+     * 示例 3:
+     * 输入: "(1+(4+5+2)-3)+(6+8)"
+     * 输出: 23
+     */
+    public static int _0224_基本计算器(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+
+        Stack<Character> calStack = new Stack<>();
+        Stack<Integer> numStack = new Stack<>();
+        int num = 0;
+        int i = 0;
+        char signal = '+';
+        char c = ' ';
+        while (i < s.length()) {
+            c = s.charAt(i++);
+            if (c == ' ') {
+                continue;
+            }
+            if (c == '-' || c == '+') {
+                signal = c;
+            } else if (c == ')') {
+                num = 0;
+                while ((c = calStack.pop()) != '(') {
+                    num += (c == '+' ? 1 : -1) * numStack.pop();
+                }
+                numStack.push(num);
+            } else {
+                calStack.push(signal);
+                signal = '+';
+                if (c == '(') {
+                    calStack.push('(');
+                } else {
+                    num = c - '0';
+                    while (i < s.length()) {
+                        c = s.charAt(i);
+                        if (c == ' ') {
+                            i++;
+                            continue;
+                        }
+                        if (c >= '0' && c <= '9') {
+                            num = num * 10 + c - '0';
+                            i++;
+                        } else {
+                            break;
+                        }
+                    }
+                    numStack.push(num);
+                }
+            }
+        }
+        num = 0;
+        while (!calStack.isEmpty()) {
+            num += (calStack.pop() == '+' ? 1 : -1) * numStack.pop();
+        }
+        return num;
+    }
+
+
+
+    public TreeNode _1028_从先序遍历还原二叉树(String S) {
+        if (S.length() == 0) {
+            return null;
+        }
+        int i = 0;
+        int num = 0;
+        while (true) {
+            char c = i == S.length() ? '-' : S.charAt(i);
+            if (c != '-') {
+                num = num * 10 + c - '0';
+                i++;
+            } else {
+                break;
+            }
+        }
+        TreeNode root = new TreeNode(num);
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode node = null;
+        stack.push(root);
+        int deep = 0;
+        while (i < S.length()) {
+            char c = S.charAt(i);
+            if (c == '-') {
+                deep++;
+                i++;
+            } else {
+                num = 0;
+                while (true) {
+                    c = i == S.length() ? '-' : S.charAt(i);
+                    if (c != '-') {
+                        num = num * 10 + c - '0';
+                        i++;
+                    } else {
+                        if (deep == stack.size()) {
+                            node = stack.peek();
+                            node.left = new TreeNode(num);
+                            stack.push(node.left);
+                        } else {
+                            while (deep < stack.size()) {
+                                stack.pop();
+                            }
+                            node = stack.peek();
+                            node.right = new TreeNode(num);
+                            stack.push(node.right);
+                        }
+                        deep = 0;
+                        break;
+                    }
+                }
+            }
+        }
+        return root;
+    }
+
+
+
+    public List<List<Integer>> _0218_天际线问题(int[][] buildings) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (buildings.length == 0) {
+            return res;
+        }
+
+        int[][] heights = new int[buildings.length << 1][2];
+        int i = 0;
+        for (int[] building : buildings) {
+            heights[i][0] = building[0];
+            heights[i][1] = building[2];
+            i++;
+            heights[i][0] = building[1];
+            heights[i][1] = -building[2];
+            i++;
+        }
+
+        Arrays.sort(heights, (o1, o2) -> {
+            if (o1[0] == o2[0]) {
+                return o2[1] - o1[1];
+            } else {
+                return o1[0] - o2[0];
+            }
+        });
+
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        int maxHeight = 0;
+        for (int[] height : heights) {
+            if (height[1] > 0) {
+                map.put(height[1], map.getOrDefault(height[1], 0) + 1);
+            } else {
+                int c = map.get(-height[1]) - 1;
+                if (c == 0) {
+                    map.remove(-height[1]);
+                } else {
+                    map.put(-height[1], c);
+                }
+            }
+            if ((map.isEmpty() && maxHeight != 0) || map.lastKey() != maxHeight) {
+                maxHeight = map.isEmpty() ? 0 : map.lastKey();
+                res.add(Arrays.asList(height[0], maxHeight));
+            }
+        }
+        return res;
+    }
+
+
+
+
+    public int _0174_地下城游戏(int[][] dungeon) {
+
+        int h = dungeon.length;
+        int w = dungeon[0].length;
+        int[][] dp = new int[h][w];
+
+        dp[h - 1][w - 1] = Math.max(1, 1 - dungeon[h - 1][w - 1]);
+
+        for (int i = h - 2; i >= 0; i--) {
+            dp[i][w - 1] = Math.max(dp[i + 1][w - 1], 1) - dungeon[i][w - 1];
+        }
+        for (int j = w - 2; j >= 0; j--) {
+            dp[h - 1][j] = Math.max(dp[h - 1][j + 1], 1) - dungeon[h - 1][j];
+        }
+        for (int i = h - 2; i >= 0; i--) {
+            for (int j = w - 2; j >= 0; j--) {
+                dp[i][j] = Math.max(1, Math.min(dp[i + 1][j], dp[i][j + 1])) - dungeon[i][j];
+            }
+        }
+        return Math.max(dp[0][0], 1);
+    }
+
     public static void main(String[] args) {
+
+
+
 
 
     }

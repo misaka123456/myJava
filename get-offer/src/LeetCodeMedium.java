@@ -698,11 +698,119 @@ public class LeetCodeMedium {
     }
 
 
+    /**
+     * 给定一个循环数组（最后一个元素的下一个元素是数组的第一个元素），输出每个元素的下一个更大元素。数字 x 的下一个更大的元素是按数组遍历顺序，这个数字之后的第一个比它更大的数，这意味着你应该循环地搜索它的下一个更大的数。如果不存在，则输出 -1。
+     *
+     * 示例 1:
+     * 输入: [1,2,1]
+     * 输出: [2,-1,2]
+     * 解释: 第一个 1 的下一个更大的数是 2；
+     * 数字 2 找不到下一个更大的数；
+     * 第二个 1 的下一个最大的数需要循环搜索，结果也是 2。
+     */
+    public static int[] _0503_下一个更大元素_II(int[] nums) {
+        if (nums.length == 0) {
+            return nums;
+        }
+        int max = 0;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] >= nums[max]) {
+                max = i;
+            }
+        }
+        Stack<Integer> stack = new Stack<>();
+        stack.push(nums[max]);
+        nums[max] = -1;
+        for (int i = (max - 1 + nums.length) % nums.length; i != max; i = (i - 1 + nums.length) % nums.length) {
+            while (!stack.isEmpty() && nums[i] >= stack.peek()) {
+                stack.pop();
+            }
+            int temp = nums[i];
+            nums[i] = stack.isEmpty() ? -1 : stack.peek();
+            stack.push(temp);
+        }
+        return nums;
+    }
+
+
+
+    public static int[] _0967_连续差相同的数字(int N, int K) {
+        List<Integer> list = new ArrayList<>();
+        int i = N == 1 ? 0 : 1;
+        for ( ; i < 10; i++) {
+            numsSameConsecDiff(N - 1, K, i, i, list);
+        }
+        int[] arr = new int[list.size()];
+        for (i = 0; i < arr.length; i++) {
+            arr[i] = list.get(i);
+        }
+        return arr;
+    }
+    private static void numsSameConsecDiff(int N, int K, int num, int pre, List<Integer> list) {
+        if (0 == N) {
+            list.add(num);
+            return;
+        }
+        if (pre - K >= 0) {
+            numsSameConsecDiff(N - 1, K, num * 10 + pre - K, pre - K, list);
+        }
+        if (pre + K < 10 && K != 0) {
+            numsSameConsecDiff(N - 1, K, num * 10 + pre + K, pre + K, list);
+        }
+    }
+
+
+    /**
+     * 给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。
+     * 有效的 IP 地址正好由四个整数（每个整数位于 0 到 255 之间组成），整数之间用 '.' 分隔。
+     */
+    public static List<String> _0093_复原IP地址(String s) {
+        List<String> res = new ArrayList<>();
+        int[] dp = new int[4];
+        int[] nums = new int[s.length()];
+        for (int i = 0; i < nums.length; i++) {
+            nums[i] = s.charAt(i) - '0';
+        }
+        restoreIpAddresses(nums, 0, dp, 0, res);
+        return res;
+    }
+    private static void restoreIpAddresses(int[] nums, int start, int[] dp, int end, List<String> res) {
+        if (end == 4) {
+            if (start == nums.length) {
+                res.add(dp[0] + "." + dp[1] + '.' + dp[2] + "." + dp[3]);
+            }
+            return;
+        }
+        if (start == nums.length) {
+            return;
+        }
+        dp[end] = nums[start++];
+        restoreIpAddresses(nums, start, dp, end + 1, res);
+        if (start == nums.length) {
+            return;
+        }
+        if (nums[start - 1] == 0) {
+            return;
+        }
+        dp[end] = dp[end] * 10 + nums[start++];
+        restoreIpAddresses(nums, start, dp, end + 1, res);
+        if (start == nums.length) {
+            return;
+        }
+        dp[end] = dp[end] * 10 + nums[start++];
+        if (dp[end] <= 255) {
+            restoreIpAddresses(nums, start, dp, end + 1, res);
+        }
+    }
+
+
+
 
 
     public static void main(String[] args) {
 
-        Queue<Object> objects = new LinkedList<>();
+
+
 
 
     }
