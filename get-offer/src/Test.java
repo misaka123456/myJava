@@ -1,6 +1,7 @@
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Test {
 
@@ -9,20 +10,12 @@ public class Test {
 
 
 
-        Map<Short, String> map = new HashMap<>();
-        for(short i = 0; i <10; i++) {
-            map.put(i, String.valueOf(i));
-            map.remove(i-1);
-        }
-
-
-
-        System.out.println(map.size());
-
     }
 
 
+
 }
+
 
 
 

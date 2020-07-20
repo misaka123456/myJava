@@ -10,16 +10,16 @@ public class LeetCodeGraph {
 
     /**
      * 给定一个机票的字符串二维数组 [from, to]，子数组中的两个成员分别表示飞机出发和降落的机场地点，对该行程进行重新规划排序。所有这些机票都属于一个从JFK（肯尼迪国际机场）出发的先生，所以该行程必须从 JFK 出发。
-     *
+     * <p>
      * 说明:
      * 如果存在多种有效的行程，你可以按字符自然排序返回最小的行程组合。例如，行程 ["JFK", "LGA"] 与 ["JFK", "LGB"] 相比就更小，排序更靠前
      * 所有的机场都用三个大写字母表示（机场代码）。
      * 假定所有机票至少存在一种合理的行程。
-     *
+     * <p>
      * 示例 1:
      * 输入: [["MUC", "LHR"], ["JFK", "MUC"], ["SFO", "SJC"], ["LHR", "SFO"]]
      * 输出: ["JFK", "MUC", "LHR", "SFO", "SJC"]
-     *
+     * <p>
      * 示例 2:
      * 输入: [["JFK","SFO"],["JFK","ATL"],["SFO","ATL"],["ATL","JFK"],["ATL","SFO"]]
      * 输出: ["JFK","ATL","JFK","SFO","ATL","SFO"]
@@ -44,6 +44,7 @@ public class LeetCodeGraph {
         return res;
 
     }
+
     private static void buildRoute(String begin, Map<String, Queue<String>> map, List<String> res) {
         Queue<String> queue = map.get(begin);
         while (queue != null && !queue.isEmpty()) {
@@ -51,7 +52,6 @@ public class LeetCodeGraph {
         }
         res.add(0, begin);
     }
-
 
 
     public static boolean _1361_验证二叉树(int n, int[] leftChild, int[] rightChild) {
@@ -88,7 +88,6 @@ public class LeetCodeGraph {
     }
 
 
-
     public static List<Integer> _0802_找到最终的安全状态(int[][] graph) {
 
         int[] dp = new int[graph.length];
@@ -123,7 +122,6 @@ public class LeetCodeGraph {
         res.sort(Comparator.comparingInt(o -> o));
         return res;
     }
-
 
 
     public static int[] _1042_不邻接植花(int N, int[][] paths) {
@@ -228,7 +226,6 @@ public class LeetCodeGraph {
     }
 
 
-
     public static List<Boolean> _1462_课程安排_IV(int n, int[][] prerequisites, int[][] queries) {
         boolean[][] dp = new boolean[n][n];
         for (int[] pre : prerequisites) {
@@ -305,7 +302,6 @@ public class LeetCodeGraph {
     }
 
 
-
     public static int _01162_地图分析(int[][] grid) {
         int N = grid.length << 1;
         for (int i = 0; i < grid.length; i++) {
@@ -372,7 +368,7 @@ public class LeetCodeGraph {
     /**
      * 给一个有 n 个结点的有向无环图，找到所有从 0 到 n-1 的路径并输出（不要求按顺序）
      * 二维数组的第 i 个数组中的单元都表示有向图中 i 号结点所能到达的下一些结点（译者注：有向图是有方向的，即规定了a→b你就不能从b→a）空就是没有下一个结点了。
-     *
+     * <p>
      * 示例:
      * 输入: [[1,2], [3], [3], []]
      * 输出: [[0,1,3],[0,2,3]]
@@ -393,6 +389,7 @@ public class LeetCodeGraph {
         allPathsSourceTarget(graph, 0, route, res);
         return res;
     }
+
     private static void allPathsSourceTarget(int[][] graph, int start, LinkedList<Integer> route, List<List<Integer>> res) {
         if (start == graph.length - 1) {
             res.add(new ArrayList(route));
@@ -406,9 +403,32 @@ public class LeetCodeGraph {
     }
 
 
+    public static boolean _0785_判断二分图(int[][] graph) {
+
+        int[] colors = new int[graph.length];
+        Queue<Integer> queue = new LinkedList<>();
+
+        for (int i = 0; i < graph.length; i++) {
+            if (colors[i] == 0) {
+                colors[i] = 1;
+                queue.offer(i);
+                while (!queue.isEmpty()) {
+                    int s = queue.poll();
+                    for (int e : graph[s]) {
+                        if (colors[e] == 0) {
+                            colors[e] = 3 - colors[s];
+                            queue.offer(e);
+                        } else if (colors[e] + colors[s] != 3) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
 
     public static void main(String[] args) {
-
 
 
     }

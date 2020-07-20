@@ -804,8 +804,46 @@ public class LeetCodeMedium {
     }
 
 
+    /**
+     * 给一非空的单词列表，返回前 k 个出现次数最多的单词。
+     * 返回的答案应该按单词出现频率由高到低排序。如果不同的单词有相同出现频率，按字母顺序排序。
+     *
+     * 示例 1：
+     * 输入: ["i", "love", "leetcode", "i", "love", "coding"], k = 2
+     * 输出: ["i", "love"]
+     * 解析: "i" 和 "love" 为出现次数最多的两个单词，均为2次。
+     *     注意，按字母顺序 "i" 在 "love" 之前。
+     */
+    public List<String> _692_前K个高频单词(String[] words, int k) {
+        Map<String, Integer> map = new HashMap<>();
+        for (String word : words) {
+            map.put(word, map.getOrDefault(word, 0) + 1);
+        }
 
+        PriorityQueue<String> maxHeap = new PriorityQueue<>((s1, s2) -> {
+            int div = map.get(s1) - map.get(s2);
+            if (div == 0) {
+                return s2.compareTo(s1);
+            } else {
+                return div;
+            }
+        });
 
+        for (String word : map.keySet()) {
+            maxHeap.offer(word);
+            if (k == 0) {
+                maxHeap.poll();
+            } else {
+                k--;
+            }
+        }
+
+        List<String> list = new LinkedList<>();
+        while (!maxHeap.isEmpty()) {
+            list.add(0, maxHeap.poll());
+        }
+        return list;
+    }
 
     public static void main(String[] args) {
 
