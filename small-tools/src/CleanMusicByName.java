@@ -30,8 +30,13 @@ public class CleanMusicByName {
             if (!artistDir.exists()) {
                 artistDir.mkdirs();
             }
-            music.renameTo(new File(artistDir, name));
-            System.out.println(name + " 移入：" + artistDir.getName());
+            File newFile = new File(artistDir, name);
+            if (newFile.exists()) {
+                System.out.println(name + " 已存在");
+            } else {
+                music.renameTo(newFile);
+                System.out.println(name + " 移入：" + artistDir.getName());
+            }
         }
         System.out.println("end!");
     }
