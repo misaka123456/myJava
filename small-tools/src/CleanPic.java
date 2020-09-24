@@ -1,8 +1,6 @@
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,87 +9,131 @@ public class CleanPic {
 
     public static void main(String[] args) throws IOException {
 
-        Scanner cs = new Scanner(System.in);
-        String yuanPath = cs.nextLine();
-        String biPath = cs.nextLine();
-        String shanPath = cs.nextLine();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("请输入原图目录：");
+        String originalPath = sc.nextLine();
+        System.out.println("请输入原图修正目录：");
+        String revisePath = sc.nextLine();
+        System.out.println("请输入壁纸目录");
+        String picturePath = sc.nextLine();
+        System.out.println("请输入输出目录");
+        String outPath = sc.nextLine();
 
-        File shanDir = new File(shanPath);
-        if(!shanDir.exists()){
-            shanDir.mkdirs();
+        File originalOut = new File(outPath, "原图");
+        if (!originalOut.exists()) {
+            originalOut.mkdir();
         }
-        File yuanShanDir = new File(shanPath, "yuantu");
-        if(!yuanShanDir.exists()){
-            yuanShanDir.mkdirs();
+        File reviseOut = new File(outPath, "原图修正");
+        if (!reviseOut.exists()) {
+            reviseOut.mkdir();
         }
-        File biShanDir = new File(shanPath, "bizhi");
-        if(!biShanDir.exists()){
-            biShanDir.mkdirs();
+        File pictureOut = new File(outPath, "壁纸");
+        if (!pictureOut.exists()) {
+            pictureOut.mkdir();
         }
 
-        File[] yuanPics = new File(yuanPath).listFiles();
-        File[] biPics = new File(biPath).listFiles();
 
+        Set<String> originalSet = new HashSet<>();
+        Map<String, File> pictureMap = new HashMap<>();
+        int originalDeleteCount = 0;    // 原图删除数
+        int combineCount = 0;           //
+        int pictureDeleteCount = 0;     //
+        int reviseDeleteCount = 0;
 
-//        for (int i = 0; i < biPics.length; i++) {
-//            if (biPics[i].getName().contains("desktop")) {
-//                System.out.println(biPics[i].getName());
-//                System.out.println(i);
-//                biPics[i].delete();
-//            }
-//        }
+        System.out.println("Start。。。");
+        Pattern compile = Pattern.compile("combine(\\d+)");
+        File pictureDir = new File(picturePath);
 
+//        List<File> pictureList = new ArrayList<>();
+//        List<File> originalList = new ArrayList<>();
+//        List<File> reviseList = new ArrayList<>();
 
+        int picReviseCount = 0;
 
-        Arrays.sort(yuanPics, Comparator.comparing(f -> f.getName().substring(0, f.getName().lastIndexOf('.'))));
-        Arrays.sort(biPics, Comparator.comparing(f -> {
-            Matcher m = Pattern.compile("(.+-.+?)\\(.+\\)(-.+)\\..+").matcher(f.getName());
-            if (m.find()) {
-                return m.group(1) + m.group(2);
+        // 处理壁纸
+        for (File pic : pictureDir.listFiles()) {
+            String fileName = pic.getName();
+            if (fileName.equals("desktop.ini")) {
+                pic.delete();
+                System.out.println(fileName + " is deleted");
+                continue;
+            }
+            int a = fileName.lastIndexOf('.');
+            String[] names = fileName.substring(0, a).split("-");
+            Matcher matcher = compile.matcher(names[1]);
+            if (names[1].indexOf("rotate") > 0
+                    || names[1].indexOf("tailor") > 0
+                    || names[1].indexOf("combine") > 0 ) {
+                picReviseCount++;
+            }
+            names[1] = names[1].substring(0, names[1].indexOf('('));
+            pictureMap.put(names[0] + "-" + names[1] + "-" + names[2], pic);
+            if (matcher.find()) {
+                names[1] = names[1].substring(0, names[1].lastIndexOf('p') + 1) + matcher.group(1);
+                pictureMap.put(names[0] + "-" + names[1]+ "-" + names[2], null);
+                combineCount++;
+            }
+        }
+
+        // 清除原图
+        File originalDir = new File(originalPath);
+        for (File pic : originalDir.listFiles()) {
+            String fileName = pic.getName();
+            if (fileName.equals("desktop.ini")) {
+                pic.delete();
+                System.out.println(fileName + " is deleted");
+                continue;
+            }
+            int a = fileName.lastIndexOf('.');
+            String name = fileName.substring(0, a);
+            if (!pictureMap.containsKey(name)) {
+                pic.renameTo(new File(originalOut, fileName));
+                System.out.println(name + " 被删除到 原图");
+                originalDeleteCount++;
             } else {
-                return f.getName().substring(0, f.getName().lastIndexOf('.'));
+                originalSet.add(name);
             }
-        }));
+        }
 
-        String[] yuanNames = new String[yuanPics.length];
-        for (int i = 0; i < yuanPics.length; i++) {
-            yuanNames[i] = yuanPics[i].getName().substring(0, yuanPics[i].getName().lastIndexOf('.'));
-        }
-        String[] biNames = new String[biPics.length];
-        for (int i = 0; i < biPics.length; i++) {
-            Matcher m = Pattern.compile("(.+-.+?)\\(.+\\)(-.+)\\..+").matcher(biPics[i].getName());
-            if (m.find()) {
-                biNames[i] =  m.group(1) + m.group(2);
-            } else {
-                biNames[i] = biPics[i].getName().substring(0, biPics[i].getName().lastIndexOf('.'));
+        // 清除壁纸
+        for (Map.Entry<String, File> fileEntry : pictureMap.entrySet()) {
+            if (fileEntry.getValue() != null && !originalSet.contains(fileEntry.getKey())) {
+                fileEntry.getValue().renameTo(new File(pictureOut, fileEntry.getValue().getName()));
+                System.out.println(fileEntry.getKey() + " 被删除到壁纸");
+                pictureDeleteCount++;
             }
         }
-        int yuanCount = 0;
-        int biCount = 0;
-        int j = 0;
-        for (int i = 0; i < yuanNames.length; i++) {
-            if (j >= biNames.length) {
-                for (int k = i; k < yuanNames.length; k++) {
-                    System.out.println(++yuanCount + " yuan: " + yuanNames[k]);
-                    yuanPics[k].renameTo(new File(yuanShanDir, yuanPics[k].getName()));
-                }
-                break;
-            }
-            int cha = yuanNames[i].compareTo(biNames[j]);
-            if (cha == 0) {
-                j++;
-            } else if (cha > 0) {
-                System.out.println(++biCount + " bizhi: " + biNames[j]);
-                biPics[j].renameTo(new File(biShanDir, biPics[j].getName()));
-                j++;
-                i--;
-            } else {
-                System.out.println(++yuanCount + " yuan: " + yuanNames[i]);
-                yuanPics[i].renameTo(new File(yuanShanDir, yuanPics[i].getName()));
-            }
-        }
-        System.out.println("yuan: " + yuanCount + "; bi: " + biCount);
 
+
+        // 清除原图修正
+        File reviseDir = new File(revisePath);
+        for (File pic : reviseDir.listFiles()) {
+            String fileName = pic.getName();
+            if (fileName.equals("desktop.ini")) {
+                pic.delete();
+                System.out.println(fileName + " is deleted");
+                continue;
+            }
+            int a = fileName.lastIndexOf('.');
+            String[] names = fileName.substring(0, a).split("-");
+            String name = names[0] + "-" + names[1].substring(0, names[1].indexOf('(')) + "-" + names[2];
+            if (!originalSet.contains(name)) {
+                pic.renameTo(new File(reviseOut, fileName));
+                System.out.println(name + " 被删除到 原图修正");
+                reviseDeleteCount++;
+            }
+        }
+
+
+        System.out.println();
+        System.out.println("--------------------------------------------");
+        System.out.println("原图删除数：" + originalDeleteCount);
+        System.out.println("壁纸删除数：" + pictureDeleteCount);
+        System.out.println("原图修正删除数：" + reviseDeleteCount);
+        System.out.println("原图剩余数：" + (originalSet.size() - combineCount) + " 包含combine数量：" + combineCount);
+        System.out.println("壁纸剩余数：" + (pictureMap.size() - combineCount - pictureDeleteCount) + " 包含修正数：" + picReviseCount);
+        System.out.println("END!");
     }
+
 
 }
